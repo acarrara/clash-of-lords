@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular 2 - A Clash of Civilizations</title>
+
+    <link href="dist/css/style.css" rel="stylesheet" type="text/css"/>
+
+    <script src="dist/libs/es6-shim.min.js"></script>
+    <script src="dist/libs/system-polyfills.js"></script>
+    <script src="dist/libs/shims_for_IE.js"></script>
+
+    <script src="dist/libs/angular2-polyfills.min.js"></script>
+    <script src="dist/libs/system.src.js"></script>
+
+    <script src="dist/libs/Rx.js"></script>
+    <script src="dist/libs/angular2.dev.js"></script>
+
+    <script>
+        System.config({
+            format: 'register',
+            defaultExtension: 'js',
+            defaultJSExtensions: true,
+        });
+        System.import('dist/scripts/main')
+                .then(null, console.error.bind(console));
+    </script>
+</head>
+<body>
+<div class="background">
+</div>
+<clash-of-lords>
+    <div class="loading">Loading...</div>
+</clash-of-lords>
+
+</body>
+</html>

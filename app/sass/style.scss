@@ -1,0 +1,185 @@
+$background-color: #242424;
+$font-family: "Lucida Console", Monaco, monospace;
+
+body {
+  margin: 0;
+}
+
+.background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #000;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+
+.loading {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-family: $font-family;
+  color: #ddd;
+}
+
+.back {
+  overflow: auto;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.menu {
+  width: 100%;
+  display: flex;
+  font-family: $font-family;
+  background-color: mediumseagreen;
+  -webkit-box-shadow: 0px 4px 16px 1px rgba(255, 255, 255, 0.5);
+  -moz-box-shadow: 0px 4px 16px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 4px 16px 1px rgba(255, 255, 255, 0.5);
+}
+
+.kind {
+  flex-direction: row;
+  color: white;
+  padding: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.container {
+  border-width: 1px;
+  border-color: lightgrey;
+  border-style: solid;
+  margin: 10px;
+  transform: rotateX(45deg) rotateZ(45deg);
+  display: inline-block;
+}
+
+.legend {
+  z-index: 10;
+  position: absolute;
+  left: 50px;
+  top: 50px;
+  background-color: lightgrey;
+  color: #242424;
+  font-family: $font-family;
+  display: flex;
+  flex-direction: column;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #444;
+}
+
+.element {
+  padding: 10px;
+  &:hover {
+    cursor: pointer;
+    background-color: #666;
+    color: white;
+  }
+
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.cell {
+  border-width: 1px;
+  border-color: lightgrey;
+  border-style: solid;
+  width: 36px;
+  height: 36px;
+  position: relative;
+  background-color: transparent;
+  &:hover {
+    background-color: lightgreen;
+    cursor: pointer;
+  }
+  &.selected {
+    background-color: lightgreen;
+  }
+}
+
+.m {
+  background-color: #B45A1A;
+  &:before {
+    content: " ";
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    z-index: 1;
+    transform: rotateZ(-45deg) translateX(-12px) translateY(-28px);
+    background-image: url(icons/mountain.png);
+  }
+}
+
+.g {
+  background-color: #5DAE43;
+}
+
+.c {
+  @extend .g;
+  &:before {
+    content: " ";
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    z-index: 1;
+    transform: rotateZ(-45deg) translateX(-13px) translateY(-18px);
+    background-image: url(icons/castle.png);
+  }
+}
+
+.r {
+  background-color: grey;
+}
+
+.f {
+  background-color: forestgreen;
+  &:before {
+    content: " ";
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    z-index: 1;
+    transform: rotateZ(-45deg) translateX(-12px) translateY(-20px);
+    background-image: url(icons/tree.png);
+  }
+}
+
+.w {
+  background-color: lightskyblue;
+  &:before {
+    content: " ";
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    z-index: 1;
+    transform: rotateZ(-45deg) translateX(-12px) translateY(-12px);
+    background-image: url(icons/wave.png);
+  }
+}
+
+.limes-right {
+  border-right-color: darkblue;
+}
+
+.limes-left {
+  border-left-color: darkblue;
+}
+
+.limes-top {
+  border-top-color: darkblue;
+}
+
+.limes-bottom {
+  border-bottom-color: darkblue;
+}
