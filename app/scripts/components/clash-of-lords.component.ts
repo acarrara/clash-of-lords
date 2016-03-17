@@ -1,8 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {RegionBoardComponent} from './region-board.component';
-import {RegionFactory} from "../world/RegionFactory";
-import {Region} from "../world/Region";
-import {GameService} from "../services/game.service";
+import {Region} from '../world/Region';
+import {GameService} from '../services/game.service';
 
 @Component({
     selector: 'clash-of-lords',
@@ -16,7 +15,6 @@ import {GameService} from "../services/game.service";
 })
 export class ClashOfLordsComponent implements OnInit {
 
-    private _regionFactory:RegionFactory;
     public region:Region;
 
     constructor(private _gameService:GameService) {
@@ -28,9 +26,8 @@ export class ClashOfLordsComponent implements OnInit {
     }
 
     private loadRegion():void {
-        this._gameService.loadRegion().then((source:string) => {
-            this._regionFactory = new RegionFactory();
-            this.region = this._regionFactory.fromJson(source);
+        this._gameService.loadRegion().then((region:Region) => {
+            this.region = region;
         });
     }
 }

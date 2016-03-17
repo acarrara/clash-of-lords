@@ -89,7 +89,7 @@
     ],
     "interface-name": false,
     "no-consecutive-blank-lines": true,
-    "no-constructor-vars": true,
+    "no-constructor-vars": false,
     "one-line": [
       true,
       "check-open-brace",

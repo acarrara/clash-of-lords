@@ -1,14 +1,14 @@
-Clash Of Lords
+Clash of Lords
 
 Overview
-ClashOfLords is a turn-based game simulating a clash of civilizations.
-There could be n players, called Lords.
+Clash of Lords is a turn-based game simulating a clash of civilizations.
+There can be n players, called Lords.
 Every Lord starts with 1 castle on a region.
 The region is a m x m matrix, where every cell (plot) represents a different type of terrain.
 Available terrains are plain, water, forest, mountain.
 Castles could be built only on a plain.
 Every Lord is given a certain amount of Action Points (AP) on every turn to expand its domains.
-A domain is a set of adiacent plots containing at least one castle.
+A domain is a set of adjacent plots containing at least one castle.
 Every Lord has x action points per turn, but they grow through farming during the game.
 Action points are spent to run actions.
 Available actions are colonize, conquer, build, and fortify.

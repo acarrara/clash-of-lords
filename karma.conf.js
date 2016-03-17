@@ -17,8 +17,7 @@ module.exports = function (config) {
 
         systemjs: {
             includeFiles: [
-                libs.angular,
-                devLibs.angularMocks
+                libs.angular2
             ],
             serveFiles: [
                 scriptsJs,

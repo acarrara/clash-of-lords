@@ -1,7 +1,7 @@
 import {Coordinates} from './Coordinates';
 import {Plot} from './Plot';
 import {Scores} from './path/Scores';
-import {Objects} from "../commons/Objects";
+import {Objects} from '../commons/Objects';
 
 export class Region {
 
@@ -66,22 +66,5 @@ export class Region {
         }
 
         return [];
-    }
-
-    public toPrettyString():string {
-        var s = '[';
-        var separator:string = '';
-        var rowSeparator:string = '';
-        for (let i:number = 0; i < this.plots.length; i++) {
-            s = s.concat(rowSeparator).concat('[');
-            for (let j:number = 0; j < this.plots[0].length; j++) {
-                s = s.concat(separator).concat('"').concat(this._plots[i][j].kind.name).concat('"');
-                separator = ',';
-            }
-            separator = '';
-            s = s.concat(']');
-            rowSeparator = ',';
-        }
-        return s.concat(']');
     }
 }

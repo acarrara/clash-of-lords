@@ -1,5 +1,11 @@
-$background-color: #242424;
+@import "colors";
+
 $font-family: "Lucida Console", Monaco, monospace;
+$plot-image-dimension: 32px;
+$plot-dimension: 36px;
+$game-background-opacity: 0.8;
+
+@import "plot";
 
 body {
   margin: 0;
@@ -11,9 +17,8 @@ body {
   top: 0;
   bottom: 0;
   right: 0;
-  background-color: #000;
-  opacity: 0.8;
-  filter: alpha(opacity=80);
+  background-color: $game-background-color;
+  opacity: $game-background-opacity;
 }
 
 .loading {
@@ -23,7 +28,7 @@ body {
   top: 50%;
   left: 50%;
   font-family: $font-family;
-  color: #ddd;
+  color: $loading-background-color;
 }
 
 .back {
@@ -37,7 +42,7 @@ body {
   width: 100%;
   display: flex;
   font-family: $font-family;
-  background-color: mediumseagreen;
+  background-color: $terrain-plain-color;
   -webkit-box-shadow: 0px 4px 16px 1px rgba(255, 255, 255, 0.5);
   -moz-box-shadow: 0px 4px 16px 1px rgba(255, 255, 255, 0.5);
   box-shadow: 0px 4px 16px 1px rgba(255, 255, 255, 0.5);
@@ -89,97 +94,4 @@ body {
 .row {
   display: flex;
   flex-direction: row;
-}
-
-.cell {
-  border-width: 1px;
-  border-color: lightgrey;
-  border-style: solid;
-  width: 36px;
-  height: 36px;
-  position: relative;
-  background-color: transparent;
-  &:hover {
-    background-color: lightgreen;
-    cursor: pointer;
-  }
-  &.selected {
-    background-color: lightgreen;
-  }
-}
-
-.m {
-  background-color: #B45A1A;
-  &:before {
-    content: " ";
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    z-index: 1;
-    transform: rotateZ(-45deg) translateX(-12px) translateY(-28px);
-    background-image: url(icons/mountain.png);
-  }
-}
-
-.g {
-  background-color: #5DAE43;
-}
-
-.c {
-  @extend .g;
-  &:before {
-    content: " ";
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    z-index: 1;
-    transform: rotateZ(-45deg) translateX(-13px) translateY(-18px);
-    background-image: url(icons/castle.png);
-  }
-}
-
-.r {
-  background-color: grey;
-}
-
-.f {
-  background-color: forestgreen;
-  &:before {
-    content: " ";
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    z-index: 1;
-    transform: rotateZ(-45deg) translateX(-12px) translateY(-20px);
-    background-image: url(icons/tree.png);
-  }
-}
-
-.w {
-  background-color: lightskyblue;
-  &:before {
-    content: " ";
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    z-index: 1;
-    transform: rotateZ(-45deg) translateX(-12px) translateY(-12px);
-    background-image: url(icons/wave.png);
-  }
-}
-
-.limes-right {
-  border-right-color: darkblue;
-}
-
-.limes-left {
-  border-left-color: darkblue;
-}
-
-.limes-top {
-  border-top-color: darkblue;
-}
-
-.limes-bottom {
-  border-bottom-color: darkblue;
 }

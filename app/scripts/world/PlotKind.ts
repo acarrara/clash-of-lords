@@ -1,14 +1,13 @@
 export class PlotKind {
 
-    public static GRASS:PlotKind = new PlotKind(true, 'g');
+    public static PLAIN:PlotKind = new PlotKind(true, 'p');
     public static WATER:PlotKind = new PlotKind(false, 'w');
     public static FOREST:PlotKind = new PlotKind(false, 'f');
     public static MOUNTAIN:PlotKind = new PlotKind(false, 'm');
-    public static ROAD:PlotKind = new PlotKind(true, 'r');
     public static CASTLE:PlotKind = new PlotKind(false, 'c');
 
     public static KINDS:PlotKind[] = [
-        PlotKind.GRASS,
+        PlotKind.PLAIN,
         PlotKind.WATER,
         PlotKind.FOREST,
         PlotKind.MOUNTAIN,
@@ -24,8 +23,8 @@ export class PlotKind {
     }
 
     public static fromName(name:string):PlotKind {
-        for(var i:number = 0; i < PlotKind.KINDS.length; i++) {
-            if(PlotKind.KINDS[i].name === name) {
+        for (var i:number = 0; i < PlotKind.KINDS.length; i++) {
+            if (PlotKind.KINDS[i].name === name) {
                 return PlotKind.KINDS[i];
             }
         }

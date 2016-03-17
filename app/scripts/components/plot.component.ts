@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {Plot} from "../world/Plot";
+import {Plot} from '../world/Plot';
 
 @Component({
     selector: 'plot',

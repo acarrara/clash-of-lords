@@ -9,10 +9,10 @@ describe('Region', () => {
 
     beforeEach(() => {
         var plots:Plot[][] = [
-            [new Plot(PlotKind.GRASS, new Coordinates(0, 0)), new Plot(PlotKind.WATER, new Coordinates(0, 1)), new Plot(PlotKind.GRASS, new Coordinates(0, 2)), new Plot(PlotKind.GRASS, new Coordinates(0, 3))],
-            [new Plot(PlotKind.GRASS, new Coordinates(1, 0)), new Plot(PlotKind.GRASS, new Coordinates(1, 1)), new Plot(PlotKind.GRASS, new Coordinates(1, 2)), new Plot(PlotKind.GRASS, new Coordinates(1, 3))],
-            [new Plot(PlotKind.GRASS, new Coordinates(2, 0)), new Plot(PlotKind.MOUNTAIN, new Coordinates(2, 1)), new Plot(PlotKind.MOUNTAIN, new Coordinates(2, 2)), new Plot(PlotKind.MOUNTAIN, new Coordinates(2, 3))],
-            [new Plot(PlotKind.GRASS, new Coordinates(3, 0)), new Plot(PlotKind.MOUNTAIN, new Coordinates(3, 1)), new Plot(PlotKind.MOUNTAIN, new Coordinates(3, 2)), new Plot(PlotKind.GRASS, new Coordinates(3, 3))]
+            [new Plot(PlotKind.PLAIN, new Coordinates(0, 0)), new Plot(PlotKind.WATER, new Coordinates(0, 1)), new Plot(PlotKind.PLAIN, new Coordinates(0, 2)), new Plot(PlotKind.PLAIN, new Coordinates(0, 3))],
+            [new Plot(PlotKind.PLAIN, new Coordinates(1, 0)), new Plot(PlotKind.PLAIN, new Coordinates(1, 1)), new Plot(PlotKind.PLAIN, new Coordinates(1, 2)), new Plot(PlotKind.PLAIN, new Coordinates(1, 3))],
+            [new Plot(PlotKind.PLAIN, new Coordinates(2, 0)), new Plot(PlotKind.MOUNTAIN, new Coordinates(2, 1)), new Plot(PlotKind.MOUNTAIN, new Coordinates(2, 2)), new Plot(PlotKind.MOUNTAIN, new Coordinates(2, 3))],
+            [new Plot(PlotKind.PLAIN, new Coordinates(3, 0)), new Plot(PlotKind.MOUNTAIN, new Coordinates(3, 1)), new Plot(PlotKind.MOUNTAIN, new Coordinates(3, 2)), new Plot(PlotKind.PLAIN, new Coordinates(3, 3))]
         ];
         region = new Region(plots);
     });
@@ -26,7 +26,7 @@ describe('Region', () => {
             var actualPath:Array<Plot> = region.path(startPoint, startPoint);
 
             var expectedPath:Array<Plot> = [];
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 0)));
 
             expect(JSON.stringify(actualPath)).toEqual(JSON.stringify(expectedPath));
         });
@@ -51,9 +51,9 @@ describe('Region', () => {
             var actualPath:Array<Plot> = region.path(startPoint, endPoint);
 
             var expectedPath:Array<Plot> = [];
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 0)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 1)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 2)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 1)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 2)));
 
             expect(JSON.stringify(actualPath)).toEqual(JSON.stringify(expectedPath));
         });
@@ -67,9 +67,9 @@ describe('Region', () => {
             var actualPath:Array<Plot> = region.path(startPoint, endPoint);
 
             var expectedPath:Array<Plot> = [];
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 2)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 1)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 2)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 1)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 0)));
 
             expect(JSON.stringify(actualPath)).toEqual(JSON.stringify(expectedPath));
         });
@@ -83,9 +83,9 @@ describe('Region', () => {
             var actualPath:Array<Plot> = region.path(startPoint, endPoint);
 
             var expectedPath:Array<Plot> = [];
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(2, 0)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 0)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(0, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(2, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(0, 0)));
 
             expect(JSON.stringify(actualPath)).toEqual(JSON.stringify(expectedPath));
         });
@@ -99,9 +99,9 @@ describe('Region', () => {
             var actualPath:Array<Plot> = region.path(startPoint, endPoint);
 
             var expectedPath:Array<Plot> = [];
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(0, 0)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 0)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(2, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(0, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(2, 0)));
 
             expect(JSON.stringify(actualPath)).toEqual(JSON.stringify(expectedPath));
         });
@@ -115,10 +115,10 @@ describe('Region', () => {
             var actualPath:Array<Plot> = region.path(startPoint, endPoint);
 
             var expectedPath:Array<Plot> = [];
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(2, 0)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 0)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 1)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 2)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(2, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 1)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 2)));
 
             expect(JSON.stringify(actualPath)).toEqual(JSON.stringify(expectedPath));
         });
@@ -132,10 +132,10 @@ describe('Region', () => {
             var actualPath:Array<Plot> = region.path(startPoint, endPoint);
 
             var expectedPath:Array<Plot> = [];
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(0, 2)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 2)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 1)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(0, 2)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 2)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 1)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 0)));
 
             expect(JSON.stringify(actualPath)).toEqual(JSON.stringify(expectedPath));
         });
@@ -149,11 +149,11 @@ describe('Region', () => {
             var actualPath:Array<Plot> = region.path(startPoint, endPoint);
 
             var expectedPath:Array<Plot> = [];
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(0, 0)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 0)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 1)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 2)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(0, 2)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(0, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 1)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 2)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(0, 2)));
 
             expect(JSON.stringify(actualPath)).toEqual(JSON.stringify(expectedPath));
         });
@@ -167,9 +167,9 @@ describe('Region', () => {
             var actualPath:Array<Plot> = region.path(startPoint, endPoint);
 
             var expectedPath:Array<Plot> = [];
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 1)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(1, 0)));
-            expectedPath.push(new Plot(PlotKind.GRASS, new Coordinates(2, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 1)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(1, 0)));
+            expectedPath.push(new Plot(PlotKind.PLAIN, new Coordinates(2, 0)));
 
             expect(JSON.stringify(actualPath)).toEqual(JSON.stringify(expectedPath));
         });
