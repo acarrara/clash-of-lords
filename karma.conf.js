@@ -1,62 +1,81 @@
-var conf = require('./gulp/config.js');
+module.exports = function(config) {
+  var dependencies = require('./package.json').dependencies;
+  var excludedDependencies = ['systemjs', 'zone.js'];
+  var configuration = {
+    basePath: '',
 
-var scriptsJs = conf.dist.scriptsJs;
-var testJs = conf.dist.testJs;
-var libs = conf.libs;
-var devLibs = conf.devLibs;
-var testLibs = conf.testLibs;
+    frameworks: ['jasmine'],
+    browsers: ['PhantomJS'],
+    reporters: ['progress', 'coverage'],
 
-module.exports = function (config) {
-    config.set({
+    preprocessors: {
+      'app/**/!(*.spec)+(.js)': ['coverage'],
+      'app/**/*.js': ['sourcemap']
+    },
 
-        basePath: '',
+    // Generate json used for remap-istanbul
+    coverageReporter: {
+      dir: 'report/',
+      reporters: [
+        { type: 'json', subdir: 'report-json' }
+      ]
+    },
 
-        files: [
-            scriptsJs,
-            testJs
-        ],
+    files: [
+      'node_modules/traceur/bin/traceur-runtime.js',
+      // IE required polyfills, in this exact order
+      'node_modules/es6-shim/es6-shim.min.js',
+      'node_modules/systemjs/dist/system-polyfills.js',
+      'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
+      'node_modules/angular2/bundles/angular2-polyfills.js',
+      'node_modules/systemjs/dist/system.src.js',
 
-        systemjs: {
-            includeFiles: [
-                libs.systemjs,
-                libs.angular2Polyfills,
-                libs.reactiveJS,
-                libs.angular2,
-                testLibs.angular2testing
-            ],
-            serveFiles: [
-                scriptsJs,
-                testJs
-            ],
-            config: {
-                baseURL: '',
-                transpiler: null,
-                defaultJSExtensions: true,
-                paths: {
-                    'angular2': devLibs.angular2,
-                    'angular2testing': testLibs.angular2testing,
-                    'es6-module-loader': devLibs.es6ModuleLoader,
-                    'systemjs': devLibs.systemjs,
-                    'system-polyfills': libs.systemPolyfills,
-                    'phantomjs-polyfill': devLibs.phantomjsPolyfill
-                }
-            }
-        },
+      'systemjs.conf.js',
+      'karma-test-shim.js',
 
-        frameworks: ['systemjs', 'jasmine'],
+      { pattern: 'app/**/*.js', included: false },
+      { pattern: 'test/test-helpers/*.js', included: false },
 
-        reporters: ['dots'],
+      // paths loaded via Angular's component compiler
+      // (these paths need to be rewritten, see proxies section)
+      { pattern: 'app/**/*.html', included: false },
+      { pattern: 'app/**/*.css', included: false },
 
-        port: 9879,
+      // paths to support debugging with source maps in dev tools
+      { pattern: 'app/**/*.ts', included: false, watched: false },
+      { pattern: 'app/**/*.js.map', included: false, watched: false }
+    ],
 
-        colors: true,
+    // proxied base paths
+    proxies: {
+      // required for component assests fetched by Angular's compiler
+      "/app/": "/base/app/",
+      "/test/": "/base/test/",
+      "/node_modules/": "/base/node_modules/"
+    },
 
-        logLevel: config.LOG_INFO,
+    port: 9876,
+    colors: true,
+    logLevel: config.LOG_INFO,
+    autoWatch: false,
+    singleRun: true,
+  };
 
-        autoWatch: true,
+  Object.keys(dependencies).forEach(function(key) {
+    if(excludedDependencies.indexOf(key) >= 0) { return; }
 
-        browsers: ['PhantomJS'],
-
-        singleRun: false
+    configuration.files.push({
+        pattern: 'node_modules/' + key + '/**/*.js',
+        included: false,
+        watched: false
     });
-};
+  });
+
+  if (process.env.APPVEYOR) {
+    configuration.browsers = ['IE'];
+    configuration.singleRun = true;
+    configuration.browserNoActivityTimeout = 90000; // Note: default value (10000) is not enough
+  }
+
+  config.set(configuration);
+}

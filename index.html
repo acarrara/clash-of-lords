@@ -1,31 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="/">
     <meta charset="UTF-8">
     <title>Angular 2 - A Clash of Civilizations</title>
 
-    <link href="dist/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/styles/main.css" rel="stylesheet" type="text/css"/>
 
-    <script src="dist/libs/es6-shim.min.js"></script>
-    <script src="dist/libs/system-polyfills.js"></script>
-    <script src="dist/libs/shims_for_IE.js"></script>
-
-    <script src="dist/libs/angular2-polyfills.min.js"></script>
-    <script src="dist/libs/system.src.js"></script>
-
-    <script src="dist/libs/Rx.js"></script>
-    <script src="dist/libs/angular2.dev.js"></script>
-
-    <script>
-        System.config({
-            format: 'register',
-            defaultExtension: 'js',
-            defaultJSExtensions: true,
-        });
-        System.import('dist/scripts/main')
-                .then(null, console.error.bind(console));
-    </script>
 </head>
+
 <body>
 <div class="background">
 </div>
@@ -34,4 +17,28 @@
 </clash-of-lords>
 
 </body>
+
+<!-- build:js assets/bundle.js -->
+<!-- bower:js -->
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="/bower_components/bootswatch-dist/js/bootstrap.js"></script>
+<!-- endinject -->
+
+<script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+<script src="node_modules/systemjs/dist/system.js"></script>
+<!-- endbuild -->
+
+<!-- build:remove -->
+<script src="systemjs.conf.js"></script>
+<!-- endbuild -->
+
+<script>
+    System.config({
+        format: 'register',
+        defaultExtension: 'js',
+        defaultJSExtensions: true,
+    });
+    System.import('app/main')
+            .then(null, console.error.bind(console));
+</script>
 </html>

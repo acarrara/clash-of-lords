@@ -1,0 +1,87 @@
+// COL Plot CSS Style
+
+.plot {
+  margin: $plot-grid-width;
+  border-width: $plot-limes-width;
+  border-style: solid;
+  width: $plot-dimension;
+  height: $plot-dimension;
+  position: relative;
+  background-color: transparent;
+  &:hover {
+    background-color: $plot-selected-color;
+    border-color: $plot-selected-color;
+    cursor: pointer;
+  }
+  &.selected {
+    background-color: $plot-selected-color;
+  }
+}
+
+.plot_image {
+  content: " ";
+  position: absolute;
+  width: $plot-image-dimension;
+  height: $plot-image-dimension;
+  z-index: 1;
+}
+
+.m {
+  background-color: $terrain-mountain-color;
+  border-color: $terrain-mountain-color;
+  &:before {
+    @extend .plot_image;
+    transform: rotateZ(-45deg) translateX(-13px) translateY(-28px);
+    background-image: url(../images/mountain.png);
+  }
+}
+
+.p {
+  background-color: $terrain-plain-color;
+  border-color: $terrain-plain-color;
+}
+
+.c {
+  @extend .p;
+  &:before {
+    @extend .plot_image;
+    transform: rotateZ(-45deg) translateX(-13px) translateY(-18px);
+    background-image: url(../images/castle.png);
+  }
+}
+
+.f {
+  background-color: $terrain-forest-color;
+  border-color: $terrain-forest-color;
+  &:before {
+    @extend .plot_image;
+    transform: rotateZ(-45deg) translateX(-13px) translateY(-20px);
+    background-image: url(../images/tree.png);
+  }
+}
+
+.w {
+  background-color: $terrain-water-color;
+  border-color: $terrain-water-color;
+  &:before {
+    @extend .plot_image;
+    transform: rotateZ(-45deg) translateX(-13px) translateY(-12px);
+    background-image: url(../images/wave.png);
+  }
+}
+
+.limes-right {
+  border-right-color: $lord1-limes-color;
+}
+
+.limes-left {
+  border-left-color: $lord1-limes-color;
+}
+
+.limes-top {
+  border-top-color: $lord1-limes-color;
+}
+
+.limes-bottom {
+  border-bottom-color: $lord1-limes-color;
+}

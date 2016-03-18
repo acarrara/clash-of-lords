@@ -1,4 +1,12 @@
-old/
-node_modules/
-dist/
-.idea/
+/.idea
+/old
+/build
+/node_modules
+/bower_components
+/report
+/typings
+app/**/*.js
+app/**/*.js.map
+test/**/*.js
+test/**/*.js.map
+assets/styles/*.css
