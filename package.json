@@ -37,7 +37,8 @@
     "es6-shim": "^0.33.3",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
-    "zone.js": "0.5.15"
+    "zone.js": "0.5.15",
+    "typings": "^0.7.7"
   },
   "devDependencies": {
     "coveralls": "^2.11.8",
@@ -72,7 +73,6 @@
     "run-sequence": "^1.1.5",
     "systemjs-builder": "~0.15.12",
     "traceur": "~0.0.104",
-    "tslint": "^3.5.0",
-    "typings": "^0.7.7"
+    "tslint": "^3.5.0"
   }
 }
