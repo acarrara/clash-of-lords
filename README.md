@@ -1,4 +1,4 @@
-![Codeship status](https://codeship.com/projects/b19abea0-ce86-0133-9878-56ac8db24476/status?branch=master)
+![Codeship status](https://codeship.com/projects/b19abea0-ce86-0133-9878-56ac8db24476/status?branch=development)
 
 # Clash of Lords
 
