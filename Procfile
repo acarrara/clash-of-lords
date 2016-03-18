@@ -1,1 +1,1 @@
-web: node node_modules/gulp/bin/gulp serve-heroku
+web: node index.js
