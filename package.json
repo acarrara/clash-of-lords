@@ -32,7 +32,7 @@
   "license": "MIT",
   "dependencies": {
     "angular2": "2.0.0-beta.9",
-    "systemjs": "^0.19.24",
+    "del": "~2.2.0",
     "es6-promise": "^3.1.2",
     "es6-shim": "^0.33.3",
     "gulp": "^3.9.1",
@@ -50,11 +50,11 @@
     "require-dir": "~0.3.0",
     "run-sequence": "^1.1.5",
     "systemjs-builder": "~0.15.12",
+    "systemjs": "^0.19.24",
     "zone.js": "0.5.15"
   },
   "devDependencies": {
     "coveralls": "^2.11.8",
-    "del": "~2.2.0",
     "glob": "^7.0.3",
     "gulp-if": "~2.0.0",
     "gulp-protractor": "^2.1.0",
