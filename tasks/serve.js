@@ -7,11 +7,6 @@ gulp.task('serve-dev', ['wiredep', 'tsc-app', 'watch-ts', 'watch-sass'], functio
     liveServer.start(config.liveServer.dev);
 });
 
-/* Start live server dev mode */
-gulp.task('serve-heroku', function () {
-    liveServer.start(config.liveServer.dev);
-});
-
 /* Start live server production mode */
 gulp.task('serve-build', ['build'], function () {
     liveServer.start(config.liveServer.prod);

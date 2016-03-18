@@ -36,7 +36,7 @@ module.exports = function () {
     };
     var liveServer = {
         dev: {
-            port: process.env.PORT || 5000,
+            port: 3000,
             host: "127.0.0.1",
             open: '/',
             file: "index.html",
