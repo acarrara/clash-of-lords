@@ -43,6 +43,7 @@
     "require-dir": "~0.3.0",
     "live-server": "~0.9.2",
     "gulp-inject": "^3.0.0",
+    "gulp-useref": "~3.0.7",
     "run-sequence": "^1.1.5"
   },
   "devDependencies": {
@@ -59,7 +60,6 @@
     "gulp-tslint": "^4.3.3",
     "gulp-typescript": "~2.12.1",
     "gulp-uglify": "~1.5.3",
-    "gulp-useref": "~3.0.7",
     "jasmine-core": "~2.4.1",
     "karma": "~0.13.22",
     "karma-coverage": "~0.5.5",
