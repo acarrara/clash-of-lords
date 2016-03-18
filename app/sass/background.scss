@@ -1,0 +1,21 @@
+
+body {
+  margin: 0;
+}
+
+.background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: $game-background-color;
+  opacity: $game-background-opacity;
+}
+
+.back {
+  overflow: auto;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}

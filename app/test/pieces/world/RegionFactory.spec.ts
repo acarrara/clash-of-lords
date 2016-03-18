@@ -1,8 +1,8 @@
-import {Region} from '../../scripts/world/Region';
-import {Plot} from '../../scripts/world/Plot';
-import {PlotKind} from '../../scripts/world/PlotKind';
-import {Coordinates} from '../../scripts/world/Coordinates';
-import {RegionFactory} from '../../scripts/world/RegionFactory';
+import {Region} from '../../../scripts/pieces/world/Region';
+import {Plot} from '../../../scripts/pieces/world/Plot';
+import {PlotKind} from '../../../scripts/pieces/world/PlotKind';
+import {Coordinates} from '../../../scripts/pieces/world/Coordinates';
+import {RegionFactory} from '../../../scripts/pieces/world/RegionFactory';
 
 describe('RegionFactory', () => {
 

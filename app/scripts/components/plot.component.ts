@@ -1,10 +1,10 @@
 import {Component} from 'angular2/core';
-import {Plot} from '../world/Plot';
+import {Plot} from '../pieces/world/Plot';
 
 @Component({
     selector: 'plot',
     template: `
-    <div class="cell {{plot.kind.name}}"
+    <div class="plot {{plot.kind.name}}"
     id="{{plot.coordinates.x}}_{{plot.coordinates.y}}"></div>
     `,
     inputs: ['plot']

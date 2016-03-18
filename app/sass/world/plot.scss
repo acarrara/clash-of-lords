@@ -1,8 +1,8 @@
 // COL Plot CSS Style
 
-.cell {
-  border-width: 1px;
-  border-color: lightgrey;
+.plot {
+  margin: $plot-grid-width;
+  border-width: $plot-limes-width;
   border-style: solid;
   width: $plot-dimension;
   height: $plot-dimension;
@@ -10,6 +10,7 @@
   background-color: transparent;
   &:hover {
     background-color: $plot-selected-color;
+    border-color: $plot-selected-color;
     cursor: pointer;
   }
   &.selected {
@@ -27,6 +28,7 @@
 
 .m {
   background-color: $terrain-mountain-color;
+  border-color: $terrain-mountain-color;
   &:before {
     @extend .plot_image;
     transform: rotateZ(-45deg) translateX(-13px) translateY(-28px);
@@ -36,6 +38,7 @@
 
 .p {
   background-color: $terrain-plain-color;
+  border-color: $terrain-plain-color;
 }
 
 .c {
@@ -47,12 +50,9 @@
   }
 }
 
-.r {
-  background-color: grey;
-}
-
 .f {
-  background-color: forestgreen;
+  background-color: $terrain-forest-color;
+  border-color: $terrain-forest-color;
   &:before {
     @extend .plot_image;
     transform: rotateZ(-45deg) translateX(-13px) translateY(-20px);
@@ -62,6 +62,7 @@
 
 .w {
   background-color: $terrain-water-color;
+  border-color: $terrain-water-color;
   &:before {
     @extend .plot_image;
     transform: rotateZ(-45deg) translateX(-13px) translateY(-12px);

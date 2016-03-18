@@ -1,7 +1,7 @@
 import {source} from '../mock-region';
 import {Injectable} from 'angular2/core';
-import {Region} from '../world/Region';
-import {RegionFactory} from '../world/RegionFactory';
+import {Region} from '../pieces/world/Region';
+import {RegionFactory} from '../pieces/world/RegionFactory';
 
 @Injectable()
 export class GameService {

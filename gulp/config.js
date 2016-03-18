@@ -38,6 +38,9 @@ module.exports = {
         es6Shim: 'node_modules/es6-shim/es6-shim.min.js',
         shimsForIE: 'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js'
     },
+    testLibs: {
+        angular2testing: 'node_modules/angular2/bundles/testing.dev.js'
+    },
     devLibs: {
         systemjs: 'node_modules/systemjs/dist/system.js',
         es6ModuleLoader: 'node_modules/es6-module-loader/dist/es6-module-loader.js',

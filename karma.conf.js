@@ -4,6 +4,7 @@ var scriptsJs = conf.dist.scriptsJs;
 var testJs = conf.dist.testJs;
 var libs = conf.libs;
 var devLibs = conf.devLibs;
+var testLibs = conf.testLibs;
 
 module.exports = function (config) {
     config.set({
@@ -17,7 +18,11 @@ module.exports = function (config) {
 
         systemjs: {
             includeFiles: [
-                libs.angular2
+                libs.systemjs,
+                libs.angular2Polyfills,
+                libs.reactiveJS,
+                libs.angular2,
+                testLibs.angular2testing
             ],
             serveFiles: [
                 scriptsJs,
@@ -28,6 +33,8 @@ module.exports = function (config) {
                 transpiler: null,
                 defaultJSExtensions: true,
                 paths: {
+                    'angular2': devLibs.angular2,
+                    'angular2testing': testLibs.angular2testing,
                     'es6-module-loader': devLibs.es6ModuleLoader,
                     'systemjs': devLibs.systemjs,
                     'system-polyfills': libs.systemPolyfills,
