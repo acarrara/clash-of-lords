@@ -7,6 +7,11 @@ var remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
 gulp.task('test', ['clean-report', 'unit-test']);
 
 gulp.task('unit-test', ['tsc'], function (done) {
+
+    var realFs = require('fs');
+    var gracefulFs = require('graceful-fs');
+    gracefulFs.gracefulify(realFs);
+
     new Server({
         configFile: __dirname + '/../karma.conf.js',
         singleRun: true
