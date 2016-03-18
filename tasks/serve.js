@@ -3,7 +3,12 @@ var liveServer = require('live-server');
 var config = require('../gulp.config')();
 
 /* Start live server dev mode */
-gulp.task('serve-dev', ['wiredep', 'tsc-app', 'watch-ts', 'watch-sass'], function () {  
+gulp.task('serve-dev', ['wiredep', 'tsc-app', 'watch-ts', 'watch-sass'], function () {
+    liveServer.start(config.liveServer.dev);
+});
+
+/* Start live server dev mode */
+gulp.task('serve-heroku', function () {
     liveServer.start(config.liveServer.dev);
 });
 
