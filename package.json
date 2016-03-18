@@ -8,6 +8,9 @@
     "type": "git",
     "url": "https://github.com/acarrara/clash-of-lords.git"
   },
+  "engines": {
+    "node": "5.9.0"
+  },
   "scripts": {
     "postinstall": "typings install",
     "start": "gulp",
