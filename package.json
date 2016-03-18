@@ -12,7 +12,7 @@
     "node": "5.9.0"
   },
   "scripts": {
-    "postinstall": "./node_modules/.bin/typings install && gulp serve-heroku",
+    "postinstall": "./node_modules/.bin/typings install",
     "start": "node index.js",
     "test": "gulp test",
     "coveralls": "node ./node_modules/coveralls/bin/coveralls.js < ./report/remap/lcov.info"
