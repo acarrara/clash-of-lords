@@ -5,18 +5,14 @@ import {Objects} from '../commons/Objects';
 
 export class Region {
 
-    private _plots:Plot[][];
+    public plots:Plot[][];
 
     public constructor(plots:Plot[][]) {
-        this._plots = plots;
-    }
-
-    public get plots():Plot[][] {
-        return this._plots;
+        this.plots = plots;
     }
 
     public plotAt(coordinates:Coordinates):Plot {
-        var row:Plot[] = this._plots[coordinates.x];
+        var row:Plot[] = this.plots[coordinates.x];
         if (!Objects.isDefined(row)) {
             return undefined;
         }
@@ -32,7 +28,7 @@ export class Region {
         }
 
         // Lee algorithm
-        var scores:Scores = new Scores(this._plots.length, this._plots[0].length);
+        var scores:Scores = new Scores(this.plots.length, this.plots[0].length);
         var queue:Array<Coordinates> = new Array<Coordinates>();
 
         // init
@@ -43,7 +39,7 @@ export class Region {
         // waves
         while (queue.length !== 0) {
             var current:Coordinates = queue.shift();
-            var neighbours:Array<Coordinates> = current.neighbours(this._plots.length, this._plots[0].length);
+            var neighbours:Array<Coordinates> = current.neighbours(this.plots.length, this.plots[0].length);
             for (let i:number = 0; i < neighbours.length; i++) {
                 var currentNeighbour:Coordinates = neighbours[i];
                 var eachPlot:Plot = this.plotAt(currentNeighbour);

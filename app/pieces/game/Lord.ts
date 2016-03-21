@@ -1,7 +1,6 @@
-// import {Domain} from './Domain';
+import {Domain} from './Domain';
 
 export class Lord {
-
-    // private _domain:Domain;
-
+    public name:string;
+    public domain:Domain;
 }

@@ -1,18 +1,31 @@
 import {Lord} from './Lord';
+import {Coordinates} from '../world/Coordinates';
+import {Objects} from '../commons/Objects';
 
 export class Politics {
 
-    private _domainMap:Lord[][];
+    public domainMap:Lord[][];
 
-    constructor(dimension:number) {
+    public setDimension(dimension:number):void {
         this.initDomainMap(dimension);
     }
 
-    private initDomainMap(dimension:number):void {
-        this._domainMap = [];
-        for (let i:number = 0; i < dimension; i++) {
-            this._domainMap[i] = [];
+    public lordAt(coordinates:Coordinates):Lord {
+        var row:Lord[] = this.domainMap[coordinates.x];
+        if (!Objects.isDefined(row)) {
+            return undefined;
         }
-    };
+        return row[coordinates.y];
+    }
+
+    private initDomainMap(dimension:number):void {
+        this.domainMap = [];
+        for (let i:number = 0; i < dimension; i++) {
+            this.domainMap[i] = [];
+            for (let j:number = 0; j < dimension; j++) {
+                this.domainMap[i].push(undefined);
+            }
+        }
+    }
 
 }

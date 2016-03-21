@@ -17,6 +17,14 @@ describe('Region', () => {
         region = new Region(plots);
     });
 
+    describe('plotAt() method', () => {
+
+        it('should return undefined if row does not exist', () => {
+            expect(region.plotAt(new Coordinates(5, 0))).toBeUndefined();
+        });
+
+    });
+
     describe('path() method', () => {
 
         it('should return self', () => {

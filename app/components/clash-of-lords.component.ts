@@ -26,7 +26,7 @@ export class ClashOfLordsComponent implements OnInit {
     }
 
     private loadRegion():void {
-        this._gameService.loadRegion().then((region:Region) => {
+        this._gameService.loadSavedGame().then((region:Region) => {
             this.region = region;
         });
     }

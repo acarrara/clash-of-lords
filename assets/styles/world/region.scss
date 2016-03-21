@@ -1,9 +1,6 @@
 
 .region {
-  border-width: 1px;
-  border-color: lightgrey;
-  background-color: lightgrey;
-  border-style: solid;
+  background-color: transparent;
   margin: 10px;
   transform: rotateX(45deg) rotateZ(45deg);
   display: inline-block;

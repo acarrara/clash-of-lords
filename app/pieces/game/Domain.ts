@@ -1,5 +1,5 @@
-// import {Plot} from '../world/Plot';
+import {Plot} from '../world/Plot';
 
 export class Domain {
-    // private _plots:Plot[] = [];
+    public plots:Plot[];
 }

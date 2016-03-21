@@ -1,13 +1,16 @@
 import {Component} from 'angular2/core';
 import {Plot} from '../pieces/world/Plot';
+import {LimesDirective} from '../attribute-directives/limes.directive';
 
 @Component({
     selector: 'plot',
     template: `
-    <div class="plot {{plot.kind.name}}"
-    id="{{plot.coordinates.x}}_{{plot.coordinates.y}}"></div>
+    <div
+    id="{{plot.coordinates.x}}_{{plot.coordinates.y}}"
+    [limes]="plot"></div>
     `,
-    inputs: ['plot']
+    inputs: ['plot'],
+    directives: [LimesDirective]
 })
 export class PlotComponent {
     public plot:Plot;
