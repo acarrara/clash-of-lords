@@ -2,10 +2,17 @@
 
 $loading-background-color: #ddd;
 $game-background-color: #000;
+$game-background-opacity: 0.8;
 
-$lord1-limes-color: darkblue;
+$lord1-color: darkblue;
+$lord2-color: darkred;
+$lord3-color: #ffbb00;
+$lord4-color: #005500;
+
+$colors: $lord1-color $lord2-color $lord3-color $lord4-color;
+
 $terrain-water-color: lightskyblue;
 $terrain-mountain-color: #B45A1A;
 $terrain-plain-color: #5DAE43;
 $terrain-forest-color: forestgreen;
-$plot-selected-color: lightgreen;
+$plot-hover-color: lightgreen;

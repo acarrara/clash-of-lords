@@ -9,11 +9,9 @@ describe('PoliticsFactory', () => {
 
     var bonnie:Lord = {
         name: 'Bonnie',
-        domain: {
-            plots: [
-                new Plot(PlotKind.CASTLE, new Coordinates(1, 0))
-            ]
-        }
+        domain: [
+            new Plot(PlotKind.CASTLE, new Coordinates(1, 0))
+        ]
     };
 
     describe('fromLords()', () => {

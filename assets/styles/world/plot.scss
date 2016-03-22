@@ -1,4 +1,9 @@
 // COL Plot CSS Style
+$plot-dimension: 36px;
+$plot-image-dimension: 32px;
+$plot-grid-width: 0.5px;
+$plot-limes-width: 2px;
+$plot-background-color: transparent;
 
 .plot {
   margin: $plot-grid-width;
@@ -7,14 +12,14 @@
   width: $plot-dimension;
   height: $plot-dimension;
   position: relative;
-  background-color: transparent;
+  background-color: $plot-background-color;
   &:hover {
-    background-color: $plot-selected-color;
-    border-color: $plot-selected-color;
+    background-color: $plot-hover-color;
+    border-color: $plot-hover-color;
     cursor: pointer;
   }
   &.selected {
-    background-color: $plot-selected-color;
+    background-color: $plot-hover-color;
   }
 }
 
@@ -70,18 +75,11 @@
   }
 }
 
-.limes-right {
-  border-right-color: $lord1-limes-color;
-}
-
-.limes-left {
-  border-left-color: $lord1-limes-color;
-}
-
-.limes-top {
-  border-top-color: $lord1-limes-color;
-}
-
-.limes-bottom {
-  border-bottom-color: $lord1-limes-color;
+@for $i from 1 through length($colors) {
+  $color: nth($colors, $i);
+  @each $direction in $directions {
+    .limes-#{$direction}.lord#{$i - 1} {
+      border-#{$direction}-color: #{$color}
+    }
+  }
 }

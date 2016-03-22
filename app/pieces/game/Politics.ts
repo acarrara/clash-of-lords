@@ -18,6 +18,10 @@ export class Politics {
         return row[coordinates.y];
     }
 
+    public settle(settler:Lord, coordinates:Coordinates):void {
+        this.domainMap[coordinates.x][coordinates.y] = settler;
+    }
+
     private initDomainMap(dimension:number):void {
         this.domainMap = [];
         for (let i:number = 0; i < dimension; i++) {

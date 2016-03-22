@@ -1,6 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {RegionBoardComponent} from './region-board.component';
 import {Region} from '../pieces/world/Region';
+import {Lord} from '../pieces/game/Lord';
 import {GameService} from '../services/game.service';
 
 @Component({
@@ -16,6 +17,7 @@ import {GameService} from '../services/game.service';
 export class ClashOfLordsComponent implements OnInit {
 
     public region:Region;
+    public lords:Lord[];
 
     constructor(private _gameService:GameService) {
         this.region = new Region([[]]);
@@ -26,8 +28,9 @@ export class ClashOfLordsComponent implements OnInit {
     }
 
     private loadRegion():void {
-        this._gameService.loadSavedGame().then((region:Region) => {
+        this._gameService.loadSavedGame().subscribe((region:Region):void => {
             this.region = region;
+            this.lords = this._gameService.lords;
         });
     }
 }

@@ -40,6 +40,22 @@ export class Coordinates {
         return neighbours;
     }
 
+    public left():Coordinates {
+        return new Coordinates(this._x, this._y - 1);
+    }
+
+    public right():Coordinates {
+        return new Coordinates(this._x, this._y + 1);
+    }
+
+    public top():Coordinates {
+        return new Coordinates(this._x - 1, this._y);
+    }
+
+    public bottom():Coordinates {
+        return new Coordinates(this._x + 1, this._y);
+    }
+
     private pushNeighbour(neighbour:Coordinates, neighbours:Array<Coordinates>):void {
         if (Objects.isDefined(neighbour)) {
             neighbours.push(neighbour);
@@ -51,18 +67,18 @@ export class Coordinates {
     }
 
     private westNeighbour():Coordinates {
-        return this.insideBorders(this._x, this._y - 1) ? new Coordinates(this._x, this._y - 1) : undefined;
+        return this.insideBorders(this._x, this._y - 1) ? this.left() : undefined;
     }
 
     private eastNeighbour():Coordinates {
-        return this.insideBorders(this._x, this._y + 1) ? new Coordinates(this._x, this._y + 1) : undefined;
+        return this.insideBorders(this._x, this._y + 1) ? this.right() : undefined;
     }
 
     private northNeighbour():Coordinates {
-        return this.insideBorders(this._x - 1, this._y) ? new Coordinates(this._x - 1, this._y) : undefined;
+        return this.insideBorders(this._x - 1, this._y) ? this.top() : undefined;
     }
 
     private southNeighbour():Coordinates {
-        return this.insideBorders(this._x + 1, this._y) ? new Coordinates(this._x + 1, this._y) : undefined;
+        return this.insideBorders(this._x + 1, this._y) ? this.bottom() : undefined;
     }
 }

@@ -1,10 +1,10 @@
 export class PlotKind {
 
-    public static PLAIN:PlotKind = new PlotKind(true, 'p');
-    public static WATER:PlotKind = new PlotKind(false, 'w');
-    public static FOREST:PlotKind = new PlotKind(false, 'f');
-    public static MOUNTAIN:PlotKind = new PlotKind(false, 'm');
-    public static CASTLE:PlotKind = new PlotKind(false, 'c');
+    public static PLAIN:PlotKind = new PlotKind(true, true, 'p', 1);
+    public static WATER:PlotKind = new PlotKind(false, true, 'w', 1);
+    public static FOREST:PlotKind = new PlotKind(false, true, 'f', 2);
+    public static MOUNTAIN:PlotKind = new PlotKind(false, true, 'm', 3);
+    public static CASTLE:PlotKind = new PlotKind(false, false, 'c', 8);
 
     public static KINDS:PlotKind[] = [
         PlotKind.PLAIN,
@@ -15,11 +15,15 @@ export class PlotKind {
     ];
 
     private _constructible:boolean;
+    private _colonizable:boolean;
     private _name:string;
+    private _worth:number;
 
-    public constructor(constructible:boolean, name:string) {
+    public constructor(constructible:boolean, colonizable:boolean, name:string, worth:number) {
         this._constructible = constructible;
+        this._colonizable = colonizable;
         this._name = name;
+        this._worth = worth;
     }
 
     public static fromName(name:string):PlotKind {
@@ -37,5 +41,13 @@ export class PlotKind {
 
     public get constructible():boolean {
         return this._constructible;
+    }
+
+    public get colonizable():boolean {
+        return this._colonizable;
+    }
+
+    public get worth():number {
+        return this._worth;
     }
 }

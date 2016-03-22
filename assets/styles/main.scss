@@ -1,8 +1,7 @@
 @import "variables";
 @import "colors";
-
+@import "fonts";
 @import "loading";
 @import "background";
-
-@import "world/region";
-@import "world/plot";
+@import "world/world";
+@import "panels/panels";

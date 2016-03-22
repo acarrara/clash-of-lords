@@ -1,19 +1,12 @@
-import {
-    beforeEach,
-    beforeEachProviders,
-    describe,
-    expect,
-    it,
-    inject,
-    TestComponentBuilder
-} from 'angular2/testing';
+import {beforeEach, beforeEachProviders, describe, expect, it, inject, TestComponentBuilder} from 'angular2/testing';
 import {provide} from 'angular2/core';
-
 import {PlotComponent} from './plot.component';
 import {PlotKind} from '../pieces/world/PlotKind';
 import {Plot} from '../pieces/world/Plot';
 import {Coordinates} from '../pieces/world/Coordinates';
 import {GameService} from '../services/game.service';
+import {Politics} from '../pieces/game/Politics';
+import {Lord} from '../pieces/game/Lord';
 
 describe('PlotComponent: component', () => {
     let tcb:TestComponentBuilder;
@@ -37,6 +30,7 @@ describe('PlotComponent: component', () => {
                 expect(element.querySelector('div').id).toBe('1_0');
                 expect(element.querySelector('div')).toHaveCssClass('plot');
                 expect(element.querySelector('div')).toHaveCssClass('f');
+                expect(element.querySelector('div')).toHaveCssClass('lord0');
                 expect(element.querySelector('div')).toHaveCssClass('limes-right');
                 expect(element.querySelector('div')).toHaveCssClass('limes-left');
                 expect(element.querySelector('div')).toHaveCssClass('limes-bottom');
@@ -49,19 +43,34 @@ describe('PlotComponent: component', () => {
 
 class MockGameService {
 
-    public isRight(x:number, y:number):boolean {
+    public politics:Politics;
+    public lords:Lord[];
+
+    constructor() {
+        this.initMock();
+    }
+
+    public isRight(current:Coordinates):boolean {
         return true;
     }
 
-    public isLeft(x:number, y:number):boolean {
+    public isLeft(current:Coordinates):boolean {
         return true;
     }
 
-    public isTop(x:number, y:number):boolean {
+    public isTop(current:Coordinates):boolean {
         return true;
     }
 
-    public isBottom(x:number, y:number):boolean {
+    public isBottom(current:Coordinates):boolean {
         return true;
     }
+
+    private initMock():void {
+        this.politics = new Politics();
+        this.politics.domainMap = [[], []];
+        var lord:Lord = new Lord();
+        this.politics.domainMap[1][0] = lord;
+        this.lords = [lord];
+    };
 }

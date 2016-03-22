@@ -9,7 +9,7 @@ export class PoliticsFactory {
         var politics:Politics = new Politics();
         politics.setDimension(dimension);
         for (let i:number = 0; i < lords.length; i++) {
-            var plots:Plot[] = lords[i].domain.plots;
+            var plots:Plot[] = lords[i].domain;
             for (let j:number = 0; j < plots.length; j++) {
                 var coordinates:Coordinates = plots[j].coordinates;
                 politics.domainMap[coordinates.x][coordinates.y] = lords[i];

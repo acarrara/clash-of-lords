@@ -1,7 +1,9 @@
+$region-background-color: transparent;
+$region-margin: 10px;
 
 .region {
-  background-color: transparent;
-  margin: 10px;
+  background-color: $region-background-color;
+  margin: $region-margin;
   transform: rotateX(45deg) rotateZ(45deg);
   display: inline-block;
 }

@@ -5,7 +5,7 @@
 ## Overview
 Clash of Lords is a turn-based game simulating a clash of civilizations.
 
-There can be n players, called *Lords*. 
+There can be n players, called *Lords*.
 Every Lord starts with 1 castle on a region.
 The *region* is a m x m matrix, where every cell (*plot*) represents a different type of terrain.
 Available terrains are *plain*, *water*, *forest*, *mountain*.
@@ -39,16 +39,16 @@ It still farms for its lord.
 ### Farming
 Farming is a passive action.
 It is run at the beginning of the turn.
-Farming consists of 
+Farming consists of
 ```
 x AP (starting ones) + #(plains) * FM(P) + #(forests) * FM(F) + #(mountains) * FM(M) and #(castles) * FM(C)
 ```
 FP, FF, FM and FC are the coefficients for plains, forests, mountains, and castles.
-The total AP are rounded by floor.
+The amount AP are rounded by floor.
 Example: Player Bonnie has 14 plains, 8 forests, 5 mountains and 1 castle. Total AP:
 ```
 5 + 0.1 * 14 + 0.2 * 8 + 5 * 0.3 + 1 * 0.8 = 5 + 1.4 + 1.6 + 1.5 + 0.8 = 10.3
-``` 
+```
 rounded to 10.
 
 ### Colonize

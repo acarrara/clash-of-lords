@@ -1,6 +1,7 @@
-import {Domain} from './Domain';
+import {Plot} from '../world/Plot';
 
 export class Lord {
     public name:string;
-    public domain:Domain;
+    public domain:Plot[];
+
 }
