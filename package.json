@@ -12,6 +12,7 @@
     "node": "5.9.0"
   },
   "scripts": {
+    "preinstall": "npm i typings -g",
     "postinstall": "./node_modules/.bin/typings install && gulp serve-heroku",
     "start": "node index.js",
     "test": "gulp test",
