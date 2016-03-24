@@ -24,11 +24,13 @@ describe('ConquerAction', () => {
     beforeEach(() => {
         conqueror = {
             name: 'conqueror',
-            domain: []
+            domain: [],
+            actionPoints: new ActionPoints(0)
         };
         conquered = {
             name: 'conquered',
-            domain: [plainPlot, castlePlot, forestPlot, mountainPlot]
+            domain: [plainPlot, castlePlot, forestPlot, mountainPlot],
+            actionPoints: new ActionPoints(0)
         };
         politics = new Politics();
 

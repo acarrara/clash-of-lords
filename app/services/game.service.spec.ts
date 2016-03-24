@@ -6,6 +6,7 @@ import {PoliticsFactory} from '../pieces/game/PoliticsFactory';
 import {Politics} from '../pieces/game/Politics';
 import {Lord} from '../pieces/game/Lord';
 import {Save} from '../pieces/game/Save';
+import {ActionPoints} from '../pieces/game/ActionPoints';
 
 describe('GameService', () => {
 
@@ -81,4 +82,28 @@ describe('GameService', () => {
         }));
 
     });
+
+    describe('nextTurn', () => {
+
+        var lord0:Lord;
+
+        beforeEach(inject([GameService], (gameService:GameService) => {
+            lord0 = new Lord();
+            lord0.domain = [];
+            gameService.lords = [lord0];
+            gameService.startGame();
+        }));
+
+        it('should set as active lord the first in list', inject([GameService], (gameService:GameService) => {
+            gameService.nextTurn();
+            expect(gameService.activeLord).toEqual(lord0);
+        }));
+
+        it('should set action points in active lord', inject([GameService], (gameService:GameService) => {
+            gameService.nextTurn();
+            expect(gameService.activeLord.actionPoints).toEqual(new ActionPoints(5));
+        }));
+
+    });
+
 });

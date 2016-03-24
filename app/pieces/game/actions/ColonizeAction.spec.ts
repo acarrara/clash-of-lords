@@ -23,7 +23,8 @@ describe('ColonizeAction', () => {
     beforeEach(() => {
         colonizer = {
             name: 'test',
-            domain: []
+            domain: [],
+            actionPoints: new ActionPoints(0)
         };
         politics = new Politics();
         politics.domainMap = [[], []];

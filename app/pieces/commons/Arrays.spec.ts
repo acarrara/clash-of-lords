@@ -25,4 +25,13 @@ describe('Arrays', () => {
             expect(Arrays.remove(array, new Arrays())).toEqual(false);
         });
     });
+
+    describe('clear', () => {
+
+        it('should remove all elements from the array', () => {
+            Arrays.clear(array);
+            expect(array.length).toEqual(0);
+        });
+
+    });
 });

@@ -7,4 +7,10 @@ export class Arrays {
         }
         return false;
     }
+
+    public static clear(array:Array<any>):void {
+        while (array.length) {
+            array.pop();
+        }
+    }
 }

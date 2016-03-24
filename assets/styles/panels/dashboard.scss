@@ -1,0 +1,50 @@
+.dashboard {
+  position: absolute;
+  width: 100%;
+  background-color: white;
+  height: 200px;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  display: none;
+}
+
+.console {
+  flex-grow: 4;
+  /* flex-basis: 200px; */
+  background-color: blue;
+  display: flex;
+  flex-direction: column;
+}
+
+.overview {
+  /* flex-grow: 1; */
+  background-color: orange;
+  flex-basis: 250px;
+}
+
+.domain {
+  /* flex-grow: 1; */
+  flex-basis: 250px;
+  background-color: red;
+}
+
+.messages {
+  flex-grow: 1;
+}
+
+.endturn {
+  height: 28px;
+  background-color: green;
+  border: 2px solid black;
+  float: left;
+  color: black;
+  font-family: $font-family;
+  text-align: center;
+  font-size: $font-size-big;
+  width: 100%;
+  &:hover {
+    cursor: pointer;
+    color: white;
+  }
+}

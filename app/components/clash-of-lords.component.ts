@@ -3,15 +3,18 @@ import {RegionBoardComponent} from './region-board.component';
 import {Region} from '../pieces/world/Region';
 import {Lord} from '../pieces/game/Lord';
 import {GameService} from '../services/game.service';
+import {NextTurnComponent} from './next-turn.component';
+import {DashboardComponent} from './dashboard.component';
 
 @Component({
     selector: 'clash-of-lords',
     template: `
-    <div class="back">
+    <div>
         <region-board [region]="region"></region-board>
+        <dashboard></dashboard>
     </div>
     `,
-    directives: [RegionBoardComponent],
+    directives: [RegionBoardComponent, NextTurnComponent, DashboardComponent],
     providers: [GameService]
 })
 export class ClashOfLordsComponent implements OnInit {

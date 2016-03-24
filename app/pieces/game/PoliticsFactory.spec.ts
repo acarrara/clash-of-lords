@@ -4,6 +4,7 @@ import {Plot} from '../world/Plot';
 import {PlotKind} from '../world/PlotKind';
 import {Lord} from './Lord';
 import {Coordinates} from '../world/Coordinates';
+import {ActionPoints} from './ActionPoints';
 
 describe('PoliticsFactory', () => {
 
@@ -11,7 +12,8 @@ describe('PoliticsFactory', () => {
         name: 'Bonnie',
         domain: [
             new Plot(PlotKind.CASTLE, new Coordinates(1, 0))
-        ]
+        ],
+        actionPoints: new ActionPoints(0)
     };
 
     describe('fromLords()', () => {

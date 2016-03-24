@@ -68,6 +68,19 @@ describe('PlotComponent: component', () => {
             })
             .catch(e => done.fail(e));
     });
+
+    it('should render a plot without class "toRemove"', done => {
+        tcb.createAsync(PlotComponent).then(fixture => {
+                let plotComponent:any = fixture.componentInstance,
+                    element:any = fixture.nativeElement;
+                element.querySelector('div').classList.add('toRemove');
+                plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(0, 0));
+                fixture.detectChanges();
+                expect(element.querySelector('div')).not.toHaveCssClass('toRemove');
+                done();
+            })
+            .catch(e => done.fail(e));
+    });
 });
 
 class MockGameService {

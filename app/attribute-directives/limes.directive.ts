@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, OnInit} from 'angular2/core';
+import {Directive, ElementRef, Input, DoCheck} from 'angular2/core';
 import {Plot} from '../pieces/world/Plot';
 import {GameService} from '../services/game.service';
 import {Lord} from '../pieces/game/Lord';
@@ -7,7 +7,7 @@ import {Objects} from '../pieces/commons/Objects';
 @Directive({
     selector: '[limes]'
 })
-export class LimesDirective implements OnInit {
+export class LimesDirective implements DoCheck {
 
     @Input('limes')
     public plot:Plot;
@@ -15,11 +15,13 @@ export class LimesDirective implements OnInit {
     constructor(private el:ElementRef, private _gameService:GameService) {
     }
 
-    public ngOnInit():void {
+    public ngDoCheck():void {
         this.onLoad();
     }
 
     private onLoad():void {
+        this.clear(this.el.nativeElement.classList);
+
         this.el.nativeElement.classList.add('plot');
 
         var lord:Lord = this._gameService.politics.lordAt(this.plot.coordinates);
@@ -45,5 +47,11 @@ export class LimesDirective implements OnInit {
             this.el.nativeElement.classList.add('limes-top');
         }
 
+    }
+
+    private clear(classList:DOMTokenList):void {
+        while (classList.length) {
+            classList.remove(classList.item(0));
+        }
     }
 }
