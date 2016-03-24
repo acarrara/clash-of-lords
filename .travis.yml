@@ -1,7 +1,15 @@
-before_script:
-  npm install -g gulp bower
-  bower install
+before_script: npm install -g gulp bower bower install
 language: node_js
 node_js:
-  - "5"
+- '5'
 script: gulp test
+deploy:
+  provider: openshift
+  user: alessandro.carrara@gmail.com
+  password:
+    secure: VOLjkSmqCsZ8j//mb6u/3jYhZdv1kmxbo/vN/BIf25TR701XY9MbFrlEtzOU+C5VCCl2xWqtdMrj7FIr+7g5Ps0xSv99BmV4HCRzkRFDPr0GG//NXP+CGv1BIctYcc5BgasKzJpEbZQl6qZifU9trWep2CVz6pUuo1NEdkPEkZW6Jr9fZRg3zIduk2uqHRaEWkixy0xSlNmWDJIN6S3lU9EJirvzkOCQv0rRHeQAVxHRBUJ8FGvJQuyDpHX1HCbbiCHrYD7RBq7qokhcgO6TFb7EUe5WMNpCTG9OtHidz02S8sFXD/pF3g4M0nV4Q2Aj4XcDjtJanufgyuwwtaZAJVcXpyMqPMnTElB7JxplY5KA76KD2b8VyvUtmuycRWp4ReJ46m0MtypS24Gl1+V+CL75C9ehljFXxyeqlksFyzuNGFPV62yvkMsJ+7ZU29QeA+OfZO7Jtx/tpnsZtuD98+qc4Q8+916sPM1xUr6iJIbPpn/60Tm0Are7jSjMBqM1C7RmMXZhbl64C2xuCxVvHIBUqCU+XyFaeJeV78Udm9n+SvdgyMyZLuz0/1L2sAml0WlB4aYcXDIHrSsPBQ1jRKrRDU9+CZ+Zrv9pZ5JXmZ/mtLqc3WtZMEIN3V0+i/8nEL7ojD+WAV+gz0mep/33IeFLID1uvjkig598BIfx7l4=
+  app: col
+  domain: clashoflords
+  on:
+    repo: acarrara/clash-of-lords
+    branch: development
