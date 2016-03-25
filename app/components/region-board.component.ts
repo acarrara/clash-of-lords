@@ -1,5 +1,6 @@
 import {Component} from 'angular2/core';
 import {PlotComponent} from './plot.component';
+import {Region} from '../pieces/world/Region';
 
 @Component({
     selector: 'region-board',
@@ -16,4 +17,5 @@ import {PlotComponent} from './plot.component';
     inputs: ['region']
 })
 export class RegionBoardComponent {
+    public region:Region;
 }

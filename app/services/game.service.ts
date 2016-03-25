@@ -12,6 +12,9 @@ import {Observable, Observer} from 'rxjs/Rx';
 import {ColonizeAction} from '../pieces/game/actions/ColonizeAction';
 import {Plot} from '../pieces/world/Plot';
 import {GameDirector} from '../pieces/game/GameDirector';
+import {MessageLevel} from '../pieces/game/message/MessageLevel';
+import {Message} from '../pieces/game/message/Message';
+import {MessageHerald} from './message.herald';
 
 @Injectable()
 export class GameService {
@@ -25,7 +28,7 @@ export class GameService {
 
     public activeLord:Lord;
 
-    constructor() {
+    constructor(private _herald:MessageHerald) {
         this.regionFactory = new RegionFactory();
         this.politicsFactory = new PoliticsFactory();
         this.politics = new Politics();
@@ -37,7 +40,6 @@ export class GameService {
             var region:Region = this.createRegion(save);
             this.createLords(save);
             this.createPolitics(region);
-            this.startGame();
             observer.next(region);
             observer.complete();
         });
@@ -65,11 +67,15 @@ export class GameService {
 
     public startGame():void {
         this.director.register(this.lords);
+        for (let i:number = 0; i < this.lords.length; i++) {
+            this._herald.assert(new Message(this.lords[i].name + ' enters the game!', MessageLevel.INFO));
+        }
         this.nextTurn();
     }
 
     public nextTurn():void {
         this.activeLord = this.director.nextTurn();
+        this._herald.assert(new Message('It is ' + this.activeLord.name + ' turn.', MessageLevel.INFO));
     };
 
     public createPolitics(region:Region):void {

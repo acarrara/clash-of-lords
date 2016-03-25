@@ -83,7 +83,7 @@ describe('PlotComponent: component', () => {
     });
 });
 
-class MockGameService {
+export class MockGameService {
 
     public politics:Politics;
     public lords:Lord[];

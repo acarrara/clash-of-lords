@@ -1,40 +1,44 @@
+$console-height: 250px;
+$console-lateral-width: 250px;
+$turn-button-size: 28px;
+
 .dashboard {
-  position: absolute;
-  width: 100%;
   background-color: white;
-  height: 200px;
-  bottom: 0;
-  z-index: 10;
   display: flex;
-  display: none;
 }
 
 .console {
+  height: $console-height;
   flex-grow: 4;
-  /* flex-basis: 200px; */
-  background-color: blue;
   display: flex;
   flex-direction: column;
 }
 
 .overview {
-  /* flex-grow: 1; */
   background-color: orange;
-  flex-basis: 250px;
+  flex-basis: $console-lateral-width;
 }
 
 .domain {
-  /* flex-grow: 1; */
-  flex-basis: 250px;
+  flex-basis: $console-lateral-width;
   background-color: red;
 }
 
 .messages {
   flex-grow: 1;
+  background-color: black;
+  opacity: $game-opacity;
 }
 
-.endturn {
-  height: 28px;
+.message {
+  color: lightgrey;
+  font-family: $font-family;
+  font-size: $font-size-small;
+  padding: 4px;
+}
+
+.nextturn {
+  height: $turn-button-size;
   background-color: green;
   border: 2px solid black;
   float: left;

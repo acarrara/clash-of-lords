@@ -1,5 +1,6 @@
 import {Component} from 'angular2/core';
 import {NextTurnComponent} from './next-turn.component';
+import {ConsoleComponent} from './console-component';
 
 @Component({
     selector: 'dashboard',
@@ -8,12 +9,12 @@ import {NextTurnComponent} from './next-turn.component';
             <div class="domain"></div>
             <div class="console">
                 <next-turn></next-turn>
-                <div class="messages"></div>
+                <console class="messages"></console>
              </div>
             <div class="overview"></div>
         </div>
     `,
-    directives: [NextTurnComponent]
+    directives: [NextTurnComponent, ConsoleComponent]
 })
 export class DashboardComponent {
 

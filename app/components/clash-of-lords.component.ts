@@ -3,19 +3,19 @@ import {RegionBoardComponent} from './region-board.component';
 import {Region} from '../pieces/world/Region';
 import {Lord} from '../pieces/game/Lord';
 import {GameService} from '../services/game.service';
-import {NextTurnComponent} from './next-turn.component';
 import {DashboardComponent} from './dashboard.component';
+import {MessageHerald} from '../services/message.herald';
 
 @Component({
     selector: 'clash-of-lords',
     template: `
-    <div>
-        <region-board [region]="region"></region-board>
-        <dashboard></dashboard>
+    <div class="clash-container">
+        <region-board class="clash-game" [region]="region"></region-board>
+        <dashboard [hidden]="true" class="clash-console"></dashboard>
     </div>
     `,
-    directives: [RegionBoardComponent, NextTurnComponent, DashboardComponent],
-    providers: [GameService]
+    directives: [RegionBoardComponent, DashboardComponent],
+    providers: [GameService, MessageHerald]
 })
 export class ClashOfLordsComponent implements OnInit {
 
@@ -34,6 +34,7 @@ export class ClashOfLordsComponent implements OnInit {
         this._gameService.loadSavedGame().subscribe((region:Region):void => {
             this.region = region;
             this.lords = this._gameService.lords;
+            this._gameService.startGame();
         });
     }
 }

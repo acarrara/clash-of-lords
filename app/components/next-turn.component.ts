@@ -5,8 +5,8 @@ import {GameService} from '../services/game.service';
     selector: 'next-turn',
     template: `
     <div
-    class="endturn"
-    id="endturn"
+    class="nextturn"
+    id="nextturn"
     (click)="nextTurn()">Next Turn</div>
     `
 })

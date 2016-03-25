@@ -1,4 +1,5 @@
 import {beforeEachProviders, beforeEach, describe, expect, it, inject} from 'angular2/testing';
+import {provide} from 'angular2/core';
 import {GameService} from './game.service';
 import {RegionFactory} from '../pieces/world/RegionFactory';
 import {Coordinates} from '../pieces/world/Coordinates';
@@ -7,10 +8,12 @@ import {Politics} from '../pieces/game/Politics';
 import {Lord} from '../pieces/game/Lord';
 import {Save} from '../pieces/game/Save';
 import {ActionPoints} from '../pieces/game/ActionPoints';
+import {MessageHerald} from './message.herald';
+import {Message} from '../pieces/game/message/Message';
 
 describe('GameService', () => {
 
-    beforeEachProviders(() => [GameService]);
+    beforeEachProviders(() => [GameService, provide(MessageHerald, {useClass: MockMessageHerald})]);
 
     it('should have region factory set', inject([GameService], (gameService:GameService) => {
         expect(gameService.regionFactory).toEqual(new RegionFactory());
@@ -107,3 +110,9 @@ describe('GameService', () => {
     });
 
 });
+
+class MockMessageHerald {
+    public assert(message:Message):void {
+        // do nothing
+    }
+}
