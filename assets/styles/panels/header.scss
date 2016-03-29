@@ -1,0 +1,38 @@
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.header-lord {
+  display: flex;
+  font-family: $font-family;
+  font-size: $font-size-base;
+  color: $game-text-color;
+  padding: 0 16px;
+  align-items: center;
+}
+
+.header-action {
+  @include radius(5px);
+  font-family: $font-family;
+  font-size: $font-size-base;
+  color: $game-text-color;
+  padding: 0 16px;
+  margin: 4px;
+  border: solid 1px $game-text-color;
+}
+
+.lord-name {
+  padding: 0 16px;
+  font-size:$font-size-big;
+}
+
+.lord-ap {
+  padding: 0 16px;
+}
+
+.lord-treasure {
+  padding: 0 16px;
+}

@@ -21,11 +21,10 @@ describe('ColonizeAction', () => {
     var actual:ActionPoints;
 
     beforeEach(() => {
-        colonizer = {
-            name: 'test',
-            domain: [],
-            actionPoints: new ActionPoints(0)
-        };
+        colonizer = new Lord();
+        colonizer.name = 'test';
+        colonizer.domain = [];
+
         politics = new Politics();
         politics.domainMap = [[], []];
     });
@@ -102,12 +101,15 @@ describe('ColonizeAction', () => {
 
         describe('colonize castle', () => {
 
-            beforeEach(() => {
+            it('should throw "uncolonizable" error', () => {
                 colonizeAction = new ColonizeAction(colonizer, castlePlot, politics);
+                expect(() => colonizeAction.run(startActionPoints)).toThrowError('Cannot colonize a plot with kind c');
             });
 
             it('should throw "uncolonizable" error', () => {
-                expect(() => colonizeAction.run(startActionPoints)).toThrowError('Cannot colonize a plot with kind c');
+                politics.domainMap[0][1] = new Lord();
+                colonizeAction = new ColonizeAction(colonizer, forestPlot, politics);
+                expect(() => colonizeAction.run(startActionPoints)).toThrowError('Cannot colonize a plot already settled!');
             });
         });
 

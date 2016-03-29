@@ -10,10 +10,11 @@ import {Save} from '../pieces/game/Save';
 import {ActionPoints} from '../pieces/game/ActionPoints';
 import {MessageHerald} from './message.herald';
 import {Message} from '../pieces/game/message/Message';
+import {GameDirector} from './game-director';
 
 describe('GameService', () => {
 
-    beforeEachProviders(() => [GameService, provide(MessageHerald, {useClass: MockMessageHerald})]);
+    beforeEachProviders(() => [GameService, GameDirector, provide(MessageHerald, {useClass: MockMessageHerald})]);
 
     it('should have region factory set', inject([GameService], (gameService:GameService) => {
         expect(gameService.regionFactory).toEqual(new RegionFactory());

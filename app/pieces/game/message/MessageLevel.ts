@@ -1,7 +1,7 @@
 export class MessageLevel {
 
     public static INFO:MessageLevel = new MessageLevel('i');
-    public static WARN:MessageLevel = new MessageLevel('w');
+    public static WARN:MessageLevel = new MessageLevel('e');
 
     public name:string;
 

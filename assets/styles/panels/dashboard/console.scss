@@ -2,47 +2,37 @@ $console-height: 250px;
 $console-lateral-width: 250px;
 $turn-button-size: 28px;
 
-.dashboard {
-  background-color: white;
-  display: flex;
-}
-
 .console {
+  @include shadow;
+  @include radius(5px);
   height: $console-height;
   flex-grow: 4;
   display: flex;
   flex-direction: column;
 }
 
-.overview {
-  background-color: orange;
-  flex-basis: $console-lateral-width;
-}
-
-.domain {
-  flex-basis: $console-lateral-width;
-  background-color: red;
-}
-
 .messages {
   flex-grow: 1;
-  background-color: black;
+  background-color: $game-background-color;
   opacity: $game-opacity;
+  padding: $base-padding-normal;
 }
 
 .message {
-  color: lightgrey;
+  color: $game-text-color;
   font-family: $font-family;
   font-size: $font-size-small;
-  padding: 4px;
+  padding: $base-padding-normal;
+  &.e {
+    color: $message-error-color;
+  }
 }
 
 .nextturn {
   height: $turn-button-size;
-  background-color: green;
-  border: 2px solid black;
+  background-color: #500000;
   float: left;
-  color: black;
+  color: $game-text-color;
   font-family: $font-family;
   text-align: center;
   font-size: $font-size-big;

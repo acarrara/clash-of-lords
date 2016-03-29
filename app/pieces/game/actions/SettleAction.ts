@@ -4,7 +4,7 @@ import {Politics} from '../Politics';
 import {Lord} from '../Lord';
 import {Plot} from '../../world/Plot';
 
-export abstract class SettleAction implements Action {
+export abstract class SettleAction implements Action<ActionPoints> {
 
     public costCoefficient:number;
     public politics:Politics;

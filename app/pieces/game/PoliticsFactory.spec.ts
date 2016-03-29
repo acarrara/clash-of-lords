@@ -8,13 +8,17 @@ import {ActionPoints} from './ActionPoints';
 
 describe('PoliticsFactory', () => {
 
-    var bonnie:Lord = {
-        name: 'Bonnie',
-        domain: [
+    var bonnie:Lord;
+
+    beforeEach(() => {
+
+        bonnie = new Lord();
+        bonnie.name = 'Bonnie';
+        bonnie.domain = [
             new Plot(PlotKind.CASTLE, new Coordinates(1, 0))
-        ],
-        actionPoints: new ActionPoints(0)
-    };
+        ];
+        bonnie.actionPoints = new ActionPoints(0);
+    });
 
     describe('fromLords()', () => {
 
@@ -34,4 +38,5 @@ describe('PoliticsFactory', () => {
 
     });
 
-});
+})
+;

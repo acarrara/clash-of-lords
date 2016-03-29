@@ -37,7 +37,7 @@ $plot-background-color: transparent;
   &:before {
     @extend .plot_image;
     transform: rotateZ(-45deg) translateX(-13px) translateY(-28px);
-    background-image: url(../images/mountain.png);
+    background-image: $mountain-image-url;
   }
 }
 
@@ -51,7 +51,7 @@ $plot-background-color: transparent;
   &:before {
     @extend .plot_image;
     transform: rotateZ(-45deg) translateX(-13px) translateY(-18px);
-    background-image: url(../images/castle.png);
+    background-image: $castle-image-url;
   }
 }
 
@@ -61,7 +61,7 @@ $plot-background-color: transparent;
   &:before {
     @extend .plot_image;
     transform: rotateZ(-45deg) translateX(-13px) translateY(-20px);
-    background-image: url(../images/tree.png);
+    background-image: $forest-image-url;
   }
 }
 
@@ -71,7 +71,7 @@ $plot-background-color: transparent;
   &:before {
     @extend .plot_image;
     transform: rotateZ(-45deg) translateX(-13px) translateY(-12px);
-    background-image: url(../images/wave.png);
+    background-image: $water-image-url;
   }
 }
 

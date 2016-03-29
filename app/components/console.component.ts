@@ -12,6 +12,8 @@ import {MessageHerald} from '../services/message.herald';
 })
 export class ConsoleComponent implements OnInit {
 
+    private static MAX_SIZE:number = 9;
+
     public messages:Message[] = [];
 
     constructor(private _herald:MessageHerald) {
@@ -23,7 +25,14 @@ export class ConsoleComponent implements OnInit {
         });
     }
 
-    private addMessage(message:Message):void {
+    public addMessage(message:Message):void {
+        if (this.messages.length === ConsoleComponent.MAX_SIZE) {
+            this.removeOldestMessage();
+        }
         this.messages.push(message);
+    };
+
+    private removeOldestMessage():void {
+        this.messages = this.messages.splice(1, 9);
     };
 }

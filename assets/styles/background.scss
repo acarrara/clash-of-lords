@@ -1,6 +1,7 @@
 html, body {
   margin: 0;
   height: $display-dimension-full;
+  overflow: hidden;
 }
 
 .background {
@@ -20,6 +21,13 @@ html, body {
   width: 100%;
 }
 
+.clash-header {
+  height: $text-container-height;
+  z-index: 1;
+  @include shadow;
+  padding: $base-padding-normal;
+}
+
 .clash-game {
   flex-grow: 1;
   min-height: 0;
@@ -29,6 +37,7 @@ html, body {
 
 .clash-console {
   z-index: 1;
+  @include shadow;
 }
 
 .board-background {

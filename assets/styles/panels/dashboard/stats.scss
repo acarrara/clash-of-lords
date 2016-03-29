@@ -1,0 +1,67 @@
+
+.stats {
+  width: $console-lateral-width;
+  height: $console-lateral-width;
+  background-color: $game-background-color;
+  opacity: $game-opacity;
+  font-family: $font-family;
+  color: $game-text-color;
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-title {
+  font-size: $font-size-bigger;
+  padding: 0 $base-padding-great;
+  text-align: end;
+  &.reverse {
+    text-align: start;
+  }
+}
+
+.stats-element {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.element-number {
+  flex-basis: 60px;
+  text-align: center;
+  font-size: $font-size-bigger;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  &.reverse {
+    justify-content: flex-start;
+  }
+}
+
+.element-name {
+  flex-grow: 1;
+  align-items: center;
+  display: flex;
+  padding-left: $base-padding-great;
+  &.reverse {
+    padding-left: 0;
+    padding-right: $base-padding-great;
+    justify-content: flex-end;
+  }
+}
+
+.element-icon {
+  flex-basis: $text-container-height;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: $base-padding-great;
+
+  &.bm {
+    background-image: $mountain-image-url;
+  }
+  &.bf {
+    background-image: $forest-image-url;
+  }
+  &.bc {
+    background-image: $castle-image-url;
+  }
+}

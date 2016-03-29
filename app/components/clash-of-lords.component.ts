@@ -5,17 +5,20 @@ import {Lord} from '../pieces/game/Lord';
 import {GameService} from '../services/game.service';
 import {DashboardComponent} from './dashboard.component';
 import {MessageHerald} from '../services/message.herald';
+import {GameDirector} from '../services/game-director';
+import {HeaderComponent} from './header.component';
 
 @Component({
     selector: 'clash-of-lords',
     template: `
     <div class="clash-container">
+        <header [lord]="activeLord()" class="clash-header"></header>
         <region-board class="clash-game" [region]="region"></region-board>
-        <dashboard [hidden]="true" class="clash-console"></dashboard>
+        <dashboard [hidden]="false" [lord]="activeLord()" [lords]="lords" class="clash-console"></dashboard>
     </div>
     `,
-    directives: [RegionBoardComponent, DashboardComponent],
-    providers: [GameService, MessageHerald]
+    directives: [RegionBoardComponent, DashboardComponent, HeaderComponent],
+    providers: [GameService, MessageHerald, GameDirector]
 })
 export class ClashOfLordsComponent implements OnInit {
 
@@ -28,6 +31,10 @@ export class ClashOfLordsComponent implements OnInit {
 
     public ngOnInit():void {
         this.loadRegion();
+    }
+
+    public activeLord():Lord {
+        return this._gameService.activeLord;
     }
 
     private loadRegion():void {

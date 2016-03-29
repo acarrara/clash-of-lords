@@ -1,2 +1,24 @@
 $directions: right bottom left top;
 $display-dimension-full: 100vh;
+
+$base-padding-normal: 4px;
+$base-padding-great: 16px;
+
+$text-container-height: 50px;
+
+$mountain-image-url: url(../images/mountain.png);
+$forest-image-url: url(../images/tree.png);
+$water-image-url: url(../images/wave.png);
+$castle-image-url: url(../images/castle.png);
+
+@mixin shadow {
+  -webkit-box-shadow: 0px 4px 16px 8px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 4px 16px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 4px 16px 8px rgba(0, 0, 0, 0.5);
+}
+@mixin radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}

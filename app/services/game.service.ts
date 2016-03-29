@@ -11,7 +11,7 @@ import {Objects} from '../pieces/commons/Objects';
 import {Observable, Observer} from 'rxjs/Rx';
 import {ColonizeAction} from '../pieces/game/actions/ColonizeAction';
 import {Plot} from '../pieces/world/Plot';
-import {GameDirector} from '../pieces/game/GameDirector';
+import {GameDirector} from './game-director';
 import {MessageLevel} from '../pieces/game/message/MessageLevel';
 import {Message} from '../pieces/game/message/Message';
 import {MessageHerald} from './message.herald';
@@ -21,18 +21,16 @@ export class GameService {
 
     public regionFactory:RegionFactory;
     public politicsFactory:PoliticsFactory;
-    public director:GameDirector;
 
     public politics:Politics;
     public lords:Lord[];
 
     public activeLord:Lord;
 
-    constructor(private _herald:MessageHerald) {
+    constructor(private _herald:MessageHerald, private _director:GameDirector) {
         this.regionFactory = new RegionFactory();
         this.politicsFactory = new PoliticsFactory();
         this.politics = new Politics();
-        this.director = new GameDirector();
     }
 
     public loadSavedGame():Observable<Region> {
@@ -66,25 +64,30 @@ export class GameService {
     }
 
     public startGame():void {
-        this.director.register(this.lords);
+        this._director.register(this.lords);
         for (let i:number = 0; i < this.lords.length; i++) {
             this._herald.assert(new Message(this.lords[i].name + ' enters the game!', MessageLevel.INFO));
         }
         this.nextTurn();
     }
 
-    public nextTurn():void {
-        this.activeLord = this.director.nextTurn();
-        this._herald.assert(new Message('It is ' + this.activeLord.name + ' turn.', MessageLevel.INFO));
-    };
-
     public createPolitics(region:Region):void {
         this.politics = this.politicsFactory.fromLords(region.plots.length, this.lords);
     }
 
+    public nextTurn():void {
+        this.activeLord = this._director.nextTurn();
+        this._herald.assert(new Message('It is ' + this.activeLord.name + ' turn.', MessageLevel.INFO));
+    };
+
     public colonize(plot:Plot):void {
         var colonizeAction:ColonizeAction = new ColonizeAction(this.activeLord, plot, this.politics);
-        this.activeLord.actionPoints = colonizeAction.run(this.activeLord.actionPoints);
+        try {
+            this.activeLord.actionPoints = colonizeAction.run(this.activeLord.actionPoints);
+            this._herald.assert(new Message('Colonized plot at (' + plot.coordinates.x + ',' + plot.coordinates.y + ')', MessageLevel.INFO));
+        } catch (e) {
+            this._herald.assert(new Message(e.message, MessageLevel.WARN));
+        }
     }
 
     private isBorder(coordinates:Coordinates, neighbourCoordinates:Coordinates):boolean {

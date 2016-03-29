@@ -2,7 +2,7 @@ import {Action} from './Action';
 import {ActionPoints} from '../ActionPoints';
 import {Plot} from '../../world/Plot';
 
-export class FarmAction implements Action {
+export class FarmAction implements Action<ActionPoints> {
 
     public costCoefficient:number;
     private _domain:Plot[];

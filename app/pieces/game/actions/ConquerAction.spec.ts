@@ -22,16 +22,14 @@ describe('ConquerAction', () => {
     var actual:ActionPoints;
 
     beforeEach(() => {
-        conqueror = {
-            name: 'conqueror',
-            domain: [],
-            actionPoints: new ActionPoints(0)
-        };
-        conquered = {
-            name: 'conquered',
-            domain: [plainPlot, castlePlot, forestPlot, mountainPlot],
-            actionPoints: new ActionPoints(0)
-        };
+        conqueror = new Lord();
+        conqueror.name = 'conqueror';
+        conqueror.domain = [];
+
+        conquered = new Lord();
+        conquered.name = 'conquered';
+        conquered.domain = [plainPlot, castlePlot, forestPlot, mountainPlot];
+
         politics = new Politics();
 
         politics.domainMap = [

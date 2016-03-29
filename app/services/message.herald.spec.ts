@@ -18,6 +18,15 @@ describe('MessageHerald', () => {
             herald.assert(message);
         }));
 
+        it('should buffer a message when something happens and first listener gets it', inject([MessageHerald], (herald:MessageHerald) => {
+            var message:Message = new Message('Something happens', MessageLevel.INFO);
+            herald.assert(message);
+            herald.listen((received:Message) => {
+                expect(received.value).toEqual('Something happens');
+            });
+            herald.assert(message);
+        }));
+
     });
 
 });

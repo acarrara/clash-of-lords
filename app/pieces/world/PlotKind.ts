@@ -1,10 +1,10 @@
 export class PlotKind {
 
-    public static PLAIN:PlotKind = new PlotKind(true, true, 'p', 1);
-    public static WATER:PlotKind = new PlotKind(false, true, 'w', 1);
-    public static FOREST:PlotKind = new PlotKind(false, true, 'f', 2);
-    public static MOUNTAIN:PlotKind = new PlotKind(false, true, 'm', 3);
-    public static CASTLE:PlotKind = new PlotKind(false, false, 'c', 8);
+    public static PLAIN:PlotKind = new PlotKind(true, true, 'p', 'Plain', 1);
+    public static WATER:PlotKind = new PlotKind(false, true, 'w', 'Water', 1);
+    public static FOREST:PlotKind = new PlotKind(false, true, 'f', 'Forest',  2);
+    public static MOUNTAIN:PlotKind = new PlotKind(false, true, 'm', 'Mountain',  3);
+    public static CASTLE:PlotKind = new PlotKind(false, false, 'c', 'Castle',  8);
 
     public static KINDS:PlotKind[] = [
         PlotKind.PLAIN,
@@ -17,12 +17,14 @@ export class PlotKind {
     private _constructible:boolean;
     private _colonizable:boolean;
     private _name:string;
+    private _fullName:string;
     private _worth:number;
 
-    public constructor(constructible:boolean, colonizable:boolean, name:string, worth:number) {
+    public constructor(constructible:boolean, colonizable:boolean, name:string, fullName:string, worth:number) {
         this._constructible = constructible;
         this._colonizable = colonizable;
         this._name = name;
+        this._fullName = fullName;
         this._worth = worth;
     }
 
@@ -45,6 +47,10 @@ export class PlotKind {
 
     public get colonizable():boolean {
         return this._colonizable;
+    }
+
+    public get fullName():string {
+        return this._fullName;
     }
 
     public get worth():number {
