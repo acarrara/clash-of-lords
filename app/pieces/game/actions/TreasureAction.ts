@@ -5,7 +5,7 @@ export class TreasureAction implements Action<number> {
     public costCoefficient:number;
 
     constructor() {
-        this.costCoefficient = 100;
+        this.costCoefficient = 10;
     }
 
     public run(cost:ActionPoints):number {

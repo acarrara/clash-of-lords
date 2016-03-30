@@ -13,8 +13,8 @@ describe('TreasureAction', () => {
 
     describe('run', () => {
 
-        it('should return 500 bessy when aps are 5', () => {
-            expect(treasureAction.run(actionPoints)).toEqual(500);
+        it('should return 50 bessy when aps are 5', () => {
+            expect(treasureAction.run(actionPoints)).toEqual(50);
         });
 
     });

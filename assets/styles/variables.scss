@@ -11,6 +11,10 @@ $forest-image-url: url(../images/tree.png);
 $water-image-url: url(../images/wave.png);
 $castle-image-url: url(../images/castle.png);
 
+$rank1-image-url: url(../images/rank0.png);
+$rank2-image-url: url(../images/rank1.png);
+$rank3-image-url: url(../images/rank2.png);
+
 @mixin shadow {
   -webkit-box-shadow: 0px 4px 16px 8px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0px 4px 16px 8px rgba(0, 0, 0, 0.5);

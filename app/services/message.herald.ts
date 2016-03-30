@@ -21,7 +21,6 @@ export class MessageHerald {
 
     public assert(message:Message):void {
         if (Objects.isDefined(this._heraldObserver)) {
-            this.emptyBuffer();
             this.assertMessage(message);
         } else {
             this._buffer.push(message);
@@ -29,12 +28,14 @@ export class MessageHerald {
     }
 
     public listen(callback:(message:Message) => void):Subscription {
-        return this._heraldObservable.subscribe(callback);
+        var subscription:Subscription = this._heraldObservable.subscribe(callback);
+        this.emptyBuffer();
+        return subscription;
     }
 
     private emptyBuffer():void {
         while (this._buffer.length > 0) {
-            this.assertMessage(this._buffer.pop());
+            this.assertMessage(this._buffer.shift());
         }
     }
 

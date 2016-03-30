@@ -25,14 +25,10 @@ export class Coordinates {
         this.xDimension = xDimension;
         this.yDimension = yDimension;
 
-        var neighbour:Coordinates = this.westNeighbour();
-        this.pushNeighbour(neighbour, neighbours);
-        neighbour = this.eastNeighbour();
-        this.pushNeighbour(neighbour, neighbours);
-        neighbour = this.southNeighbour();
-        this.pushNeighbour(neighbour, neighbours);
-        neighbour = this.northNeighbour();
-        this.pushNeighbour(neighbour, neighbours);
+        this.pushNeighbour(this.westNeighbour(), neighbours);
+        this.pushNeighbour(this.eastNeighbour(), neighbours);
+        this.pushNeighbour(this.southNeighbour(), neighbours);
+        this.pushNeighbour(this.northNeighbour(), neighbours);
 
         this.xDimension = undefined;
         this.yDimension = undefined;

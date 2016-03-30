@@ -1,13 +1,9 @@
 import {Injectable} from 'angular2/core';
 import {Lord} from './../pieces/game/Lord';
-import {FarmAction} from './../pieces/game/actions/FarmAction';
-import {ActionPoints} from './../pieces/game/ActionPoints';
 import {Objects} from '../pieces/commons/Objects';
 
 @Injectable()
 export class GameDirector {
-
-    private static STARTING_AP:number = 5;
 
     private _lords:Lord[];
     private _current:number;
@@ -36,8 +32,7 @@ export class GameDirector {
     }
 
     private startTurnActions():void {
-        var startingPoints:ActionPoints = new ActionPoints(GameDirector.STARTING_AP);
-        this._activeLord.actionPoints = new FarmAction(this._activeLord.domain).run(startingPoints);
+        this._activeLord.farm();
     };
 
 }

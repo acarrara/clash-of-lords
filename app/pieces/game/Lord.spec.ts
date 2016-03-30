@@ -22,8 +22,8 @@ describe('Lord', () => {
             lord.save();
         });
 
-        it('should have 1000 bessy in treasure', () => {
-            expect(lord.treasure).toEqual(1000);
+        it('should have 190 bessy in treasure', () => {
+            expect(lord.treasure).toEqual(190);
         });
 
         it('should have no remaining action points', () => {
@@ -32,4 +32,15 @@ describe('Lord', () => {
 
     });
 
+    describe('farm', () => {
+
+        beforeEach(() => {
+            lord.farm();
+        });
+
+        it('should farm 5 action points', () => {
+            expect(lord.actionPoints).toEqual(new ActionPoints(5));
+        });
+
+    });
 });

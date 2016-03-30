@@ -77,7 +77,7 @@ export class GameService {
 
     public nextTurn():void {
         this.activeLord = this._director.nextTurn();
-        this._herald.assert(new Message('It is ' + this.activeLord.name + ' turn.', MessageLevel.INFO));
+        this._herald.assert(new Message('It\'s ' + this.activeLord.name + ' turn.', MessageLevel.INFO));
     };
 
     public colonize(plot:Plot):void {

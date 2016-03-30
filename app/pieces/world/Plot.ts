@@ -19,6 +19,10 @@ export class Plot {
         return this._kind;
     }
 
+    public set kind(value:PlotKind) {
+        this._kind = value;
+    }
+
     public get coordinates():Coordinates {
         return this._coordinates;
     }

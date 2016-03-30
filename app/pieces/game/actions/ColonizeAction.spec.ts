@@ -12,10 +12,10 @@ describe('ColonizeAction', () => {
     var colonizeAction:ColonizeAction;
     var colonizer:Lord;
 
-    var plainPlot:Plot = new Plot(PlotKind.PLAIN, new Coordinates(0, 0));
-    var castlePlot:Plot = new Plot(PlotKind.CASTLE, new Coordinates(1, 0));
-    var forestPlot:Plot = new Plot(PlotKind.FOREST, new Coordinates(0, 1));
-    var mountainPlot:Plot = new Plot(PlotKind.MOUNTAIN, new Coordinates(1, 1));
+    var plainPlot:Plot;
+    var castlePlot:Plot;
+    var forestPlot:Plot;
+    var mountainPlot:Plot;
 
     var startActionPoints:ActionPoints = new ActionPoints(5);
     var actual:ActionPoints;
@@ -27,6 +27,11 @@ describe('ColonizeAction', () => {
 
         politics = new Politics();
         politics.domainMap = [[], []];
+
+        plainPlot = new Plot(PlotKind.PLAIN, new Coordinates(0, 0));
+        castlePlot = new Plot(PlotKind.CASTLE, new Coordinates(1, 0));
+        forestPlot = new Plot(PlotKind.FOREST, new Coordinates(0, 1));
+        mountainPlot = new Plot(PlotKind.MOUNTAIN, new Coordinates(1, 1));
     });
 
     describe('run', () => {
@@ -34,6 +39,9 @@ describe('ColonizeAction', () => {
         describe('colonize plain', () => {
 
             beforeEach(() => {
+                politics.domainMap[0][1] = colonizer;
+                colonizer.domain.push(forestPlot);
+                forestPlot.kind = PlotKind.CASTLE;
                 colonizeAction = new ColonizeAction(colonizer, plainPlot, politics);
                 actual = colonizeAction.run(startActionPoints);
             });
@@ -47,7 +55,7 @@ describe('ColonizeAction', () => {
             });
 
             it('should add plot to the lord domain', () => {
-                expect(colonizer.domain).toEqual([plainPlot]);
+                expect(colonizer.domain).toEqual([forestPlot, plainPlot]);
             });
 
         });
@@ -55,6 +63,9 @@ describe('ColonizeAction', () => {
         describe('colonize forest', () => {
 
             beforeEach(() => {
+                politics.domainMap[0][0] = colonizer;
+                colonizer.domain.push(plainPlot);
+                plainPlot.kind = PlotKind.CASTLE;
                 colonizeAction = new ColonizeAction(colonizer, forestPlot, politics);
                 actual = colonizeAction.run(startActionPoints);
             });
@@ -68,7 +79,7 @@ describe('ColonizeAction', () => {
             });
 
             it('should add plot to the lord domain', () => {
-                expect(colonizer.domain).toEqual([forestPlot]);
+                expect(colonizer.domain).toEqual([plainPlot, forestPlot]);
             });
 
         });
@@ -76,10 +87,12 @@ describe('ColonizeAction', () => {
         describe('colonize mountain', () => {
 
             beforeEach(() => {
+                politics.domainMap[0][1] = colonizer;
+                colonizer.domain.push(forestPlot);
+                forestPlot.kind = PlotKind.CASTLE;
                 colonizeAction = new ColonizeAction(colonizer, mountainPlot, politics);
                 actual = colonizeAction.run(startActionPoints);
             });
-
             it('should return 2 Action Points', () => {
                 expect(actual).toEqual(new ActionPoints(2));
             });
@@ -89,11 +102,10 @@ describe('ColonizeAction', () => {
             });
 
             it('should add plot to the lord domain', () => {
-                expect(colonizer.domain).toEqual([mountainPlot]);
+                expect(colonizer.domain).toEqual([forestPlot, mountainPlot]);
             });
 
         });
-
         it('colonize should throw "debt" error', () => {
             colonizeAction = new ColonizeAction(colonizer, mountainPlot, politics);
             expect(() => colonizeAction.run(new ActionPoints(2))).toThrowError('Unsufficient Action Points: 2');

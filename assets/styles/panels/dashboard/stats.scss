@@ -34,6 +34,7 @@
   justify-content: flex-end;
   &.reverse {
     justify-content: flex-start;
+    padding-right: $base-padding-great;
   }
 }
 
@@ -63,5 +64,14 @@
   }
   &.bc {
     background-image: $castle-image-url;
+  }
+  &.treasure0 {
+    background-image: $rank1-image-url;
+  }
+  &.treasure1 {
+    background-image: $rank2-image-url;
+  }
+  &.treasure2 {
+    background-image: $rank3-image-url;
   }
 }

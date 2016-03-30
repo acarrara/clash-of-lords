@@ -35,7 +35,7 @@ describe('GameDirector', () => {
             lord0.actionPoints = new ActionPoints(5);
             director.nextTurn();
             director.nextTurn();
-            expect(lord0.treasure).toEqual(500);
+            expect(lord0.treasure).toEqual(50);
         }));
 
         it('should restart from beginning when every lord have had a turn', inject([GameDirector], (director:GameDirector) => {
