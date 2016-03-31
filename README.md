@@ -1,5 +1,5 @@
 ![Codeship status](https://codeship.com/projects/b19abea0-ce86-0133-9878-56ac8db24476/status?branch=development)
-
+![Travis CI status](https://travis-ci.org/acarrara/clash-of-lords.svg?branch=development)
 # Clash of Lords
 
 ## Overview
