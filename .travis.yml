@@ -16,3 +16,7 @@ deploy:
   on:
     repo: acarrara/clash-of-lords
     branch: development
+deploy:
+  provider: azure_web_apps
+  on: development
+  verbose: true

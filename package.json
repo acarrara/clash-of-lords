@@ -9,7 +9,7 @@
     "url": "https://github.com/acarrara/clash-of-lords.git"
   },
   "engines": {
-    "node": "5.9.0"
+    "node": "5.8.0"
   },
   "scripts": {
     "preinstall": "npm i typings -g",
