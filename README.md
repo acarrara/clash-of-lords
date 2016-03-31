@@ -1,5 +1,6 @@
-![Codeship status](https://codeship.com/projects/b19abea0-ce86-0133-9878-56ac8db24476/status?branch=development)
 ![Travis CI status](https://travis-ci.org/acarrara/clash-of-lords.svg?branch=development)
+[![Coverage Status](https://coveralls.io/repos/github/acarrara/clash-of-lords/badge.svg?branch=development)](https://coveralls.io/github/acarrara/clash-of-lords?branch=development)
+![Codeship status](https://codeship.com/projects/b19abea0-ce86-0133-9878-56ac8db24476/status?branch=development)
 ![Heroku deployment status](https://heroku-badge.herokuapp.com/?app=clash-of-lords)
 
 # Clash of Lords
