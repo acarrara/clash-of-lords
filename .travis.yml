@@ -6,6 +6,10 @@ script: gulp test
 after_script:
   - npm run-script coveralls
 deploy:
+  provider: azure_web_apps
+  on: development
+  verbose: true
+deploy:
   provider: openshift
   user: alessandro.carrara@gmail.com
   password:
@@ -16,7 +20,3 @@ deploy:
   on:
     repo: acarrara/clash-of-lords
     branch: development
-deploy:
-  provider: azure_web_apps
-  on: development
-  verbose: true
