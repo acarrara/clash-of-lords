@@ -13,4 +13,12 @@ export class Arrays {
             array.pop();
         }
     }
+
+    public static copy<T>(source:Array<T>):Array<T> {
+        var copy:Array<T> = new Array<T>();
+        for (let i:number = 0; i < source.length; i++) {
+            copy.push(source[i]);
+        }
+        return copy;
+    }
 }

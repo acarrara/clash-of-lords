@@ -24,7 +24,7 @@ describe('PlotComponent: component', () => {
     it('should render a plot with id 1_0 and classes plot, f and lord0 ', done => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance,
-                    element:any = fixture.nativeElement;
+                    element:any       = fixture.nativeElement;
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
                 fixture.detectChanges();
                 expect(element.querySelector('div').id).toBe('1_0');
@@ -39,7 +39,7 @@ describe('PlotComponent: component', () => {
     it('should render a plot with id 2_0 and classes plot, f, lord0 and limes-*', done => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance,
-                    element:any = fixture.nativeElement;
+                    element:any       = fixture.nativeElement;
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(2, 0));
                 fixture.detectChanges();
                 expect(element.querySelector('div').id).toBe('2_0');
@@ -58,7 +58,7 @@ describe('PlotComponent: component', () => {
     it('should render a plot with id 2_0 and classes plot and f', done => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance,
-                    element:any = fixture.nativeElement;
+                    element:any       = fixture.nativeElement;
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(0, 0));
                 fixture.detectChanges();
                 expect(element.querySelector('div').id).toBe('0_0');
@@ -72,11 +72,24 @@ describe('PlotComponent: component', () => {
     it('should render a plot without class "toRemove"', done => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance,
-                    element:any = fixture.nativeElement;
+                    element:any       = fixture.nativeElement;
                 element.querySelector('div').classList.add('toRemove');
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(0, 0));
                 fixture.detectChanges();
                 expect(element.querySelector('div')).not.toHaveCssClass('toRemove');
+                done();
+            })
+            .catch(e => done.fail(e));
+    });
+
+    it('should change available action to "pippo" on mouse enter', done => {
+        tcb.createAsync(PlotComponent).then(fixture => {
+                let plotComponent:any = fixture.componentInstance,
+                    element:any       = fixture.nativeElement;
+                plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
+                element.dispatchEvent(new Event('mouseenter'));
+                fixture.detectChanges();
+                expect(plotComponent.availableAction).toEqual('pippo');
                 done();
             })
             .catch(e => done.fail(e));
@@ -90,6 +103,10 @@ export class MockGameService {
 
     constructor() {
         this.initMock();
+    }
+
+    public changeAvailableAction(dest:Coordinates):string {
+        return 'pippo';
     }
 
     public isRight(current:Coordinates):boolean {

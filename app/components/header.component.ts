@@ -1,5 +1,6 @@
-import {Component} from 'angular2/core';
+import {Component, DoCheck} from 'angular2/core';
 import {Lord} from '../pieces/game/Lord';
+import {GameService} from '../services/game.service';
 
 @Component({
     selector: 'header',
@@ -10,11 +11,21 @@ import {Lord} from '../pieces/game/Lord';
                 <div class="lord-ap">{{lord.actionPoints.amount}}</div>
                 <div class="lord-treasure">{{lord.treasure}} $</div>
             </div>
-            <div class="header-action">Colonize</div>
+            <div class="header-action">{{availableAction}}</div>
         </div>
     `,
     inputs: ['lord']
 })
-export class HeaderComponent {
+export class HeaderComponent implements DoCheck {
+
     public lord:Lord;
+    public availableAction:string;
+
+    constructor(private _gameService:GameService) {
+    }
+
+    public ngDoCheck():any {
+        return this.availableAction = this._gameService.availableAction;
+
+    }
 }

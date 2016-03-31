@@ -2,13 +2,18 @@ import {beforeEach, beforeEachProviders, describe, inject, TestComponentBuilder}
 import {HeaderComponent} from './header.component';
 import {Lord} from '../pieces/game/Lord';
 import {ActionPoints} from '../pieces/game/ActionPoints';
+import {GameService} from '../services/game.service';
+import {provide} from 'angular2/core';
 
 describe('HeaderComponent: component', () => {
     let tcb:TestComponentBuilder;
 
+    let gameService:GameService = new GameService(null, null);
+
     beforeEachProviders(() => [
         TestComponentBuilder,
-        HeaderComponent
+        HeaderComponent,
+        provide(GameService, {useValue: gameService})
     ]);
 
     beforeEach(inject([TestComponentBuilder], _tcb => {

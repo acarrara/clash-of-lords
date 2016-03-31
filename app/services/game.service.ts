@@ -15,6 +15,7 @@ import {GameDirector} from './game-director';
 import {MessageLevel} from '../pieces/game/message/MessageLevel';
 import {Message} from '../pieces/game/message/Message';
 import {MessageHerald} from './message.herald';
+import {ConquerAction} from '../pieces/game/actions/ConquerAction';
 
 @Injectable()
 export class GameService {
@@ -26,6 +27,7 @@ export class GameService {
     public lords:Lord[];
 
     public activeLord:Lord;
+    public availableAction:string;
 
     constructor(private _herald:MessageHerald, private _director:GameDirector) {
         this.regionFactory = new RegionFactory();
@@ -80,11 +82,26 @@ export class GameService {
         this._herald.assert(new Message('It\'s ' + this.activeLord.name + ' turn.', MessageLevel.INFO));
     };
 
+    public changeAvailableAction(coordinates:Coordinates):string {
+        this.availableAction = this.politics.availableAction(this.activeLord, coordinates);
+        return this.availableAction;
+    }
+
     public colonize(plot:Plot):void {
         var colonizeAction:ColonizeAction = new ColonizeAction(this.activeLord, plot, this.politics);
         try {
             this.activeLord.actionPoints = colonizeAction.run(this.activeLord.actionPoints);
             this._herald.assert(new Message('Colonized plot at (' + plot.coordinates.x + ',' + plot.coordinates.y + ')', MessageLevel.INFO));
+        } catch (e) {
+            this._herald.assert(new Message(e.message, MessageLevel.WARN));
+        }
+    }
+
+    public conquer(plot:Plot):void {
+        var conquerAction:ConquerAction = new ConquerAction(this.activeLord, plot, this.politics);
+        try {
+            this.activeLord.actionPoints = conquerAction.run(this.activeLord.actionPoints);
+            this._herald.assert(new Message('Conquered plot at (' + plot.coordinates.x + ',' + plot.coordinates.y + ')', MessageLevel.INFO));
         } catch (e) {
             this._herald.assert(new Message(e.message, MessageLevel.WARN));
         }

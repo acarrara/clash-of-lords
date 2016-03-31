@@ -21,10 +21,34 @@ export class Politics {
     }
 
     public settle(settler:Lord, coordinates:Coordinates):void {
-        this.checkAdjacent(settler, coordinates);
-        this.checkCastleReachable(settler, coordinates);
+        if (!this.isAdjacent(settler, coordinates)) {
+            throw new Error('Plot must be adjacent to your domain!');
+        }
+        if (!this.isCastleReachable(settler, coordinates)) {
+            throw new Error('Plot must be reachable from a castle!');
+        }
         this.domainMap[coordinates.x][coordinates.y] = settler;
     }
+
+    public availableAction(lord:Lord, dest:Coordinates):string {
+        if (lord.plotAt(dest)) {
+            return 'fortify';
+        }
+        if (this.isAdjacent(lord, dest)) {
+            if (this.isSettled(dest)) {
+                return 'conquer';
+            }
+            if (!this.isCastleReachable(lord, dest)) {
+                return 'unreachable';
+            }
+            return 'colonize';
+        }
+        return 'unreachable';
+    }
+
+    private isSettled(dest:Coordinates):boolean {
+        return Objects.isDefined(this.domainMap[dest.x][dest.y]);
+    };
 
     private initDomainMap(dimension:number):void {
         this.domainMap = [];
@@ -36,14 +60,14 @@ export class Politics {
         }
     }
 
-    private checkAdjacent(settler:Lord, coordinates:Coordinates):void {
+    private isAdjacent(settler:Lord, coordinates:Coordinates):boolean {
         var neighbours:Coordinates[] = coordinates.neighbours(this.domainMap.length, this.domainMap[0].length);
         for (let i:number = 0; i < neighbours.length; i++) {
             if (this.belongs(settler, neighbours[i])) {
-                return;
+                return true;
             }
         }
-        throw new Error('Plot must be adjacent to your domain!');
+        return false;
     }
 
     private belongs(settler:Lord, candidate:Coordinates):boolean {
@@ -51,24 +75,24 @@ export class Politics {
         return Objects.isDefined(lord) && lord === settler;
     };
 
-    private  checkCastleReachable(settler:Lord, coordinates:Coordinates):void {
+    private  isCastleReachable(settler:Lord, coordinates:Coordinates):boolean {
         var path:Coordinates[] = [coordinates];
-        var visited:Coordinates[] = [];
+        var visited:string[] = [];
         while (path.length) {
             var current:Coordinates = path.shift();
-            visited.push(current);
+            visited.push(JSON.stringify(current));
             var neighbours:Coordinates[] = current.neighbours(this.domainMap.length, this.domainMap[0].length);
             for (let i:number = 0; i < neighbours.length; i++) {
                 var currentNeighbour:Coordinates = neighbours[i];
-                if (this.belongs(settler, currentNeighbour) && visited.indexOf(currentNeighbour) === -1) {
+                if (this.belongs(settler, currentNeighbour) && visited.indexOf(JSON.stringify(currentNeighbour)) === -1) {
                     path.push(currentNeighbour);
                 }
                 var plot:Plot = settler.plotAt(currentNeighbour);
                 if (Objects.isDefined(plot) && plot.kind === PlotKind.CASTLE) {
-                    return;
+                    return true;
                 }
             }
         }
-        throw new Error('Plot must be reachable from a castle!');
+        return false;
     }
 }

@@ -11,17 +11,31 @@ import {GameService} from '../services/game.service';
     (click)="action()"
     [limes]="plot"></div>
     `,
+    host: {
+        '(mouseenter)': 'changeAvailableAction()'
+    },
     inputs: ['plot'],
     directives: [LimesDirective]
 })
 export class PlotComponent {
     public plot:Plot;
+    public availableAction:string;
 
     constructor(private _gameService:GameService) {
+    }
 
+    public changeAvailableAction():void {
+        this.availableAction = this._gameService.changeAvailableAction(this.plot.coordinates);
     }
 
     public action():void {
+        switch (this.availableAction) {
+            case 'conquer':
+            {
+                this._gameService.conquer(this.plot);
+                break;
+            }
+        }
         this._gameService.colonize(this.plot);
     }
 

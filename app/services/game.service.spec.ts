@@ -110,6 +110,31 @@ describe('GameService', () => {
 
     });
 
+    describe('changeAvailableAction', () => {
+
+        var coordinates:Coordinates;
+
+        beforeEach(inject([GameService], (gameService:GameService) => {
+            coordinates = new Coordinates(1, 1);
+            spyOn(gameService.politics, 'availableAction').and.returnValue('pippo');
+        }));
+
+        it('should return "pippo"', inject([GameService], (gameService:GameService) => {
+            expect(gameService.changeAvailableAction(coordinates)).toEqual('pippo');
+        }));
+
+        it('should use activeLord', inject([GameService], (gameService:GameService) => {
+            gameService.changeAvailableAction(coordinates);
+            expect(gameService.politics.availableAction).toHaveBeenCalledWith(gameService.activeLord, coordinates);
+        }));
+
+        it('should set field availableAction', inject([GameService], (gameService:GameService) => {
+            gameService.changeAvailableAction(coordinates);
+            expect(gameService.availableAction).toEqual('pippo');
+        }));
+
+    });
+
 });
 
 class MockMessageHerald {
