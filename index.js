@@ -1,4 +1,4 @@
-var port = Number(process.env.PORT || 5000);
+var port = Number(process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 5000);
 
 var express = require('express');
 var app = express();
