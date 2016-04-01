@@ -77,5 +77,6 @@
     "typings": "^0.7.7",
     "zone.js": "0.6.6"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "main": "index.js"
 }
