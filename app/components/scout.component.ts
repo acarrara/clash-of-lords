@@ -18,8 +18,8 @@ import {Lord} from '../pieces/game/Lord';
 export class ScoutComponent implements DoCheck {
 
     public currentPlot:Plot;
-    private availableAction:string;
-    private settler:string;
+    public availableAction:string;
+    public settler:string;
 
     constructor(private _gameService:GameService) {
     }
