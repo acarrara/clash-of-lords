@@ -12,7 +12,7 @@
     "node": "5.8.0"
   },
   "scripts": {
-    "preinstall": "cd nodejs/ && npm i typings -g",
+    "preinstall": "cd ~/nodejs/ && npm i typings -g",
     "postinstall": "./node_modules/.bin/typings install && gulp serve-heroku",
     "start": "node index.js",
     "test": "gulp test",
