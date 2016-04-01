@@ -14,7 +14,7 @@ import {Objects} from '../pieces/commons/Objects';
             <div class="element-name reverse">{{lord.name}}</div>
             <div class="element-number reverse">
                 <span class="treasure">{{lord.treasure}} $</span>
-                <span class="action-points">{{lord.actionPoints.amount}} AP</span>
+                <span class="action-points">{{lord.potential.amount}} AP</span>
             </div>
         </div>
     </div>

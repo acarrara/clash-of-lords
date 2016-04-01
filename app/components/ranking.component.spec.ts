@@ -22,11 +22,11 @@ describe('RankingComponent: component', () => {
                 let lord0:Lord = new Lord();
                 lord0.name = 'Bonnie';
                 lord0.treasure = 0;
-                lord0.actionPoints = new ActionPoints(9);
+                lord0.potential = new ActionPoints(9);
                 let lord1:Lord = new Lord();
                 lord1.name = 'Clyde';
                 lord1.treasure = 1;
-                lord1.actionPoints = new ActionPoints(8);
+                lord1.potential = new ActionPoints(8);
                 rankingComponent.lords = [lord0, lord1];
                 fixture.detectChanges();
                 var elementNames:NodeListOf<Element> = element.querySelectorAll('.element-name');

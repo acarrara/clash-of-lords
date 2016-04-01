@@ -28,11 +28,13 @@ export abstract class SettleAction implements Action<ActionPoints> {
     };
 
     public updateSettlerDomain():void {
-        this.settler.domain.push(this.settling);
+        this.settler.gain(this.settling);
     };
 
     public updatePolitics():void {
-        this.politics.settle(this.settler, this.settling.coordinates);
+        if (this.settling.kind.colonizable) {
+            this.politics.settle(this.settler, this.settling.coordinates);
+        }
     };
 
     public checkDebt(remnant:ActionPoints, actionPoints:ActionPoints):void {

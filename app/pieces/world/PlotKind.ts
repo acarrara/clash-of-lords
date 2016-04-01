@@ -1,10 +1,10 @@
 export class PlotKind {
 
     public static PLAIN:PlotKind = new PlotKind(true, true, 'p', 'Plain', 1);
-    public static WATER:PlotKind = new PlotKind(false, true, 'w', 'Water', 1);
+    public static WATER:PlotKind = new PlotKind(false, false, 'w', 'Water', 1);
     public static FOREST:PlotKind = new PlotKind(false, true, 'f', 'Forest',  2);
     public static MOUNTAIN:PlotKind = new PlotKind(false, true, 'm', 'Mountain',  3);
-    public static CASTLE:PlotKind = new PlotKind(false, false, 'c', 'Castle',  8);
+    public static CASTLE:PlotKind = new PlotKind(false, true, 'c', 'Castle',  8);
 
     public static KINDS:PlotKind[] = [
         PlotKind.PLAIN,

@@ -39,8 +39,12 @@ export class PlotComponent {
                 this._gameService.conquer(this.plot);
                 break;
             }
+            case 'Colonize':
+            {
+                this._gameService.colonize(this.plot);
+                break;
+            }
         }
-        this._gameService.colonize(this.plot);
     }
 
 }

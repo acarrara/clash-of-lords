@@ -20,7 +20,7 @@ describe('ConsoleComponent: component', () => {
     it('should render 2 messages ("> hello" and "> world")', done => {
         tcb.createAsync(ConsoleComponent).then(fixture => {
                 let consoleComponent:ConsoleComponent = fixture.componentInstance,
-                    element:any = fixture.nativeElement;
+                    element:any                       = fixture.nativeElement;
                 var message1:Message = new Message('hello', MessageLevel.INFO);
                 var message2:Message = new Message('world', MessageLevel.WARN);
                 consoleComponent.messages = [message1, message2];
@@ -35,7 +35,7 @@ describe('ConsoleComponent: component', () => {
     it('should render 9 messages from 1 to 9', done => {
         tcb.createAsync(ConsoleComponent).then(fixture => {
                 let consoleComponent:ConsoleComponent = fixture.componentInstance,
-                    element:any = fixture.nativeElement;
+                    element:any                       = fixture.nativeElement;
 
                 consoleComponent.messages = [];
                 for (let i:number = 0; i < 10; i++) {

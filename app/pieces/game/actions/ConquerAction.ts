@@ -2,7 +2,6 @@ import {Politics} from '../Politics';
 import {ActionPoints} from '../ActionPoints';
 import {Plot} from '../../world/Plot';
 import {Lord} from '../Lord';
-import {Arrays} from '../../commons/Arrays';
 import {SettleAction} from './SettleAction';
 
 export class ConquerAction extends SettleAction {
@@ -22,7 +21,7 @@ export class ConquerAction extends SettleAction {
 
     private updateConqueredDomain():void {
         var conquered:Lord = this.politics.lordAt(this.settling.coordinates);
-        Arrays.remove(conquered.domain, this.settling);
+        conquered.lose(this.settling);
     };
 
 }

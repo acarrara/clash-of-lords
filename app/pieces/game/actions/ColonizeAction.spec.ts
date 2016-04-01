@@ -16,6 +16,7 @@ describe('ColonizeAction', () => {
     var castlePlot:Plot;
     var forestPlot:Plot;
     var mountainPlot:Plot;
+    var waterPlot:Plot;
 
     var startActionPoints:ActionPoints = new ActionPoints(5);
     var actual:ActionPoints;
@@ -32,6 +33,7 @@ describe('ColonizeAction', () => {
         castlePlot = new Plot(PlotKind.CASTLE, new Coordinates(1, 0));
         forestPlot = new Plot(PlotKind.FOREST, new Coordinates(0, 1));
         mountainPlot = new Plot(PlotKind.MOUNTAIN, new Coordinates(1, 1));
+        waterPlot = new Plot(PlotKind.WATER, new Coordinates(0, 0));
     });
 
     describe('run', () => {
@@ -114,15 +116,19 @@ describe('ColonizeAction', () => {
         describe('colonize castle', () => {
 
             it('should throw "uncolonizable" error', () => {
-                colonizeAction = new ColonizeAction(colonizer, castlePlot, politics);
-                expect(() => colonizeAction.run(startActionPoints)).toThrowError('Cannot colonize a plot with kind c');
-            });
-
-            it('should throw "uncolonizable" error', () => {
                 politics.domainMap[0][1] = new Lord();
                 colonizeAction = new ColonizeAction(colonizer, forestPlot, politics);
                 expect(() => colonizeAction.run(startActionPoints)).toThrowError('Cannot colonize a plot already settled!');
             });
+        });
+
+        describe('colonize castle', () => {
+
+            it('should throw "uncolonizable" error', () => {
+                colonizeAction = new ColonizeAction(colonizer, waterPlot, politics);
+                expect(() => colonizeAction.run(startActionPoints)).toThrowError('Cannot colonize a plot with kind w');
+            });
+
         });
 
     });

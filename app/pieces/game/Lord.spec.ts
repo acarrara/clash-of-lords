@@ -16,6 +16,10 @@ describe('Lord', () => {
         lord.actionPoints = new ActionPoints(9);
     });
 
+    it('should have potential 5', () => {
+        expect(lord.potential).toEqual(new ActionPoints(5));
+    });
+
     describe('save', () => {
 
         beforeEach(() => {
@@ -40,6 +44,45 @@ describe('Lord', () => {
 
         it('should farm 5 action points', () => {
             expect(lord.actionPoints).toEqual(new ActionPoints(5));
+        });
+
+    });
+
+    describe('gain', () => {
+
+        let plot:Plot;
+
+        beforeEach(() => {
+            plot = new Plot(PlotKind.CASTLE, null);
+            lord.gain(plot);
+        });
+
+        it('should add new plot to domain', () => {
+            expect(lord.domain.indexOf(plot)).toEqual(1);
+        });
+
+        it('update potential', () => {
+            expect(lord.potential).toEqual(new ActionPoints(6));
+        });
+
+    });
+
+    describe('lose', () => {
+
+        let plot:Plot;
+
+        beforeEach(() => {
+            plot = new Plot(PlotKind.CASTLE, null);
+            lord.domain.push(plot);
+            lord.lose(plot);
+        });
+
+        it('should remove plot from domain', () => {
+            expect(lord.domain.indexOf(plot)).toEqual(-1);
+        });
+
+        it('update potential', () => {
+            expect(lord.potential).toEqual(new ActionPoints(5));
         });
 
     });
