@@ -3,7 +3,7 @@ $console-lateral-width: 250px;
 $turn-button-size: 28px;
 
 .console {
-  @include shadow;
+  @include shadow(16, 8);
   @include radius(5px);
   height: $console-height;
   flex-grow: 4;
@@ -29,8 +29,8 @@ $turn-button-size: 28px;
 }
 
 .nextturn {
+  @include shadow(8, 1);
   height: $turn-button-size;
-  background-color: #500000;
   float: left;
   color: $game-text-color;
   font-family: $font-family;
@@ -38,7 +38,15 @@ $turn-button-size: 28px;
   font-size: $font-size-big;
   width: 100%;
   &:hover {
+    @include shadow(8, 4);
     cursor: pointer;
     color: white;
+  }
+
+  @for $i from 1 through length($colors) {
+    $color: nth($colors, $i);
+    &.lord#{$i - 1} {
+      background-color: #{$color};
+    }
   }
 }

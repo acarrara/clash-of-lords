@@ -27,6 +27,7 @@ export class GameService {
     public lords:Lord[];
 
     public activeLord:Lord;
+    public currentPlot:Plot;
     public availableAction:string;
 
     constructor(private _herald:MessageHerald, private _director:GameDirector) {
@@ -71,6 +72,7 @@ export class GameService {
             this._herald.assert(new Message(this.lords[i].name + ' enters the game!', MessageLevel.INFO));
         }
         this.nextTurn();
+        this.currentPlot = this.activeLord.domain[0];
     }
 
     public createPolitics(region:Region):void {
@@ -81,6 +83,10 @@ export class GameService {
         this.activeLord = this._director.nextTurn();
         this._herald.assert(new Message('It\'s ' + this.activeLord.name + ' turn.', MessageLevel.INFO));
     };
+
+    public changePlot(plot:Plot):void {
+        this.currentPlot = plot;
+    }
 
     public changeAvailableAction(coordinates:Coordinates):string {
         this.availableAction = this.politics.availableAction(this.activeLord, coordinates);

@@ -7,12 +7,14 @@ $game-opacity: 0.8;
 
 $message-error-color: red;
 
-$lord1-color: darkblue;
-$lord2-color: darkred;
-$lord3-color: #ffbb00;
-$lord4-color: #005500;
+$lord1-color: #005;
+$lord2-color: #500;
+$lord3-color: #550;
+$lord4-color: #050;
+$lord5-color: #055;
+$lord6-color: #505;
 
-$colors: $lord1-color $lord2-color $lord3-color $lord4-color;
+$colors: $lord1-color $lord2-color $lord3-color $lord4-color $lord5-color $lord6-color;
 
 $terrain-water-color: lightskyblue;
 $terrain-mountain-color: #B45A1A;

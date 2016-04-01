@@ -33,6 +33,5 @@ var SystemConfig = (function() {
             defaultExtension: 'js'
         };
     }
-
     System.config(config);
 })();

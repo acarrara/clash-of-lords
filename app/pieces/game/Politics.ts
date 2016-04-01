@@ -32,18 +32,18 @@ export class Politics {
 
     public availableAction(lord:Lord, dest:Coordinates):string {
         if (lord.plotAt(dest)) {
-            return 'fortify';
+            return 'Fortify';
         }
         if (this.isAdjacent(lord, dest)) {
             if (this.isSettled(dest)) {
-                return 'conquer';
+                return 'Conquer';
             }
             if (!this.isCastleReachable(lord, dest)) {
-                return 'unreachable';
+                return 'Unreachable';
             }
-            return 'colonize';
+            return 'Colonize';
         }
-        return 'unreachable';
+        return 'Unreachable';
     }
 
     private isSettled(dest:Coordinates):boolean {

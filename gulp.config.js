@@ -7,7 +7,7 @@ module.exports = function () {
     var assets = root + 'assets/';
     var assetsPath = {
         styles: assets + 'styles/',
-        images: assets + 'images/',
+        images: assets + 'styles/images/',
         fonts: assets + 'fonts/'
     };
     var index = root + 'index.html';

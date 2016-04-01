@@ -4,12 +4,14 @@ export class Coordinates {
     private _x:number;
     private _y:number;
 
-    private xDimension:number;
-    private yDimension:number;
+    private _xDimension:number;
+    private _yDimension:number;
 
     public constructor(x:number, y:number) {
         this._x = x;
         this._y = y;
+        this._xDimension = undefined;
+        this._yDimension = undefined;
     }
 
     public get x():number {
@@ -22,16 +24,16 @@ export class Coordinates {
 
     public neighbours(xDimension:number, yDimension:number):Array<Coordinates> {
         var neighbours:Array<Coordinates> = [];
-        this.xDimension = xDimension;
-        this.yDimension = yDimension;
+        this._xDimension = xDimension;
+        this._yDimension = yDimension;
 
         this.pushNeighbour(this.westNeighbour(), neighbours);
         this.pushNeighbour(this.eastNeighbour(), neighbours);
         this.pushNeighbour(this.southNeighbour(), neighbours);
         this.pushNeighbour(this.northNeighbour(), neighbours);
 
-        this.xDimension = undefined;
-        this.yDimension = undefined;
+        this._xDimension = undefined;
+        this._yDimension = undefined;
 
         return neighbours;
     }
@@ -59,7 +61,7 @@ export class Coordinates {
     };
 
     private insideBorders(x:number, y:number):boolean {
-        return x >= 0 && x < this.xDimension && y >= 0 && y < this.yDimension;
+        return x >= 0 && x < this._xDimension && y >= 0 && y < this._yDimension;
     }
 
     private westNeighbour():Coordinates {

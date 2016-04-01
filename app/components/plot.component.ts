@@ -12,7 +12,7 @@ import {GameService} from '../services/game.service';
     [limes]="plot"></div>
     `,
     host: {
-        '(mouseenter)': 'changeAvailableAction()'
+        '(mouseenter)': 'changeAvailableAction(); changePlot()'
     },
     inputs: ['plot'],
     directives: [LimesDirective]
@@ -24,13 +24,17 @@ export class PlotComponent {
     constructor(private _gameService:GameService) {
     }
 
+    public changePlot():void {
+        this._gameService.changePlot(this.plot);
+    }
+
     public changeAvailableAction():void {
         this.availableAction = this._gameService.changeAvailableAction(this.plot.coordinates);
     }
 
     public action():void {
         switch (this.availableAction) {
-            case 'conquer':
+            case 'Conquer':
             {
                 this._gameService.conquer(this.plot);
                 break;

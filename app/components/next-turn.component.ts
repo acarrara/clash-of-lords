@@ -5,7 +5,7 @@ import {GameService} from '../services/game.service';
     selector: 'next-turn',
     template: `
     <div
-    class="nextturn"
+    class="nextturn lord{{activeLordIndex()}}"
     id="nextturn"
     (click)="nextTurn()">Next Turn</div>
     `
@@ -13,6 +13,10 @@ import {GameService} from '../services/game.service';
 export class NextTurnComponent {
 
     constructor(private _gameService:GameService) {
+    }
+
+    public activeLordIndex():number {
+        return this._gameService.lords.indexOf(this._gameService.activeLord);
     }
 
     public nextTurn():void {

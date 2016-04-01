@@ -3,10 +3,12 @@ import {PlotKind} from './pieces/world/PlotKind';
 import {Plot} from './pieces/world/Plot';
 import {Coordinates} from './pieces/world/Coordinates';
 import {Lord} from './pieces/game/Lord';
+import {ActionPoints} from './pieces/game/ActionPoints';
 
 var lord0:Lord = new Lord();
 lord0.name = 'Bonnie';
 lord0.domain = [new Plot(PlotKind.CASTLE, new Coordinates(3, 11))];
+lord0.actionPoints = new ActionPoints(0);
 
 var lord1:Lord = new Lord();
 lord1.name = 'Clyde';
@@ -17,12 +19,7 @@ lord1.domain = [
     new Plot(PlotKind.PLAIN, new Coordinates(17, 12)),
     new Plot(PlotKind.PLAIN, new Coordinates(18, 13))
 ];
-
-var lord2:Lord = new Lord();
-lord2.name = 'Gigi';
-lord2.domain = [
-    new Plot(PlotKind.CASTLE, new Coordinates(10, 10))
-];
+lord1.actionPoints = new ActionPoints(0);
 
 export var save:Save = {
     region: '[' +
@@ -36,7 +33,7 @@ export var save:Save = {
     '["f","f","f","f","p","p","p","p","p","p","p","p","p","p","p","p","w","w","w","w"],' +
     '["m","m","f","p","p","p","p","p","p","p","p","p","p","p","p","p","p","w","w","w"],' +
     '["f","f","f","f","p","p","p","p","p","p","p","p","p","p","p","p","p","w","w","w"],' +
-    '["f","f","f","f","f","p","p","p","p","p","c","p","p","p","p","p","w","w","w","w"],' +
+    '["f","f","f","f","f","p","p","p","p","p","p","p","p","p","p","p","w","w","w","w"],' +
     '["m","f","f","f","f","f","p","p","p","p","p","p","p","p","p","w","w","w","w","w"],' +
     '["m","m","f","m","f","f","p","p","p","p","p","p","p","p","w","w","w","w","w","w"],' +
     '["m","m","m","m","m","f","f","p","p","p","p","p","p","p","w","w","w","w","w","w"],' +
@@ -46,5 +43,5 @@ export var save:Save = {
     '["m","f","f","f","p","p","p","p","p","p","p","p","p","c","p","w","p","p","w","p"],' +
     '["m","f","f","p","p","p","p","p","p","f","f","p","p","p","p","p","p","p","p","p"],' +
     '["f","f","f","f","p","p","p","p","p","f","f","f","f","p","p","p","p","f","f","p"]]',
-    lords: [lord0, lord1, lord2]
+    lords: [lord0, lord1]
 };

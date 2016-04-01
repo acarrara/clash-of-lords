@@ -109,6 +109,10 @@ export class MockGameService {
         return 'pippo';
     }
 
+    public changePlot(plot:Plot):void {
+        // do nothing
+    }
+
     public isRight(current:Coordinates):boolean {
         return current.x % 2 === 0;
     }

@@ -1,0 +1,22 @@
+$scout-report-radius: 4px;
+$scout-report-border: 1px;
+$scout-report-width: 160px;
+
+.scout {
+  font-family: $font-family;
+  font-size: $font-size-base;
+  color: $game-text-color;
+  padding: 0 $base-padding-great;
+  margin: $base-padding-normal;
+  display: flex;
+}
+
+.scout-report, .scout-position, .scout-spy, .scout-guess {
+  @include radius($scout-report-radius);
+  flex-grow: 1;
+  padding: 0 $base-padding-normal;
+  margin: 0 $base-padding-normal;
+  width: $scout-report-width;
+  text-align: center;
+  border: solid $scout-report-border $game-text-color;
+}

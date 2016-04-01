@@ -12,7 +12,7 @@ import {HeaderComponent} from './header.component';
     selector: 'clash-of-lords',
     template: `
     <div class="clash-container">
-        <header [lord]="activeLord()" class="clash-header"></header>
+        <header [lord]="activeLord()" class="clash-header lord{{activeLordIndex()}}"></header>
         <region-board class="clash-game" [region]="region"></region-board>
         <dashboard [hidden]="false" [lord]="activeLord()" [lords]="lords" class="clash-console"></dashboard>
     </div>
@@ -35,6 +35,10 @@ export class ClashOfLordsComponent implements OnInit {
 
     public activeLord():Lord {
         return this._gameService.activeLord;
+    }
+
+    public activeLordIndex():number {
+        return this.lords.indexOf(this.activeLord());
     }
 
     private loadRegion():void {
