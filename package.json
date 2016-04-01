@@ -14,7 +14,7 @@
   "scripts": {
     "preinstall": "npm i typings -g",
     "postinstall": "./node_modules/.bin/typings install && gulp serve-heroku",
-    "start": "node index.js",
+    "start": "node server.js",
     "test": "gulp test",
     "coveralls": "node ./node_modules/coveralls/bin/coveralls.js < ./report/remap/lcov.info"
   },
