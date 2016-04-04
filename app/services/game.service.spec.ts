@@ -11,10 +11,17 @@ import {ActionPoints} from '../pieces/game/ActionPoints';
 import {MessageHerald} from './message.herald';
 import {Message} from '../pieces/game/message/Message';
 import {GameDirector} from './game-director';
+import {Plot} from '../pieces/world/Plot';
+import {PlotKind} from '../pieces/world/PlotKind';
+import {MessageLevel} from '../pieces/game/message/MessageLevel';
 
 describe('GameService', () => {
 
-    beforeEachProviders(() => [GameService, GameDirector, provide(MessageHerald, {useClass: MockMessageHerald})]);
+    beforeEachProviders(() => [
+        GameService,
+        GameDirector,
+        provide(MessageHerald, {useValue: new MockMessageHerald()})
+    ]);
 
     it('should have region factory set', inject([GameService], (gameService:GameService) => {
         expect(gameService.regionFactory).toEqual(new RegionFactory());
@@ -110,6 +117,16 @@ describe('GameService', () => {
 
     });
 
+    describe('changePlot', () => {
+
+        it('should set current plot to argument', inject([GameService], (gameService:GameService) => {
+            let next:Plot = new Plot(null, null);
+            gameService.changePlot(next);
+            expect(gameService.currentPlot).toBe(next);
+        }));
+
+    });
+
     describe('changeAvailableAction', () => {
 
         var coordinates:Coordinates;
@@ -132,6 +149,207 @@ describe('GameService', () => {
             gameService.changeAvailableAction(coordinates);
             expect(gameService.availableAction).toEqual('pippo');
         }));
+
+    });
+
+    describe('run', () => {
+
+        let lord:Lord;
+        let plot01:Plot;
+        let plot10:Plot;
+        let plot12:Plot;
+
+        beforeEach(inject([GameService, MessageHerald], (gameService:GameService, messageHerald:MessageHerald) => {
+            let castlePlot:Plot = new Plot(PlotKind.CASTLE, new Coordinates(1, 1));
+            plot01 = new Plot(PlotKind.PLAIN, new Coordinates(0, 1));
+            plot10 = new Plot(PlotKind.PLAIN, new Coordinates(1, 0));
+            plot12 = new Plot(PlotKind.PLAIN, new Coordinates(1, 2));
+
+            lord = new Lord();
+            lord.actionPoints = new ActionPoints(5);
+            lord.domain = [castlePlot, plot12];
+
+            let enemy:Lord = new Lord();
+            enemy.domain = [plot01];
+
+            gameService.politics = new Politics();
+            gameService.politics.setDimension(3);
+            gameService.politics.domainMap[1][1] = lord;
+            gameService.politics.domainMap[0][1] = enemy;
+            gameService.politics.domainMap[1][2] = lord;
+            gameService.lords = [lord];
+            gameService.activeLord = lord;
+
+            spyOn(messageHerald, 'assert');
+        }));
+
+        describe('colonize', () => {
+
+            beforeEach(inject([GameService], (gameService:GameService) => {
+                gameService.availableAction = 'Colonize';
+                gameService.currentPlot = plot10;
+            }));
+
+            it('should pay with colonizer money', inject(
+                [GameService],
+                (gameService:GameService) => {
+                    gameService.run();
+                    expect(lord.actionPoints).toEqual(new ActionPoints(4));
+                }));
+
+            it('should print message', inject(
+                [GameService, MessageHerald],
+                (gameService:GameService, messageHerald:MessageHerald) => {
+                    gameService.run();
+                    expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Colonized plot at (1,0)', MessageLevel.INFO));
+                }));
+
+            it('should print error message', inject(
+                [GameService, MessageHerald],
+                (gameService:GameService, messageHerald:MessageHerald) => {
+                    lord.domain = [];
+                    gameService.run();
+                    expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Plot must be reachable from a castle!', MessageLevel.WARN));
+                }));
+
+        });
+
+        describe('conquer', () => {
+
+            beforeEach(inject([GameService], (gameService:GameService) => {
+                gameService.availableAction = 'Conquer';
+                gameService.currentPlot = plot01;
+            }));
+
+            it('should pay with conqueror money', inject(
+                [GameService],
+                (gameService:GameService) => {
+                    gameService.run();
+                    expect(lord.actionPoints).toEqual(new ActionPoints(2));
+                }));
+
+            it('should print message', inject(
+                [GameService, MessageHerald],
+                (gameService:GameService, messageHerald:MessageHerald) => {
+                    gameService.run();
+                    expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Conquered plot at (0,1)', MessageLevel.INFO));
+                }));
+
+            it('should print error message', inject(
+                [GameService, MessageHerald],
+                (gameService:GameService, messageHerald:MessageHerald) => {
+                    lord.domain = [];
+                    gameService.run();
+                    expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Plot must be reachable from a castle!', MessageLevel.WARN));
+                }));
+
+        });
+
+        describe('fortify', () => {
+
+            beforeEach(inject([GameService], (gameService:GameService) => {
+                gameService.availableAction = 'Fortify';
+                gameService.currentPlot = plot12;
+            }));
+
+            it('should pay with fortifier money', inject(
+                [GameService],
+                (gameService:GameService) => {
+                    gameService.run();
+                    expect(lord.actionPoints).toEqual(new ActionPoints(4));
+                }));
+
+            it('should print message', inject(
+                [GameService, MessageHerald],
+                (gameService:GameService, messageHerald:MessageHerald) => {
+                    gameService.run();
+                    expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Fortified plot at (1,2)', MessageLevel.INFO));
+                }));
+
+            it('should print error message', inject(
+                [GameService, MessageHerald],
+                (gameService:GameService, messageHerald:MessageHerald) => {
+                    plot12.fortified = true;
+                    gameService.run();
+                    expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Cannot fortify an already fortified plot', MessageLevel.WARN));
+                }));
+
+        });
+
+    });
+
+    describe('dryRun', () => {
+
+        let lord:Lord;
+        let plot01:Plot;
+        let plot10:Plot;
+        let plot12:Plot;
+
+        beforeEach(inject([GameService], (gameService:GameService) => {
+            let castlePlot:Plot = new Plot(PlotKind.CASTLE, new Coordinates(1, 1));
+            plot01 = new Plot(PlotKind.PLAIN, new Coordinates(0, 1));
+            plot10 = new Plot(PlotKind.PLAIN, new Coordinates(1, 0));
+            plot12 = new Plot(PlotKind.PLAIN, new Coordinates(1, 2));
+
+            lord = new Lord();
+            lord.actionPoints = new ActionPoints(5);
+            lord.domain = [castlePlot, plot12];
+
+            let enemy:Lord = new Lord();
+            enemy.domain = [plot01];
+
+            gameService.politics = new Politics();
+            gameService.politics.setDimension(3);
+            gameService.politics.domainMap[1][1] = lord;
+            gameService.politics.domainMap[0][1] = enemy;
+            gameService.politics.domainMap[1][2] = lord;
+            gameService.lords = [lord];
+            gameService.activeLord = lord;
+        }));
+
+        it('should return 0 when no action is selected', inject([GameService], (gameService:GameService) => {
+            gameService.availableAction = '';
+            expect(gameService.dryRun()).toEqual(new ActionPoints(0));
+        }));
+
+        describe('colonize', () => {
+
+            beforeEach(inject([GameService], (gameService:GameService) => {
+                gameService.availableAction = 'Colonize';
+                gameService.currentPlot = plot10;
+            }));
+
+            it('should return 4', inject([GameService], (gameService:GameService) => {
+                expect(gameService.dryRun()).toEqual(new ActionPoints(1));
+            }));
+
+        });
+
+        describe('conquer', () => {
+
+            beforeEach(inject([GameService], (gameService:GameService) => {
+                gameService.availableAction = 'Conquer';
+                gameService.currentPlot = plot01;
+            }));
+
+            it('should return 2', inject([GameService], (gameService:GameService) => {
+                expect(gameService.dryRun()).toEqual(new ActionPoints(3));
+            }));
+
+        });
+
+        describe('fortify', () => {
+
+            beforeEach(inject([GameService], (gameService:GameService) => {
+                gameService.availableAction = 'Fortify';
+                gameService.currentPlot = plot12;
+            }));
+
+            it('return 4', inject([GameService], (gameService:GameService) => {
+                expect(gameService.dryRun()).toEqual(new ActionPoints(1));
+            }));
+
+        });
 
     });
 

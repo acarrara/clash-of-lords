@@ -40,7 +40,7 @@ export class GameService {
 
     public loadSavedGame():Observable<Region> {
         return Observable.create((observer:Observer<Region>) => {
-            var region:Region = this.createRegion(save);
+            var region:Region = this.regionFactory.fromJson(save.region);
             this.createLords(save);
             this.createPolitics(region);
             observer.next(region);
@@ -176,8 +176,4 @@ export class GameService {
             (!Objects.isDefined(neighbour) ||
             current !== neighbour);
     }
-
-    private createRegion(savedGame:Save):Region {
-        return this.regionFactory.fromJson(savedGame.region);
-    };
 }

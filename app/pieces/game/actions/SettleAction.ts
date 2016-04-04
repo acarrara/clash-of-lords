@@ -17,9 +17,7 @@ export abstract class SettleAction extends ActiveAction {
     }
 
     public updatePolitics():void {
-        if (this.settling.kind.colonizable) {
-            this.politics.settle(this.settler, this.settling.coordinates);
-        }
+        this.politics.settle(this.settler, this.settling.coordinates);
         this.settling.fortified = false;
     }
 

@@ -55,15 +55,17 @@ describe('PlotComponent: component', () => {
             .catch(e => done.fail(e));
     });
 
-    it('should render a plot with id 2_0 and classes plot and f', done => {
+    it('should render a plot with id 2_0 and classes plot, f and fortified', done => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance,
                     element:any       = fixture.nativeElement;
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(0, 0));
+                plotComponent.plot.fortified = true;
                 fixture.detectChanges();
                 expect(element.querySelector('div').id).toBe('0_0');
                 expect(element.querySelector('div')).toHaveCssClass('plot');
                 expect(element.querySelector('div')).toHaveCssClass('f');
+                expect(element.querySelector('div')).toHaveCssClass('fortified');
                 done();
             })
             .catch(e => done.fail(e));
@@ -95,7 +97,7 @@ describe('PlotComponent: component', () => {
             .catch(e => done.fail(e));
     });
 
-    xit('should call game service conquer when action is "Conquer"', done => {
+    it('should call game service conquer when action is "Conquer"', done => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance;
                 var forest:Plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
@@ -122,11 +124,7 @@ export class MockGameService {
         return 'pippo';
     }
 
-    public conquer():void {
-        // do nothing
-    }
-
-    public colonize():void {
+    public run():void {
         // do nothing
     }
 

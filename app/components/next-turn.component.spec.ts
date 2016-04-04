@@ -25,7 +25,6 @@ describe('NextTurnComponent: component', () => {
 
     it('should order Bonnie and Clyde on treasure size', done => {
         tcb.createAsync(NextTurnComponent).then(fixture => {
-                // let nextTurnComponent:NextTurnComponent = fixture.componentInstance,
                 let element:any = fixture.nativeElement;
                 element.querySelector('#nextturn').dispatchEvent(new Event('click'));
                 fixture.detectChanges();
