@@ -1,45 +1,26 @@
-import {Action} from './Action';
-import {ActionPoints} from '../ActionPoints';
 import {Politics} from '../Politics';
 import {Lord} from '../Lord';
 import {Plot} from '../../world/Plot';
+import {ActiveAction} from './ActiveAction';
 
-export abstract class SettleAction implements Action<ActionPoints> {
+export abstract class SettleAction extends ActiveAction {
 
-    public costCoefficient:number;
     public politics:Politics;
-    public settler:Lord;
-    public settling:Plot;
 
     constructor(costCoefficient:number, settler:Lord, settling:Plot, politics:Politics) {
-        this.costCoefficient = costCoefficient;
+        super(costCoefficient, settler, settling);
         this.politics = politics;
-        this.settler = settler;
-        this.settling = settling;
     }
-
-    public abstract run(cost:ActionPoints):ActionPoints;
-
-    public calculateCost(actionPoints:ActionPoints):ActionPoints {
-        var cost:number = this.settling.kind.worth * this.costCoefficient;
-        cost = Math.round(cost);
-        var remnant:ActionPoints = actionPoints.subtract(new ActionPoints(cost));
-        return remnant;
-    };
 
     public updateSettlerDomain():void {
         this.settler.gain(this.settling);
-    };
+    }
 
     public updatePolitics():void {
         if (this.settling.kind.colonizable) {
             this.politics.settle(this.settler, this.settling.coordinates);
         }
-    };
+        this.settling.fortified = false;
+    }
 
-    public checkDebt(remnant:ActionPoints, actionPoints:ActionPoints):void {
-        if (remnant.isDebt()) {
-            throw new Error('Unsufficient Action Points: ' + actionPoints.amount);
-        }
-    };
 }

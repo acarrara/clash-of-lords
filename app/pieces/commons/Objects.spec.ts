@@ -21,4 +21,14 @@ describe('Objects', () => {
             expect(Objects.isNotDefined(undefined)).toEqual(true);
         });
     });
+
+    describe('toNumber', () => {
+        it('should return 1 when value is true', () => {
+            expect(Objects.toNumber(true)).toEqual(1);
+        });
+
+        it('should return 0 when value is false', () => {
+            expect(Objects.toNumber(false)).toEqual(0);
+        });
+    });
 });

@@ -6,4 +6,8 @@ export class Objects {
     public static isNotDefined(object:any):boolean {
         return !Objects.isDefined(object);
     }
+
+    public static toNumber(value:boolean):number {
+        return (<number><any> value) + 0;
+    }
 }

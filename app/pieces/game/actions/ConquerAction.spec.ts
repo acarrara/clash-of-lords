@@ -129,6 +129,44 @@ describe('ConquerAction', () => {
                 expect(conquered.domain).toEqual([plainPlot, castlePlot]);
             });
 
+            it('dry run should return 9', () => {
+                expect(conquerAction.dryRun()).toEqual(new ActionPoints(9));
+            });
+
+        });
+
+        describe('conquer plain when fortified', () => {
+
+            beforeEach(() => {
+                politics.domainMap[0][1] = conqueror;
+                conqueror.domain = [forestPlot];
+                conquered.domain = [plainPlot, castlePlot, mountainPlot];
+                forestPlot.kind = PlotKind.CASTLE;
+                plainPlot.fortified = true;
+                conquerAction = new ConquerAction(conqueror, plainPlot, politics);
+                actual = conquerAction.run(startActionPoints);
+            });
+
+            it('should return 9 Action Points', () => {
+                expect(actual).toEqual(new ActionPoints(9));
+            });
+
+            it('should change politics with new lord in plot', () => {
+                expect(politics.lordAt(new Coordinates(0, 0))).toEqual(conqueror);
+            });
+
+            it('should add plot to the lord domain', () => {
+                expect(conqueror.domain).toEqual([forestPlot, plainPlot]);
+            });
+
+            it('should remove plot from the conquered domain', () => {
+                expect(conquered.domain).toEqual([castlePlot, mountainPlot]);
+            });
+
+            it('should remove fortification from the conquered plot', () => {
+                expect(plainPlot.fortified).toEqual(false);
+            });
+
         });
 
         it('conquer should throw "debt" error', () => {

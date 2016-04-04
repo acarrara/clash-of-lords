@@ -95,7 +95,7 @@ describe('PlotComponent: component', () => {
             .catch(e => done.fail(e));
     });
 
-    it('should call game service conquer when action is "Conquer"', done => {
+    xit('should call game service conquer when action is "Conquer"', done => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance;
                 var forest:Plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
@@ -107,17 +107,6 @@ describe('PlotComponent: component', () => {
             .catch(e => done.fail(e));
     });
 
-    it('should call game service colonize when action is "Colonize"', done => {
-        tcb.createAsync(PlotComponent).then(fixture => {
-                let plotComponent:any = fixture.componentInstance;
-                var forest:Plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
-                plotComponent.plot = forest;
-                plotComponent.availableAction = 'Colonize';
-                plotComponent.action();
-                done();
-            })
-            .catch(e => done.fail(e));
-    });
 });
 
 export class MockGameService {

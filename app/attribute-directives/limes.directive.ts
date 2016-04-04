@@ -31,6 +31,10 @@ export class LimesDirective implements DoCheck {
 
         this.el.nativeElement.classList.add(this.plot.kind.name);
 
+        if (this.plot.fortified) {
+            this.el.nativeElement.classList.add('fortified');
+        }
+
         if (this._gameService.isRight(this.plot.coordinates)) {
             this.el.nativeElement.classList.add('limes-right');
         }

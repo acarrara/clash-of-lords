@@ -13,7 +13,7 @@ export class ColonizeAction extends SettleAction {
 
     public run(actionPoints:ActionPoints):ActionPoints {
         this.checkColonizable();
-        var remnant:ActionPoints = this.calculateCost(actionPoints);
+        var remnant:ActionPoints = this.evaluateCost(actionPoints);
         this.checkDebt(remnant, actionPoints);
         this.updateSettlerDomain();
         this.updatePolitics();

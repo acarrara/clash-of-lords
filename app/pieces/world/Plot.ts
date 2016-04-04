@@ -3,12 +3,15 @@ import {Coordinates} from './Coordinates';
 
 export class Plot {
 
+    public fortified:boolean;
+
     private _kind:PlotKind;
     private _coordinates:Coordinates;
 
     public constructor(kind:PlotKind, coordinates:Coordinates) {
         this._kind = kind;
         this._coordinates = coordinates;
+        this.fortified = false;
     }
 
     public get constructible():boolean {

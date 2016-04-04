@@ -11,7 +11,7 @@ export class ConquerAction extends SettleAction {
     }
 
     public run(actionPoints:ActionPoints):ActionPoints {
-        var remnant:ActionPoints = this.calculateCost(actionPoints);
+        var remnant:ActionPoints = this.evaluateCost(actionPoints);
         this.checkDebt(remnant, actionPoints);
         this.updateConqueredDomain();
         this.updateSettlerDomain();

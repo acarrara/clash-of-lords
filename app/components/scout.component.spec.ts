@@ -7,6 +7,7 @@ import {PlotKind} from '../pieces/world/PlotKind';
 import {Coordinates} from '../pieces/world/Coordinates';
 import {PoliticsFactory} from '../pieces/game/PoliticsFactory';
 import {Lord} from '../pieces/game/Lord';
+import {ActionPoints} from '../pieces/game/ActionPoints';
 
 describe('ScoutComponent: component', () => {
     let tcb:TestComponentBuilder;
@@ -18,6 +19,9 @@ describe('ScoutComponent: component', () => {
     lord.name = 'Bonnie';
     lord.domain = [];
     gameService.politics = new PoliticsFactory().fromLords(4, [lord]);
+    gameService.dryRun = ():ActionPoints => {
+        return new ActionPoints(8);
+    };
 
     beforeEachProviders(() => [
         TestComponentBuilder,
@@ -37,7 +41,8 @@ describe('ScoutComponent: component', () => {
                 expect(element.querySelector('.scout-position').innerHTML).toEqual('(0, 0)');
                 expect(element.querySelector('.scout-report').innerHTML).toEqual('Plain');
                 expect(element.querySelector('.scout-spy').innerHTML).toEqual('Uncolonized');
-                expect(element.querySelector('.scout-guess').innerHTML).toEqual('run');
+                expect(element.querySelector('.scout-advice').innerHTML).toEqual('run');
+                expect(element.querySelector('.scout-guess').innerHTML).toEqual('8 AP');
                 done();
             })
             .catch(e => done.fail(e));
@@ -53,7 +58,8 @@ describe('ScoutComponent: component', () => {
                 expect(element.querySelector('.scout-position').innerHTML).toEqual('(0, 0)');
                 expect(element.querySelector('.scout-report').innerHTML).toEqual('Plain');
                 expect(element.querySelector('.scout-spy').innerHTML).toEqual('Bonnie');
-                expect(element.querySelector('.scout-guess').innerHTML).toEqual('run');
+                expect(element.querySelector('.scout-advice').innerHTML).toEqual('run');
+                expect(element.querySelector('.scout-guess').innerHTML).toEqual('8 AP');
                 done();
             })
             .catch(e => done.fail(e));

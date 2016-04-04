@@ -8,7 +8,7 @@ import {ScoutComponent} from './scout.component';
         <div class="header">
             <div class="header-lord">
                 <div class="lord-name">{{lord.name}}</div>
-                <div class="lord-ap">{{lord.actionPoints.amount}}</div>
+                <div class="lord-ap">{{lord.actionPoints.amount}} AP</div>
                 <div class="lord-treasure">{{lord.treasure}} $</div>
             </div>
             <scout></scout>

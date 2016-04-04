@@ -5,6 +5,16 @@ $plot-grid-width: 0.5px;
 $plot-limes-width: 2px;
 $plot-background-color: transparent;
 
+@mixin fortify {
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  transform: translateX(-16px) translateY(2px);
+  border: solid 2px;
+}
+
 .plot {
   margin: $plot-grid-width;
   border-width: $plot-limes-width;
@@ -21,6 +31,13 @@ $plot-background-color: transparent;
   &.selected {
     background-color: $plot-hover-color;
   }
+  @for $i from 1 through length($colors) {
+    $color: nth($colors, $i);
+    &.fortified.lord#{$i - 1}:after {
+      @include fortify;
+      border-color: #{$color};
+    }
+  }
 }
 
 .plot_image {
@@ -28,7 +45,7 @@ $plot-background-color: transparent;
   position: absolute;
   width: $plot-image-dimension;
   height: $plot-image-dimension;
-  z-index: 1;
+  z-index: 2;
 }
 
 .m {
@@ -82,4 +99,8 @@ $plot-background-color: transparent;
       border-#{$direction}-color: #{$color}
     }
   }
+}
+
+.fortified2 {
+  background: repeating-linear-gradient(45deg, #5dae43, #5DAE43 7px, darkblue 8px, darkblue 9px)
 }

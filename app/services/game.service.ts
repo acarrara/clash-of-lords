@@ -16,6 +16,8 @@ import {MessageLevel} from '../pieces/game/message/MessageLevel';
 import {Message} from '../pieces/game/message/Message';
 import {MessageHerald} from './message.herald';
 import {ConquerAction} from '../pieces/game/actions/ConquerAction';
+import {FortifyAction} from '../pieces/game/actions/FortifyAction';
+import {ActionPoints} from '../pieces/game/ActionPoints';
 
 @Injectable()
 export class GameService {
@@ -93,11 +95,65 @@ export class GameService {
         return this.availableAction;
     }
 
+    public run():void {
+        switch (this.availableAction) {
+            case 'Conquer':
+            {
+                this.conquer(this.currentPlot);
+                break;
+            }
+            case 'Colonize':
+            {
+                this.colonize(this.currentPlot);
+                break;
+            }
+            case 'Fortify':
+            {
+                this.fortify(this.currentPlot);
+                break;
+            }
+        }
+    }
+
+    public dryRun():ActionPoints {
+        switch (this.availableAction) {
+            case 'Conquer':
+            {
+                var conquerAction:ConquerAction = new ConquerAction(this.activeLord, this.currentPlot, this.politics);
+                return conquerAction.dryRun();
+            }
+            case 'Colonize':
+            {
+                var colonizeAction:ColonizeAction = new ColonizeAction(this.activeLord, this.currentPlot, this.politics);
+                return colonizeAction.dryRun();
+            }
+            case 'Fortify':
+            {
+                var fortifyAction:FortifyAction = new FortifyAction(this.activeLord, this.currentPlot);
+                return fortifyAction.dryRun();
+            }
+            default:
+            {
+                return new ActionPoints(0);
+            }
+        }
+    }
+
     public colonize(plot:Plot):void {
         var colonizeAction:ColonizeAction = new ColonizeAction(this.activeLord, plot, this.politics);
         try {
             this.activeLord.actionPoints = colonizeAction.run(this.activeLord.actionPoints);
             this._herald.assert(new Message('Colonized plot at (' + plot.coordinates.x + ',' + plot.coordinates.y + ')', MessageLevel.INFO));
+        } catch (e) {
+            this._herald.assert(new Message(e.message, MessageLevel.WARN));
+        }
+    }
+
+    public fortify(plot:Plot):void {
+        var fortifyAction:FortifyAction = new FortifyAction(this.activeLord, plot);
+        try {
+            this.activeLord.actionPoints = fortifyAction.run(this.activeLord.actionPoints);
+            this._herald.assert(new Message('Fortified plot at (' + plot.coordinates.x + ',' + plot.coordinates.y + ')', MessageLevel.INFO));
         } catch (e) {
             this._herald.assert(new Message(e.message, MessageLevel.WARN));
         }

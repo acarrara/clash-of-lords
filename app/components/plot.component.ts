@@ -33,18 +33,7 @@ export class PlotComponent {
     }
 
     public action():void {
-        switch (this.availableAction) {
-            case 'Conquer':
-            {
-                this._gameService.conquer(this.plot);
-                break;
-            }
-            case 'Colonize':
-            {
-                this._gameService.colonize(this.plot);
-                break;
-            }
-        }
+        this._gameService.run();
     }
 
 }

@@ -1,6 +1,6 @@
 $scout-report-radius: 4px;
 $scout-report-border: 1px;
-$scout-report-width: 160px;
+$scout-report-width: 120px;
 
 .scout {
   font-family: $font-family;
@@ -11,7 +11,7 @@ $scout-report-width: 160px;
   display: flex;
 }
 
-.scout-report, .scout-position, .scout-spy, .scout-guess {
+.scout-report, .scout-position, .scout-advice, .scout-spy, .scout-guess {
   @include radius($scout-report-radius);
   flex-grow: 1;
   padding: 0 $base-padding-normal;

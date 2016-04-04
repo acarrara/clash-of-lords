@@ -60,6 +60,10 @@ describe('ColonizeAction', () => {
                 expect(colonizer.domain).toEqual([forestPlot, plainPlot]);
             });
 
+            it('dry run should return 1', () => {
+                actual = colonizeAction.dryRun();
+                expect(actual).toEqual(new ActionPoints(1));
+            });
         });
 
         describe('colonize forest', () => {
@@ -82,6 +86,17 @@ describe('ColonizeAction', () => {
 
             it('should add plot to the lord domain', () => {
                 expect(colonizer.domain).toEqual([plainPlot, forestPlot]);
+            });
+
+            it('dry run should return 2', () => {
+                actual = colonizeAction.dryRun();
+                expect(actual).toEqual(new ActionPoints(2));
+            });
+
+            it('dry run should not colonize plot', () => {
+                politics.domainMap[0][1] = undefined;
+                actual = colonizeAction.dryRun();
+                expect(politics.lordAt(new Coordinates(0, 1))).toBeUndefined();
             });
 
         });
@@ -107,6 +122,11 @@ describe('ColonizeAction', () => {
                 expect(colonizer.domain).toEqual([forestPlot, mountainPlot]);
             });
 
+            it('dry run should return 3', () => {
+                actual = colonizeAction.dryRun();
+                expect(actual).toEqual(new ActionPoints(3));
+            });
+
         });
         it('colonize should throw "debt" error', () => {
             colonizeAction = new ColonizeAction(colonizer, mountainPlot, politics);
@@ -122,7 +142,7 @@ describe('ColonizeAction', () => {
             });
         });
 
-        describe('colonize castle', () => {
+        describe('colonize water', () => {
 
             it('should throw "uncolonizable" error', () => {
                 colonizeAction = new ColonizeAction(colonizer, waterPlot, politics);
