@@ -9,12 +9,12 @@
     "url": "https://github.com/acarrara/clash-of-lords.git"
   },
   "engines": {
-    "node": "5.8.0"
+    "node": "5.10.0"
   },
   "scripts": {
-    "preinstall": "npm i typings",
-    "postinstall": "./node_modules/.bin/typings install; gulp serve-heroku",
-    "start": "node server.js",
+    "preinstall": "npm i typings -g",
+    "postinstall": "./node_modules/.bin/typings install && gulp serve-heroku",
+    "start": "node server.js build",
     "test": "gulp test",
     "coveralls": "node ./node_modules/coveralls/bin/coveralls.js < ./report/remap/lcov.info"
   },

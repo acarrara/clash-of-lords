@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, enableProdMode} from 'angular2/core';
 import {RegionBoardComponent} from './region-board.component';
 import {Region} from '../pieces/world/Region';
 import {Lord} from '../pieces/game/Lord';
@@ -8,6 +8,8 @@ import {HeaderComponent} from './header.component';
 import {MessageHerald} from '../services/message.herald';
 import {GameDirector} from '../services/game-director';
 import {FakeBackend} from '../services/fake.backend';
+
+enableProdMode();
 
 @Component({
     selector: 'clash-of-lords',
