@@ -1,4 +1,4 @@
-import {beforeEach, beforeEachProviders, describe, inject, TestComponentBuilder} from 'angular2/testing';
+import {beforeEach, beforeEachProviders, describe, expect, inject, TestComponentBuilder} from 'angular2/testing';
 import {ScoutComponent} from './scout.component';
 import {GameService} from '../services/game.service';
 import {provide} from 'angular2/core';
@@ -19,6 +19,7 @@ describe('ScoutComponent: component', () => {
     lord.name = 'Bonnie';
     lord.domain = [];
     gameService.politics = new PoliticsFactory().fromLords(4, [lord]);
+    gameService.activeLord = lord;
     gameService.dryRun = ():ActionPoints => {
         return new ActionPoints(8);
     };
@@ -27,7 +28,6 @@ describe('ScoutComponent: component', () => {
         TestComponentBuilder,
         ScoutComponent,
         provide(GameService, {useValue: gameService})
-
     ]);
 
     beforeEach(inject([TestComponentBuilder], _tcb => {
@@ -37,12 +37,14 @@ describe('ScoutComponent: component', () => {
     it('should fill header with plot info', done => {
         tcb.createAsync(ScoutComponent).then(fixture => {
                 let element:any = fixture.nativeElement;
+                lord.actionPoints = new ActionPoints(9);
                 fixture.detectChanges();
-                expect(element.querySelector('.scout-position').innerHTML).toEqual('(0, 0)');
-                expect(element.querySelector('.scout-report').innerHTML).toEqual('Plain');
-                expect(element.querySelector('.scout-spy').innerHTML).toEqual('Uncolonized');
-                expect(element.querySelector('.scout-advice').innerHTML).toEqual('run');
-                expect(element.querySelector('.scout-guess').innerHTML).toEqual('8 AP');
+                expect(element.querySelector('.scout-position').innerHTML).toContain('(0, 0)');
+                expect(element.querySelector('.scout-report').innerHTML).toContain('Plain');
+                expect(element.querySelector('.scout-spy').innerHTML).toContain('Uncolonized');
+                expect(element.querySelector('.scout-advice').innerHTML).toContain('run');
+                expect(element.querySelector('.scout-guess').innerHTML).toContain('8 AP');
+                expect(element.querySelector('.scout-guess')).not.toHaveCssClass('unsufficient');
                 done();
             })
             .catch(e => done.fail(e));
@@ -52,14 +54,14 @@ describe('ScoutComponent: component', () => {
         tcb.createAsync(ScoutComponent).then(fixture => {
                 let element:any = fixture.nativeElement;
                 gameService.politics.domainMap[0][0] = lord;
-                gameService.politics.domainMap[0][0] = lord;
-
+                lord.actionPoints = new ActionPoints(2);
                 fixture.detectChanges();
-                expect(element.querySelector('.scout-position').innerHTML).toEqual('(0, 0)');
-                expect(element.querySelector('.scout-report').innerHTML).toEqual('Plain');
-                expect(element.querySelector('.scout-spy').innerHTML).toEqual('Bonnie');
-                expect(element.querySelector('.scout-advice').innerHTML).toEqual('run');
-                expect(element.querySelector('.scout-guess').innerHTML).toEqual('8 AP');
+                expect(element.querySelector('.scout-position').innerHTML).toContain('(0, 0)');
+                expect(element.querySelector('.scout-report').innerHTML).toContain('Plain');
+                expect(element.querySelector('.scout-spy').innerHTML).toContain('Bonnie');
+                expect(element.querySelector('.scout-advice').innerHTML).toContain('run');
+                expect(element.querySelector('.scout-guess').innerHTML).toContain('8 AP');
+                expect(element.querySelector('.scout-guess')).toHaveCssClass('unsufficient');
                 done();
             })
             .catch(e => done.fail(e));

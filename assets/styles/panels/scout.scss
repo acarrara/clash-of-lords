@@ -1,6 +1,7 @@
 $scout-report-radius: 4px;
 $scout-report-border: 1px;
 $scout-report-width: 120px;
+$scout-tooltip-length: 120px;
 
 .scout {
   font-family: $font-family;
@@ -19,4 +20,42 @@ $scout-report-width: 120px;
   width: $scout-report-width;
   text-align: center;
   border: solid $scout-report-border $game-text-color;
+  position: relative;
+
+  &:hover .tooltip {
+    visibility: visible;
+  }
+}
+
+.tooltip {
+  @include radius(5px);
+  visibility: hidden;
+  position: absolute;
+  width: $scout-tooltip-length;
+  background-color: $game-background-color;
+  opacity: $game-opacity;
+  color: $game-text-color;
+  text-align: center;
+  padding: $base-padding-normal $base-padding-great;
+  z-index: 1;
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent $game-background-color transparent;
+  }
+}
+
+.tooltip-bottom {
+  top: 200%;
+  left: 50%;
+  margin-left: -$scout-tooltip-length/2 - $base-padding-great;
+}
+
+.unsufficient {
+  color: $message-error-color;
 }

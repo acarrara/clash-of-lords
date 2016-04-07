@@ -3,6 +3,8 @@ import {ConsoleComponent} from './console.component';
 import {MessageLevel} from '../pieces/game/message/MessageLevel';
 import {Message} from '../pieces/game/message/Message';
 import {MessageHerald} from '../services/message.herald';
+import {provide} from 'angular2/core';
+import {Subscription} from 'rxjs/Subscription';
 
 describe('ConsoleComponent: component', () => {
     let tcb:TestComponentBuilder;
@@ -10,7 +12,7 @@ describe('ConsoleComponent: component', () => {
     beforeEachProviders(() => [
         TestComponentBuilder,
         ConsoleComponent,
-        MessageHerald
+        [provide(MessageHerald, {useClass: MockMessageHerald})]
     ]);
 
     beforeEach(inject([TestComponentBuilder], _tcb => {
@@ -44,10 +46,48 @@ describe('ConsoleComponent: component', () => {
                 fixture.detectChanges();
                 var allMessageDivs:NodeListOf<Element> = element.querySelectorAll('.message');
                 expect(allMessageDivs.length).toEqual(9);
-                expect(allMessageDivs.item(0).innerHTML).toEqual('&gt; msg1');
-                expect(allMessageDivs.item(8).innerHTML).toEqual('&gt; msg9');
+                expect(allMessageDivs.item(0).innerHTML).toEqual('&gt; msg2');
+                expect(allMessageDivs.item(8).innerHTML).toEqual('&gt; init');
+                done();
+            })
+            .catch(e => done.fail(e));
+    });
+
+    it('should render 9 messages from 1 to 9', done => {
+        tcb.createAsync(ConsoleComponent).then(fixture => {
+                let consoleComponent:ConsoleComponent = fixture.componentInstance,
+                    element:any                       = fixture.nativeElement;
+                consoleComponent.messages = [];
+                for (let i:number = 0; i < 10; i++) {
+                    consoleComponent.addMessage(new Message('msg' + i, MessageLevel.INFO));
+                }
+                fixture.detectChanges();
+                var allMessageDivs:NodeListOf<Element> = element.querySelectorAll('.message');
+                expect(allMessageDivs.length).toEqual(9);
+                expect(allMessageDivs.item(0).innerHTML).toEqual('&gt; msg2');
+                expect(allMessageDivs.item(8).innerHTML).toEqual('&gt; init');
+                done();
+            })
+            .catch(e => done.fail(e));
+    });
+
+    it('should add message when herald asserts', done => {
+        tcb.createAsync(ConsoleComponent).then(fixture => {
+                let consoleComponent:ConsoleComponent = fixture.componentInstance,
+                    element:any                       = fixture.nativeElement;
+                consoleComponent.ngOnInit();
+                fixture.detectChanges();
+                expect(element.querySelector('.message').innerHTML).toEqual('&gt; init');
                 done();
             })
             .catch(e => done.fail(e));
     });
 });
+
+class MockMessageHerald extends MessageHerald {
+
+    public listen(callback:(message:Message) => void):Subscription {
+        callback(new Message('init', MessageLevel.INFO));
+        return null;
+    }
+}

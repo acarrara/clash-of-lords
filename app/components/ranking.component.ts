@@ -3,13 +3,15 @@ import {NgFor} from 'angular2/common';
 import {Lord} from '../pieces/game/Lord';
 import {Arrays} from '../pieces/commons/Arrays';
 import {Objects} from '../pieces/commons/Objects';
+import {DisplayDomainDirective} from '../attribute-directives/display-domain.directive';
 
 @Component({
     selector: 'ranking',
     template: `
     <div class="stats">
         <div class="stats-title reverse">Rankings</div>
-            <div *ngFor="#lord of rankedLords; #i=index" class="stats-element">
+            <div *ngFor="#lord of rankedLords; #i=index" 
+            class="stats-element" [display-domain]="lord.domain">
             <div class="element-icon treasure{{i}}"></div>
             <div class="element-name reverse">{{lord.name}}</div>
             <div class="element-number reverse">
@@ -20,7 +22,7 @@ import {Objects} from '../pieces/commons/Objects';
     </div>
     `,
     inputs: ['lords'],
-    directives: [NgFor]
+    directives: [NgFor, DisplayDomainDirective]
 })
 export class RankingComponent implements DoCheck {
     public lords:Lord[];

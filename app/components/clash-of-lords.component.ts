@@ -4,9 +4,9 @@ import {Region} from '../pieces/world/Region';
 import {Lord} from '../pieces/game/Lord';
 import {GameService} from '../services/game.service';
 import {DashboardComponent} from './dashboard.component';
+import {HeaderComponent} from './header.component';
 import {MessageHerald} from '../services/message.herald';
 import {GameDirector} from '../services/game-director';
-import {HeaderComponent} from './header.component';
 
 @Component({
     selector: 'clash-of-lords',
@@ -17,8 +17,16 @@ import {HeaderComponent} from './header.component';
         <dashboard [hidden]="false" [lord]="activeLord()" [lords]="lords" class="clash-console"></dashboard>
     </div>
     `,
-    directives: [RegionBoardComponent, DashboardComponent, HeaderComponent],
-    providers: [GameService, MessageHerald, GameDirector]
+    directives: [
+        RegionBoardComponent,
+        DashboardComponent,
+        HeaderComponent]
+    ,
+    providers: [
+        GameService,
+        MessageHerald,
+        GameDirector
+    ]
 })
 export class ClashOfLordsComponent implements OnInit {
 

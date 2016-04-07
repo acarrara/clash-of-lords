@@ -32,6 +32,8 @@ export class GameService {
     public currentPlot:Plot;
     public availableAction:string;
 
+    public displayed:Plot[];
+
     constructor(private _herald:MessageHerald, private _director:GameDirector) {
         this.regionFactory = new RegionFactory();
         this.politicsFactory = new PoliticsFactory();
@@ -42,7 +44,7 @@ export class GameService {
         return Observable.create((observer:Observer<Region>) => {
             var region:Region = this.regionFactory.fromJson(save.region);
             this.createLords(save);
-            this.createPolitics(region);
+            this.politics = this.politicsFactory.fromLords(region.plots.length, this.lords);
             observer.next(region);
             observer.complete();
         });
@@ -77,13 +79,9 @@ export class GameService {
         this.currentPlot = this.activeLord.domain[0];
     }
 
-    public createPolitics(region:Region):void {
-        this.politics = this.politicsFactory.fromLords(region.plots.length, this.lords);
-    }
-
     public nextTurn():void {
         this.activeLord = this._director.nextTurn();
-        this._herald.assert(new Message('It\'s ' + this.activeLord.name + ' turn.', MessageLevel.INFO));
+        this._herald.assert(new Message('It\'s ' + this.activeLord.name + '\'s turn.', MessageLevel.INFO));
     };
 
     public changePlot(plot:Plot):void {
@@ -93,6 +91,14 @@ export class GameService {
     public changeAvailableAction(coordinates:Coordinates):string {
         this.availableAction = this.politics.availableAction(this.activeLord, coordinates);
         return this.availableAction;
+    }
+
+    public setDisplayed(domain:Plot[]):void {
+        this.displayed = domain;
+    }
+
+    public unsetDisplayed():void {
+        this.setDisplayed(undefined);
     }
 
     public run():void {

@@ -2,6 +2,7 @@ $region-background-color: transparent;
 $region-margin: 10px;
 
 .region {
+  @include shadow(64, 8);
   background-color: $region-background-color;
   margin: $region-margin;
   transform: rotateX(45deg) rotateZ(45deg);

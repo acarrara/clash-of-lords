@@ -9,11 +9,21 @@ import {ActionPoints} from '../pieces/game/ActionPoints';
     selector: 'scout',
     template: `
     <div class="scout">
-        <div class="scout-position">({{currentPlot.coordinates.x}}, {{currentPlot.coordinates.y}})</div>
-        <div class="scout-report">{{currentPlot.kind.fullName}}</div>
-        <div class="scout-spy">{{settler}}</div>
-        <div class="scout-advice">{{availableAction}}</div>
-        <div class="scout-guess">{{guess.amount}} AP</div>
+        <div class="scout-position">({{currentPlot.coordinates.x}}, {{currentPlot.coordinates.y}})
+            <span class="tooltip tooltip-bottom">Coordinates</span>
+        </div>
+        <div class="scout-report">{{currentPlot.kind.fullName}}
+            <span class="tooltip tooltip-bottom">Terrain</span>
+        </div>
+        <div class="scout-spy">{{settler}}
+            <span class="tooltip tooltip-bottom">Settler</span>
+        </div>
+        <div class="scout-advice">{{availableAction}}
+            <span class="tooltip tooltip-bottom">Action</span>
+        </div>
+        <div class="scout-guess" [ngClass]="{unsufficient: unsufficient}">{{guess.amount}} AP
+            <span class="tooltip tooltip-bottom">Predicted cost</span>
+        </div>
     </div>
     `
 })
@@ -23,6 +33,7 @@ export class ScoutComponent implements DoCheck {
     public availableAction:string;
     public settler:string;
     public guess:ActionPoints;
+    public unsufficient:boolean;
 
     constructor(private _gameService:GameService) {
     }
@@ -33,6 +44,9 @@ export class ScoutComponent implements DoCheck {
         var settler:Lord = this._gameService.politics.lordAt(this.currentPlot.coordinates);
         this.settler = Objects.isDefined(settler) ? settler.name : 'Uncolonized';
         this.guess = this._gameService.dryRun();
+        this.unsufficient = this._gameService.activeLord.actionPoints.amount < this.guess.amount;
     }
 
 }
+
+// <!--<span class="tooltip tooltip-bottom">Coordinates</span>-->

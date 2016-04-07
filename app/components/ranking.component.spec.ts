@@ -2,13 +2,19 @@ import {beforeEach, beforeEachProviders, describe, inject, TestComponentBuilder}
 import {RankingComponent} from './ranking.component';
 import {Lord} from '../pieces/game/Lord';
 import {ActionPoints} from '../pieces/game/ActionPoints';
+import {DisplayDomainDirective} from '../attribute-directives/display-domain.directive';
+import {Directive, Input, provide} from 'angular2/core';
+import {Plot} from '../pieces/world/Plot';
+import {GameService} from '../services/game.service';
 
 describe('RankingComponent: component', () => {
     let tcb:TestComponentBuilder;
+    let gameService:GameService = new GameService(null, null);
 
     beforeEachProviders(() => [
         TestComponentBuilder,
-        RankingComponent
+        RankingComponent,
+        provide(GameService, {useValue: gameService})
     ]);
 
     beforeEach(inject([TestComponentBuilder], _tcb => {
@@ -28,7 +34,9 @@ describe('RankingComponent: component', () => {
     };
 
     it('should order Bonnie and Clyde on treasure size', done => {
-        tcb.createAsync(RankingComponent).then(fixture => {
+        tcb
+            .overrideDirective(RankingComponent, DisplayDomainDirective, MockDisplayDomainDirective)
+            .createAsync(RankingComponent).then(fixture => {
                 let rankingComponent:RankingComponent = fixture.componentInstance,
                     element:any                       = fixture.nativeElement;
                 rankingComponent.lords = buildLords();
@@ -48,7 +56,9 @@ describe('RankingComponent: component', () => {
     });
 
     it('should order Bonnie and Clyde on treasure size when ranking lords are empty', done => {
-        tcb.createAsync(RankingComponent).then(fixture => {
+        tcb
+            .overrideDirective(RankingComponent, DisplayDomainDirective, MockDisplayDomainDirective)
+            .createAsync(RankingComponent).then(fixture => {
                 let rankingComponent:RankingComponent = fixture.componentInstance,
                     element:any                       = fixture.nativeElement;
                 rankingComponent.rankedLords = [];
@@ -68,3 +78,11 @@ describe('RankingComponent: component', () => {
             .catch(e => done.fail(e));
     });
 });
+
+@Directive({
+    selector: '[display-domain]'
+})
+class MockDisplayDomainDirective {
+    @Input('display-domain')
+    public domain:Plot[];
+}
