@@ -13,7 +13,7 @@
   },
   "scripts": {
     "preinstall": "npm i typings",
-    "postinstall": "./node_modules/.bin/typings install && gulp serve-heroku",
+    "postinstall": "./node_modules/bower/bin/bower install && ./node_modules/.bin/typings install && gulp serve-heroku",
     "start": "node server.js build",
     "test": "gulp test",
     "coveralls": "node ./node_modules/coveralls/bin/coveralls.js < ./report/remap/lcov.info"
@@ -33,6 +33,7 @@
   "license": "MIT",
   "dependencies": {
     "angular2": "2.0.0-beta.13",
+    "bower": "^1.7.9",
     "coveralls": "^2.11.8",
     "del": "~2.2.0",
     "es6-promise": "^3.1.2",
