@@ -353,6 +353,29 @@ describe('GameService', () => {
 
     });
 
+    describe('load', () => {
+
+        let save:Save;
+
+        beforeEach(inject([GameService], (gameService:GameService) => {
+            save = new Save();
+            save.lords = [];
+            save.region = '[' +
+                '["m","m"],' +
+                '["m","m"]]';
+            gameService.load(save);
+        }));
+
+        it('should set lords from saved', inject([GameService], (gameService:GameService) => {
+            expect(gameService.lords).toEqual(save.lords);
+        }));
+
+        it('should populate politics from saved', inject([GameService], (gameService:GameService) => {
+            expect(gameService.politics.domainMap.length).toEqual(2);
+        }));
+
+    });
+
 });
 
 class MockMessageHerald {

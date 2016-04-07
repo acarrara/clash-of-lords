@@ -7,6 +7,7 @@ import {DashboardComponent} from './dashboard.component';
 import {HeaderComponent} from './header.component';
 import {MessageHerald} from '../services/message.herald';
 import {GameDirector} from '../services/game-director';
+import {FakeBackend} from '../services/fake.backend';
 
 @Component({
     selector: 'clash-of-lords',
@@ -23,6 +24,7 @@ import {GameDirector} from '../services/game-director';
         HeaderComponent]
     ,
     providers: [
+        FakeBackend,
         GameService,
         MessageHerald,
         GameDirector
@@ -33,7 +35,7 @@ export class ClashOfLordsComponent implements OnInit {
     public region:Region;
     public lords:Lord[];
 
-    constructor(private _gameService:GameService) {
+    constructor(private _gameService:GameService, private _backend:FakeBackend) {
         this.region = new Region([[]]);
     }
 
@@ -50,7 +52,7 @@ export class ClashOfLordsComponent implements OnInit {
     }
 
     private loadRegion():void {
-        this._gameService.loadSavedGame().subscribe((region:Region):void => {
+        this._backend.loadSavedGame().subscribe((region:Region):void => {
             this.region = region;
             this.lords = this._gameService.lords;
             this._gameService.startGame();

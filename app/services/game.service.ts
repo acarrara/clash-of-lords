@@ -1,4 +1,3 @@
-import {save} from '../mock-region';
 import {Save} from '../pieces/game/Save';
 import {Injectable} from 'angular2/core';
 import {Region} from '../pieces/world/Region';
@@ -8,7 +7,6 @@ import {PoliticsFactory} from '../pieces/game/PoliticsFactory';
 import {Lord} from '../pieces/game/Lord';
 import {Coordinates} from '../pieces/world/Coordinates';
 import {Objects} from '../pieces/commons/Objects';
-import {Observable, Observer} from 'rxjs/Rx';
 import {ColonizeAction} from '../pieces/game/actions/ColonizeAction';
 import {Plot} from '../pieces/world/Plot';
 import {GameDirector} from './game-director';
@@ -40,14 +38,10 @@ export class GameService {
         this.politics = new Politics();
     }
 
-    public loadSavedGame():Observable<Region> {
-        return Observable.create((observer:Observer<Region>) => {
-            var region:Region = this.regionFactory.fromJson(save.region);
-            this.createLords(save);
-            this.politics = this.politicsFactory.fromLords(region.plots.length, this.lords);
-            observer.next(region);
-            observer.complete();
-        });
+    public load(save:Save):void {
+        var region:Region = this.regionFactory.fromJson(save.region);
+        this.createLords(save);
+        this.politics = this.politicsFactory.fromLords(region.plots.length, this.lords);
     }
 
     public isRight(current:Coordinates):boolean {
