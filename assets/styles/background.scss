@@ -12,6 +12,7 @@ html, body {
   right: 0;
   background-color: $game-background-color;
   opacity: $game-opacity;
+  z-index: -1;
 }
 
 .clash-container {

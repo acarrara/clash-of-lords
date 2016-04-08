@@ -5,8 +5,6 @@ import {Lord} from '../pieces/game/Lord';
 import {GameService} from '../services/game.service';
 import {DashboardComponent} from './dashboard.component';
 import {HeaderComponent} from './header.component';
-import {MessageHerald} from '../services/message.herald';
-import {GameDirector} from '../services/game-director';
 import {FakeBackend} from '../services/fake.backend';
 
 @Component({
@@ -22,13 +20,6 @@ import {FakeBackend} from '../services/fake.backend';
         RegionBoardComponent,
         DashboardComponent,
         HeaderComponent]
-    ,
-    providers: [
-        FakeBackend,
-        GameService,
-        MessageHerald,
-        GameDirector
-    ]
 })
 export class ClashOfLordsComponent implements OnInit {
 

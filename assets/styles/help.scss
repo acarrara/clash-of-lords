@@ -1,0 +1,47 @@
+$help-button-dimension: 50px;
+$col-button-dimension: 200px;
+
+.nav {
+  cursor: pointer;
+  border: 2px solid $game-text-color;
+  background-color: transparent;
+  color: $game-text-color;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-family;
+  font-size: $font-size-big;
+}
+
+.navhelp {
+  @include shadow(8, 4);
+  position: absolute;
+  top: 60px;
+  left: 20px;
+}
+
+.circle {
+  @include radius($help-button-dimension/2);
+  height: $help-button-dimension;
+  width: $help-button-dimension;
+}
+
+.navcol {
+  width: $col-button-dimension;
+}
+
+.help-text {
+  font-family: $font-family;
+  font-size: $font-size-base;
+  text-align: center;
+  color: $game-text-color;
+  padding: 50px 0;
+}
+
+.help-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
