@@ -16,6 +16,7 @@ import {MessageHerald} from './message.herald';
 import {ConquerAction} from '../pieces/game/actions/ConquerAction';
 import {FortifyAction} from '../pieces/game/actions/FortifyAction';
 import {ActionPoints} from '../pieces/game/ActionPoints';
+import {BuildAction} from '../pieces/game/actions/BuildAction';
 
 @Injectable()
 export class GameService {
@@ -23,6 +24,7 @@ export class GameService {
     public regionFactory:RegionFactory;
     public politicsFactory:PoliticsFactory;
 
+    public region:Region;
     public politics:Politics;
     public lords:Lord[];
 
@@ -32,16 +34,19 @@ export class GameService {
 
     public displayed:Plot[];
 
+    public started:boolean;
+
     constructor(private _herald:MessageHerald, private _director:GameDirector) {
         this.regionFactory = new RegionFactory();
         this.politicsFactory = new PoliticsFactory();
         this.politics = new Politics();
+        this.started = false;
     }
 
     public load(save:Save):void {
-        var region:Region = this.regionFactory.fromJson(save.region);
+        this.region = this.regionFactory.fromJson(save.region);
         this.createLords(save);
-        this.politics = this.politicsFactory.fromLords(region.plots.length, this.lords);
+        this.politics = this.politicsFactory.fromLords(this.region.plots.length, this.lords);
     }
 
     public isRight(current:Coordinates):boolean {
@@ -71,6 +76,7 @@ export class GameService {
         }
         this.nextTurn();
         this.currentPlot = this.activeLord.domain[0];
+        this.started = true;
     }
 
     public nextTurn():void {
@@ -136,6 +142,18 @@ export class GameService {
             {
                 return new ActionPoints(0);
             }
+        }
+    }
+
+    public build():void {
+        var buildAction:BuildAction = new BuildAction(this.activeLord, this.currentPlot, this.region);
+        try {
+            this.activeLord.actionPoints = buildAction.run(this.activeLord.actionPoints);
+            this._herald.assert(
+                new Message('Built castle at (' + this.currentPlot.coordinates.x + ',' + this.currentPlot.coordinates.y + ')', MessageLevel.INFO)
+            );
+        } catch (e) {
+            this._herald.assert(new Message(e.message, MessageLevel.WARN));
         }
     }
 

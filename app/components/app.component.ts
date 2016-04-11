@@ -3,7 +3,7 @@ import {Component} from 'angular2/core';
 import {ClashOfLordsComponent} from './clash-of-lords.component';
 import {MessageHerald} from '../services/message.herald';
 import {GameService} from '../services/game.service';
-import {FakeBackend} from '../services/fake.backend';
+import {MockBackend} from '../services/mock.backend';
 import {GameDirector} from '../services/game-director';
 import {HelpComponent} from './help.component';
 
@@ -18,7 +18,7 @@ import {HelpComponent} from './help.component';
     ],
     providers: [
         ROUTER_PROVIDERS,
-        FakeBackend,
+        MockBackend,
         GameService,
         MessageHerald,
         GameDirector

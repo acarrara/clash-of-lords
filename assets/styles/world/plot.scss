@@ -17,8 +17,7 @@ $plot-background-color: transparent;
 
 .plot {
   margin: $plot-grid-width;
-  border-width: $plot-limes-width;
-  border-style: solid;
+  border: $plot-limes-width solid;
   width: $plot-dimension;
   height: $plot-dimension;
   position: relative;

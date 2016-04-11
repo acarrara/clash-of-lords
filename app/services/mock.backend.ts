@@ -7,7 +7,7 @@ import {Observer} from 'rxjs/Observer';
 import {RegionFactory} from '../pieces/world/RegionFactory';
 
 @Injectable()
-export class FakeBackend {
+export class MockBackend {
 
     constructor(private _gameService:GameService) {
     }

@@ -38,8 +38,7 @@ describe('RegionBoardComponent: component', () => {
         tcb.createAsync(RegionBoardComponent).then(fixture => {
                 let regionBoardComponent:RegionBoardComponent = fixture.componentInstance,
                     element:any                               = fixture.nativeElement;
-                var region:Region = new Region([[new Plot(PlotKind.FOREST, new Coordinates(0, 0))]]);
-                regionBoardComponent.region = region;
+                regionBoardComponent.region = new Region([[new Plot(PlotKind.FOREST, new Coordinates(0, 0))]]);
                 fixture.detectChanges();
                 expect(element.querySelector('.row').id).toEqual('0');
                 expect(element.querySelector('.plot').id).toEqual('0_0');

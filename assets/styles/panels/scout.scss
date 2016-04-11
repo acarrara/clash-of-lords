@@ -44,9 +44,8 @@ $scout-tooltip-length: 120px;
     bottom: 100%;
     left: 50%;
     margin-left: -6px;
-    border-width: 6px;
-    border-style: solid;
-    border-color: transparent transparent $game-background-color transparent;
+    border: 6px solid transparent;
+    border-bottom-color: $game-background-color;
   }
 }
 

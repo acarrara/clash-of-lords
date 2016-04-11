@@ -8,13 +8,66 @@ import {GameService} from '../services/game.service';
 import {Politics} from '../pieces/game/Politics';
 import {Lord} from '../pieces/game/Lord';
 
+export class MockGameService {
+
+    public politics:Politics;
+    public lords:Lord[];
+
+    constructor() {
+        this.initMock();
+    }
+
+    public changeAvailableAction(dest:Coordinates):string {
+        return 'pippo';
+    }
+
+    public run():void {
+        // do nothing
+    }
+
+    public build():void {
+        // do nothing
+    }
+
+    public changePlot(plot:Plot):void {
+        // do nothing
+    }
+
+    public isRight(current:Coordinates):boolean {
+        return current.x % 2 === 0;
+    }
+
+    public isLeft(current:Coordinates):boolean {
+        return current.x % 2 === 0;
+    }
+
+    public isTop(current:Coordinates):boolean {
+        return current.x % 2 === 0;
+    }
+
+    public isBottom(current:Coordinates):boolean {
+        return current.x % 2 === 0;
+    }
+
+    private initMock():void {
+        this.politics = new Politics();
+        this.politics.domainMap = [[], [], []];
+        var lord:Lord = new Lord();
+        this.politics.domainMap[1][0] = lord;
+        this.politics.domainMap[2][0] = lord;
+        this.lords = [lord];
+    }
+}
+
 describe('PlotComponent: component', () => {
     let tcb:TestComponentBuilder;
+
+    let mockGameService:MockGameService = new MockGameService();
 
     beforeEachProviders(() => [
         TestComponentBuilder,
         PlotComponent,
-        provide(GameService, {useClass: MockGameService})
+        provide(GameService, {useValue: mockGameService})
     ]);
 
     beforeEach(inject([TestComponentBuilder], _tcb => {
@@ -100,60 +153,32 @@ describe('PlotComponent: component', () => {
     it('should call game service conquer when action is "Conquer"', done => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance;
-                var forest:Plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
-                plotComponent.plot = forest;
+                spyOn(mockGameService, 'run');
+                plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
                 plotComponent.availableAction = 'Conquer';
                 plotComponent.action();
+                expect(mockGameService.run).toHaveBeenCalled();
+                done();
+            })
+            .catch(e => done.fail(e));
+    });
+
+    it('should call game service build when action context menu', done => {
+        tcb.createAsync(PlotComponent).then(fixture => {
+                let plotComponent:any   = fixture.componentInstance,
+                    element:HTMLElement = fixture.nativeElement;
+                let contextMenuEvent:Event = new Event('contextmenu');
+                spyOn(mockGameService, 'build');
+                spyOn(contextMenuEvent, 'preventDefault');
+                plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
+                fixture.detectChanges();
+                element.querySelector('.plot').dispatchEvent(contextMenuEvent);
+                fixture.detectChanges();
+                expect(mockGameService.build).toHaveBeenCalled();
+                expect(contextMenuEvent.preventDefault).toHaveBeenCalled();
                 done();
             })
             .catch(e => done.fail(e));
     });
 
 });
-
-export class MockGameService {
-
-    public politics:Politics;
-    public lords:Lord[];
-
-    constructor() {
-        this.initMock();
-    }
-
-    public changeAvailableAction(dest:Coordinates):string {
-        return 'pippo';
-    }
-
-    public run():void {
-        // do nothing
-    }
-
-    public changePlot(plot:Plot):void {
-        // do nothing
-    }
-
-    public isRight(current:Coordinates):boolean {
-        return current.x % 2 === 0;
-    }
-
-    public isLeft(current:Coordinates):boolean {
-        return current.x % 2 === 0;
-    }
-
-    public isTop(current:Coordinates):boolean {
-        return current.x % 2 === 0;
-    }
-
-    public isBottom(current:Coordinates):boolean {
-        return current.x % 2 === 0;
-    }
-
-    private initMock():void {
-        this.politics = new Politics();
-        this.politics.domainMap = [[], [], []];
-        var lord:Lord = new Lord();
-        this.politics.domainMap[1][0] = lord;
-        this.politics.domainMap[2][0] = lord;
-        this.lords = [lord];
-    };
-}

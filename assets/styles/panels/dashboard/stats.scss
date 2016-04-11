@@ -57,8 +57,7 @@
 
 .element-icon {
   flex-basis: $text-container-height;
-  background-repeat: no-repeat;
-  background-position: center;
+  background: no-repeat center;
   padding: $base-padding-great;
 
   &.bm {

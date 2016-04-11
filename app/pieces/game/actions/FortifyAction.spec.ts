@@ -39,12 +39,12 @@ describe('FortifyAction', () => {
                 expect(plot.fortified).toEqual(true);
             });
 
-            it('conquer should throw "debt" error', () => {
+            it('build should throw "debt" error', () => {
                 plot.fortified = false;
                 expect(() => fortifyAction.run(new ActionPoints(1))).toThrowError('Unsufficient Action Points: 1');
             });
 
-            it('conquer should throw "already fortified" error', () => {
+            it('build should throw "already fortified" error', () => {
                 plot.fortified = true;
                 expect(() => fortifyAction.run(new ActionPoints(1))).toThrowError('Cannot fortify an already fortified plot');
             });

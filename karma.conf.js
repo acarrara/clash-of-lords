@@ -46,7 +46,7 @@ module.exports = function (config) {
         reporters: ['progress', 'coverage'],
 
         preprocessors: {
-            'app/**/!(*.spec)+(.js)': ['coverage'],
+            'app/**/!(*.spec||mock*)+(.js)': ['coverage'],
             'app/**/*.js': ['sourcemap']
         },
 
@@ -117,4 +117,4 @@ module.exports = function (config) {
     }
 
     config.set(configuration);
-}
+};

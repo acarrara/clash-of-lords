@@ -9,6 +9,7 @@ import {GameService} from '../services/game.service';
     <div
     id="{{plot.coordinates.x}}_{{plot.coordinates.y}}"
     (click)="action()"
+    (contextmenu)="build($event)"
     [limes]="plot"></div>
     `,
     host: {
@@ -34,6 +35,11 @@ export class PlotComponent {
 
     public action():void {
         this._gameService.run();
+    }
+
+    public build($event:Event):void {
+        $event.preventDefault();
+        this._gameService.build();
     }
 
 }

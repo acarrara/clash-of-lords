@@ -7,7 +7,6 @@ export class FortifyAction extends ActiveAction {
 
     constructor(settler:Lord, settling:Plot) {
         super(1, settler, settling);
-
     }
 
     public run(actionPoints:ActionPoints):ActionPoints {

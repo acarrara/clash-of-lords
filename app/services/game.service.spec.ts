@@ -14,6 +14,7 @@ import {GameDirector} from './game-director';
 import {Plot} from '../pieces/world/Plot';
 import {PlotKind} from '../pieces/world/PlotKind';
 import {MessageLevel} from '../pieces/game/message/MessageLevel';
+import {Region} from '../pieces/world/Region';
 
 describe('GameService', () => {
 
@@ -155,15 +156,21 @@ describe('GameService', () => {
     describe('run', () => {
 
         let lord:Lord;
+        let castlePlot:Plot;
         let plot01:Plot;
         let plot10:Plot;
         let plot12:Plot;
 
         beforeEach(inject([GameService, MessageHerald], (gameService:GameService, messageHerald:MessageHerald) => {
-            let castlePlot:Plot = new Plot(PlotKind.CASTLE, new Coordinates(1, 1));
+            castlePlot = new Plot(PlotKind.CASTLE, new Coordinates(1, 1));
             plot01 = new Plot(PlotKind.PLAIN, new Coordinates(0, 1));
             plot10 = new Plot(PlotKind.PLAIN, new Coordinates(1, 0));
             plot12 = new Plot(PlotKind.PLAIN, new Coordinates(1, 2));
+
+            let region:Region = new Region([
+                [undefined, plot01, undefined],
+                [plot10, castlePlot, plot12]
+            ]);
 
             lord = new Lord();
             lord.actionPoints = new ActionPoints(5);
@@ -179,6 +186,7 @@ describe('GameService', () => {
             gameService.politics.domainMap[1][2] = lord;
             gameService.lords = [lord];
             gameService.activeLord = lord;
+            gameService.region = region;
 
             spyOn(messageHerald, 'assert');
         }));
@@ -272,6 +280,39 @@ describe('GameService', () => {
                     plot12.fortified = true;
                     gameService.run();
                     expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Cannot fortify an already fortified plot', MessageLevel.WARN));
+                }));
+
+        });
+
+        describe('build', () => {
+
+            beforeEach(inject([GameService], (gameService:GameService) => {
+                gameService.currentPlot = plot12;
+                lord.actionPoints = new ActionPoints(9);
+                castlePlot.kind = PlotKind.PLAIN;
+                gameService.build();
+            }));
+
+            it('should pay with builder money', inject(
+                [GameService, MessageHerald],
+                (gameService:GameService) => {
+                    expect(gameService.activeLord.actionPoints).toEqual(new ActionPoints(1));
+                }));
+
+            it('should print message', inject(
+                [MessageHerald],
+                (messageHerald:MessageHerald) => {
+                    expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Built castle at (1,2)', MessageLevel.INFO));
+                }));
+
+            it('should print error message', inject(
+                [GameService, MessageHerald],
+                (gameService:GameService, messageHerald:MessageHerald) => {
+                    plot12.kind = PlotKind.CASTLE;
+                    gameService.currentPlot = plot12;
+                    lord.actionPoints = new ActionPoints(9);
+                    gameService.build();
+                    expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Plot already has a castle', MessageLevel.WARN));
                 }));
 
         });
