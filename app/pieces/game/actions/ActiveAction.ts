@@ -2,36 +2,37 @@ import {Action} from './Action';
 import {ActionPoints} from '../ActionPoints';
 import {Lord} from '../Lord';
 import {Plot} from '../../world/Plot';
-import {Objects} from '../../commons/Objects';
+import {ActionCost} from './ActionCost';
+import {MessageLevel} from '../message/MessageLevel';
+import {Message} from '../message/Message';
 
 export abstract class ActiveAction implements Action<ActionPoints> {
 
-    public costCoefficient:number;
+    public actionCost:ActionCost;
     public settler:Lord;
     public settling:Plot;
 
-    constructor(costCoefficient:number, settler:Lord, settling:Plot) {
-        this.costCoefficient = costCoefficient;
+    constructor(actionCost:ActionCost, settler:Lord, settling:Plot) {
+        this.actionCost = actionCost;
         this.settler = settler;
         this.settling = settling;
     }
 
     public abstract run(cost:ActionPoints):ActionPoints;
 
+    public getMessage():Message {
+        return new Message(this.getActionResult() + ' at (' + this.settling.coordinates.x + ',' + this.settling.coordinates.y + ')', MessageLevel.INFO);
+    }
+
+    public abstract getActionResult():string;
+
     public dryRun():ActionPoints {
-        return this.calculateCost();
+        return this.actionCost.evaluate(this.settling);
     }
 
     public evaluateCost(actionPoints:ActionPoints):ActionPoints {
-        let cost:ActionPoints = this.calculateCost();
+        let cost:ActionPoints = this.actionCost.evaluate(this.settling);
         return actionPoints.subtract(cost);
-    }
-
-    public calculateCost():ActionPoints {
-        var fortificationCoefficient:number = Objects.toNumber(this.settling.fortified);
-        var cost:number = this.settling.kind.worth * this.costCoefficient * ++fortificationCoefficient;
-        cost = Math.round(cost);
-        return new ActionPoints(cost);
     }
 
     public checkDebt(remnant:ActionPoints, actionPoints:ActionPoints):void {

@@ -2,6 +2,7 @@ import {Component} from 'angular2/core';
 import {Plot} from '../pieces/world/Plot';
 import {LimesDirective} from '../attribute-directives/limes.directive';
 import {GameService} from '../services/game.service';
+import {AvailableAction} from '../pieces/game/actions/AvailableAction';
 
 @Component({
     selector: 'plot',
@@ -20,7 +21,7 @@ import {GameService} from '../services/game.service';
 })
 export class PlotComponent {
     public plot:Plot;
-    public availableAction:string;
+    public availableAction:AvailableAction;
 
     constructor(private _gameService:GameService) {
     }

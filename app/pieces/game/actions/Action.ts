@@ -1,7 +1,8 @@
 import {ActionPoints} from '../ActionPoints';
+import {ActionCost} from './ActionCost';
 
 export interface Action<T> {
-    costCoefficient:number;
+    actionCost:ActionCost;
 
     run(cost:ActionPoints):T;
 

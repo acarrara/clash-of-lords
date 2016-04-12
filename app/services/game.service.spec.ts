@@ -6,7 +6,6 @@ import {Coordinates} from '../pieces/world/Coordinates';
 import {PoliticsFactory} from '../pieces/game/PoliticsFactory';
 import {Politics} from '../pieces/game/Politics';
 import {Lord} from '../pieces/game/Lord';
-import {Save} from '../pieces/game/Save';
 import {ActionPoints} from '../pieces/game/ActionPoints';
 import {MessageHerald} from './message.herald';
 import {Message} from '../pieces/game/message/Message';
@@ -15,6 +14,10 @@ import {Plot} from '../pieces/world/Plot';
 import {PlotKind} from '../pieces/world/PlotKind';
 import {MessageLevel} from '../pieces/game/message/MessageLevel';
 import {Region} from '../pieces/world/Region';
+import {AvailableAction} from '../pieces/game/actions/AvailableAction';
+import {ActionCostFactory} from '../pieces/game/actions/ActionCostFactory';
+import {ActionFactory} from '../pieces/game/actions/ActionFactory';
+import {Save} from '../pieces/game/Save';
 
 describe('GameService', () => {
 
@@ -34,6 +37,18 @@ describe('GameService', () => {
 
     it('should have politics set', inject([GameService], (gameService:GameService) => {
         expect(gameService.politics).toEqual(new Politics());
+    }));
+
+    it('should have action cost factory set', inject([GameService], (gameService:GameService) => {
+        expect(gameService.actionCostFactory).toEqual(new ActionCostFactory());
+    }));
+
+    it('should have action factory set', inject([GameService], (gameService:GameService) => {
+        expect(gameService.actionFactory).toEqual(new ActionFactory());
+    }));
+
+    it('should have action set to nothing', inject([GameService], (gameService:GameService) => {
+        expect(gameService.availableAction).toEqual(AvailableAction.NOTHING);
     }));
 
     describe('isDirections()', () => {
@@ -194,7 +209,7 @@ describe('GameService', () => {
         describe('colonize', () => {
 
             beforeEach(inject([GameService], (gameService:GameService) => {
-                gameService.availableAction = 'Colonize';
+                gameService.availableAction = AvailableAction.COLONIZE;
                 gameService.currentPlot = plot10;
             }));
 
@@ -222,10 +237,10 @@ describe('GameService', () => {
 
         });
 
-        describe('conquer', () => {
+        describe(AvailableAction.CONQUER, () => {
 
             beforeEach(inject([GameService], (gameService:GameService) => {
-                gameService.availableAction = 'Conquer';
+                gameService.availableAction = AvailableAction.CONQUER;
                 gameService.currentPlot = plot01;
             }));
 
@@ -253,10 +268,10 @@ describe('GameService', () => {
 
         });
 
-        describe('fortify', () => {
+        describe(AvailableAction.FORTIFY, () => {
 
             beforeEach(inject([GameService], (gameService:GameService) => {
-                gameService.availableAction = 'Fortify';
+                gameService.availableAction = AvailableAction.FORTIFY;
                 gameService.currentPlot = plot12;
             }));
 
@@ -314,81 +329,6 @@ describe('GameService', () => {
                     gameService.build();
                     expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Plot already has a castle', MessageLevel.WARN));
                 }));
-
-        });
-
-    });
-
-    describe('dryRun', () => {
-
-        let lord:Lord;
-        let plot01:Plot;
-        let plot10:Plot;
-        let plot12:Plot;
-
-        beforeEach(inject([GameService], (gameService:GameService) => {
-            let castlePlot:Plot = new Plot(PlotKind.CASTLE, new Coordinates(1, 1));
-            plot01 = new Plot(PlotKind.PLAIN, new Coordinates(0, 1));
-            plot10 = new Plot(PlotKind.PLAIN, new Coordinates(1, 0));
-            plot12 = new Plot(PlotKind.PLAIN, new Coordinates(1, 2));
-
-            lord = new Lord();
-            lord.actionPoints = new ActionPoints(5);
-            lord.domain = [castlePlot, plot12];
-
-            let enemy:Lord = new Lord();
-            enemy.domain = [plot01];
-
-            gameService.politics = new Politics();
-            gameService.politics.setDimension(3);
-            gameService.politics.domainMap[1][1] = lord;
-            gameService.politics.domainMap[0][1] = enemy;
-            gameService.politics.domainMap[1][2] = lord;
-            gameService.lords = [lord];
-            gameService.activeLord = lord;
-        }));
-
-        it('should return 0 when no action is selected', inject([GameService], (gameService:GameService) => {
-            gameService.availableAction = '';
-            expect(gameService.dryRun()).toEqual(new ActionPoints(0));
-        }));
-
-        describe('colonize', () => {
-
-            beforeEach(inject([GameService], (gameService:GameService) => {
-                gameService.availableAction = 'Colonize';
-                gameService.currentPlot = plot10;
-            }));
-
-            it('should return 4', inject([GameService], (gameService:GameService) => {
-                expect(gameService.dryRun()).toEqual(new ActionPoints(1));
-            }));
-
-        });
-
-        describe('conquer', () => {
-
-            beforeEach(inject([GameService], (gameService:GameService) => {
-                gameService.availableAction = 'Conquer';
-                gameService.currentPlot = plot01;
-            }));
-
-            it('should return 2', inject([GameService], (gameService:GameService) => {
-                expect(gameService.dryRun()).toEqual(new ActionPoints(3));
-            }));
-
-        });
-
-        describe('fortify', () => {
-
-            beforeEach(inject([GameService], (gameService:GameService) => {
-                gameService.availableAction = 'Fortify';
-                gameService.currentPlot = plot12;
-            }));
-
-            it('return 4', inject([GameService], (gameService:GameService) => {
-                expect(gameService.dryRun()).toEqual(new ActionPoints(1));
-            }));
 
         });
 

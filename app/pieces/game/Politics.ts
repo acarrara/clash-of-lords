@@ -3,6 +3,7 @@ import {Coordinates} from '../world/Coordinates';
 import {Objects} from '../commons/Objects';
 import {PlotKind} from '../world/PlotKind';
 import {Plot} from '../world/Plot';
+import {AvailableAction} from './actions/AvailableAction';
 
 export class Politics {
 
@@ -30,20 +31,20 @@ export class Politics {
         this.domainMap[coordinates.x][coordinates.y] = settler;
     }
 
-    public availableAction(lord:Lord, dest:Coordinates):string {
+    public availableAction(lord:Lord, dest:Coordinates):AvailableAction {
         if (lord.plotAt(dest)) {
-            return 'Fortify';
+            return AvailableAction.FORTIFY;
         }
         if (this.isAdjacent(lord, dest)) {
             if (this.isSettled(dest)) {
-                return 'Conquer';
+                return AvailableAction.CONQUER;
             }
             if (!this.isCastleReachable(lord, dest)) {
-                return 'Unreachable';
+                return AvailableAction.UNREACHABLE;
             }
-            return 'Colonize';
+            return AvailableAction.COLONIZE;
         }
-        return 'Unreachable';
+        return AvailableAction.UNREACHABLE;
     }
 
     private isSettled(dest:Coordinates):boolean {

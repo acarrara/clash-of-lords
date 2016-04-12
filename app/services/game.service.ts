@@ -1,4 +1,3 @@
-import {Save} from '../pieces/game/Save';
 import {Injectable} from 'angular2/core';
 import {Region} from '../pieces/world/Region';
 import {RegionFactory} from '../pieces/world/RegionFactory';
@@ -7,22 +6,24 @@ import {PoliticsFactory} from '../pieces/game/PoliticsFactory';
 import {Lord} from '../pieces/game/Lord';
 import {Coordinates} from '../pieces/world/Coordinates';
 import {Objects} from '../pieces/commons/Objects';
-import {ColonizeAction} from '../pieces/game/actions/ColonizeAction';
 import {Plot} from '../pieces/world/Plot';
 import {GameDirector} from './game-director';
 import {MessageLevel} from '../pieces/game/message/MessageLevel';
 import {Message} from '../pieces/game/message/Message';
 import {MessageHerald} from './message.herald';
-import {ConquerAction} from '../pieces/game/actions/ConquerAction';
-import {FortifyAction} from '../pieces/game/actions/FortifyAction';
-import {ActionPoints} from '../pieces/game/ActionPoints';
-import {BuildAction} from '../pieces/game/actions/BuildAction';
+import {AvailableAction} from '../pieces/game/actions/AvailableAction';
+import {ActionFactory} from '../pieces/game/actions/ActionFactory';
+import {ActionCostFactory} from '../pieces/game/actions/ActionCostFactory';
+import {ActiveAction} from '../pieces/game/actions/ActiveAction';
+import {Save} from '../pieces/game/Save';
 
 @Injectable()
 export class GameService {
 
     public regionFactory:RegionFactory;
     public politicsFactory:PoliticsFactory;
+    public actionFactory:ActionFactory;
+    public actionCostFactory:ActionCostFactory;
 
     public region:Region;
     public politics:Politics;
@@ -30,7 +31,7 @@ export class GameService {
 
     public activeLord:Lord;
     public currentPlot:Plot;
-    public availableAction:string;
+    public availableAction:AvailableAction;
 
     public displayed:Plot[];
 
@@ -39,8 +40,11 @@ export class GameService {
     constructor(private _herald:MessageHerald, private _director:GameDirector) {
         this.regionFactory = new RegionFactory();
         this.politicsFactory = new PoliticsFactory();
+        this.actionFactory = new ActionFactory();
+        this.actionCostFactory = new ActionCostFactory();
         this.politics = new Politics();
         this.started = false;
+        this.availableAction = AvailableAction.NOTHING;
     }
 
     public load(save:Save):void {
@@ -88,7 +92,7 @@ export class GameService {
         this.currentPlot = plot;
     }
 
-    public changeAvailableAction(coordinates:Coordinates):string {
+    public changeAvailableAction(coordinates:Coordinates):AvailableAction {
         this.availableAction = this.politics.availableAction(this.activeLord, coordinates);
         return this.availableAction;
     }
@@ -102,89 +106,24 @@ export class GameService {
     }
 
     public run():void {
-        switch (this.availableAction) {
-            case 'Conquer':
-            {
-                this.conquer(this.currentPlot);
-                break;
-            }
-            case 'Colonize':
-            {
-                this.colonize(this.currentPlot);
-                break;
-            }
-            case 'Fortify':
-            {
-                this.fortify(this.currentPlot);
-                break;
-            }
-        }
-    }
-
-    public dryRun():ActionPoints {
-        switch (this.availableAction) {
-            case 'Conquer':
-            {
-                var conquerAction:ConquerAction = new ConquerAction(this.activeLord, this.currentPlot, this.politics);
-                return conquerAction.dryRun();
-            }
-            case 'Colonize':
-            {
-                var colonizeAction:ColonizeAction = new ColonizeAction(this.activeLord, this.currentPlot, this.politics);
-                return colonizeAction.dryRun();
-            }
-            case 'Fortify':
-            {
-                var fortifyAction:FortifyAction = new FortifyAction(this.activeLord, this.currentPlot);
-                return fortifyAction.dryRun();
-            }
-            default:
-            {
-                return new ActionPoints(0);
-            }
+        let action:ActiveAction = this.actionFactory.createAction(
+            this.availableAction,
+            this.currentPlot,
+            this.activeLord,
+            this.politics,
+            this.region
+        );
+        try {
+            this.activeLord.actionPoints = action.run(this.activeLord.actionPoints);
+            this._herald.assert(action.getMessage());
+        } catch (e) {
+            this._herald.assert(new Message(e.message, MessageLevel.WARN));
         }
     }
 
     public build():void {
-        var buildAction:BuildAction = new BuildAction(this.activeLord, this.currentPlot, this.region);
-        try {
-            this.activeLord.actionPoints = buildAction.run(this.activeLord.actionPoints);
-            this._herald.assert(
-                new Message('Built castle at (' + this.currentPlot.coordinates.x + ',' + this.currentPlot.coordinates.y + ')', MessageLevel.INFO)
-            );
-        } catch (e) {
-            this._herald.assert(new Message(e.message, MessageLevel.WARN));
-        }
-    }
-
-    public colonize(plot:Plot):void {
-        var colonizeAction:ColonizeAction = new ColonizeAction(this.activeLord, plot, this.politics);
-        try {
-            this.activeLord.actionPoints = colonizeAction.run(this.activeLord.actionPoints);
-            this._herald.assert(new Message('Colonized plot at (' + plot.coordinates.x + ',' + plot.coordinates.y + ')', MessageLevel.INFO));
-        } catch (e) {
-            this._herald.assert(new Message(e.message, MessageLevel.WARN));
-        }
-    }
-
-    public fortify(plot:Plot):void {
-        var fortifyAction:FortifyAction = new FortifyAction(this.activeLord, plot);
-        try {
-            this.activeLord.actionPoints = fortifyAction.run(this.activeLord.actionPoints);
-            this._herald.assert(new Message('Fortified plot at (' + plot.coordinates.x + ',' + plot.coordinates.y + ')', MessageLevel.INFO));
-        } catch (e) {
-            this._herald.assert(new Message(e.message, MessageLevel.WARN));
-        }
-    }
-
-    public conquer(plot:Plot):void {
-        var conquerAction:ConquerAction = new ConquerAction(this.activeLord, plot, this.politics);
-        try {
-            this.activeLord.actionPoints = conquerAction.run(this.activeLord.actionPoints);
-            this._herald.assert(new Message('Conquered plot at (' + plot.coordinates.x + ',' + plot.coordinates.y + ')', MessageLevel.INFO));
-        } catch (e) {
-            this._herald.assert(new Message(e.message, MessageLevel.WARN));
-        }
+        this.availableAction = AvailableAction.BUILD;
+        this.run();
     }
 
     private isBorder(coordinates:Coordinates, neighbourCoordinates:Coordinates):boolean {

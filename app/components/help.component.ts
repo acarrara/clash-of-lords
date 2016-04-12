@@ -1,5 +1,8 @@
 import {Component} from 'angular2/core';
 import {RouterLink} from 'angular2/router';
+import {Lord} from '../pieces/game/Lord';
+import {ActionPoints} from '../pieces/game/ActionPoints';
+import {TreasuryComponent} from './treasury.component';
 
 @Component({
     selector: `help`,
@@ -24,11 +27,24 @@ import {RouterLink} from 'angular2/router';
                         Actions can be run only on the plots (or adiacent ones) of a Lord's domain.<br/>
                         Action points are given at the beginning of a turn.</div>
                 </section>
+                <div class="help-example-container">
+                    <treasury [lord]="lord"></treasury>
+                </div>
             </div>
             <div class="nav navcol" [routerLink]="['ClashOfLords']">Back to game</div>
         </div>
     `,
-    directives: [RouterLink]
+    directives: [TreasuryComponent, RouterLink]
 })
 export class HelpComponent {
+
+    public lord:Lord;
+
+    constructor() {
+        this.lord = new Lord();
+        this.lord.name = 'Lord Help';
+        this.lord.actionPoints = new ActionPoints(99);
+        this.lord.treasure = 666;
+    }
+
 }

@@ -6,6 +6,7 @@ import {PlotKind} from '../../world/PlotKind';
 import {Region} from '../../world/Region';
 import {Coordinates} from '../../world/Coordinates';
 import {Objects} from '../../commons/Objects';
+import {ActionCost} from './ActionCost';
 
 export class BuildAction extends ActiveAction {
     private static DELTA:number = 3;
@@ -13,7 +14,7 @@ export class BuildAction extends ActiveAction {
     private _region:Region;
 
     constructor(settler:Lord, building:Plot, region:Region) {
-        super(1, settler, building);
+        super(new ActionCost(PlotKind.CASTLE.worth), settler, building);
         this._region = region;
     }
 
@@ -27,8 +28,8 @@ export class BuildAction extends ActiveAction {
         return remnant;
     }
 
-    public calculateCost():ActionPoints {
-        return new ActionPoints(PlotKind.CASTLE.worth * this.costCoefficient);
+    public getActionResult():string {
+        return 'Built castle';
     }
 
     private buildCastle():void {

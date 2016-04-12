@@ -4,6 +4,7 @@ import {Plot} from '../world/Plot';
 import {PlotKind} from '../world/PlotKind';
 import {PoliticsFactory} from './PoliticsFactory';
 import {Coordinates} from '../world/Coordinates';
+import {AvailableAction} from './actions/AvailableAction';
 
 describe('Politics', () => {
 
@@ -53,27 +54,27 @@ describe('Politics', () => {
 
         it('should return "Unreachable" when dest plot is Unreachable', () => {
             var dest:Coordinates = new Coordinates(3, 3);
-            expect(politics.availableAction(lord, dest)).toEqual('Unreachable');
+            expect(politics.availableAction(lord, dest)).toEqual(AvailableAction.UNREACHABLE);
         });
 
         it('should return "Colonize" when dest plot is unsettled and adjacent to lord domain', () => {
             var dest:Coordinates = new Coordinates(0, 1);
-            expect(politics.availableAction(lord, dest)).toEqual('Colonize');
+            expect(politics.availableAction(lord, dest)).toEqual(AvailableAction.COLONIZE);
         });
 
         it('should return "Conquer" when dest plot is settled by another lord and adjacent to lord domain', () => {
             var dest:Coordinates = new Coordinates(1, 0);
-            expect(politics.availableAction(lord, dest)).toEqual('Conquer');
+            expect(politics.availableAction(lord, dest)).toEqual(AvailableAction.CONQUER);
         });
 
         it('should return "Fortify" when dest plot belongs to lord', () => {
             var dest:Coordinates = new Coordinates(1, 1);
-            expect(politics.availableAction(lord, dest)).toEqual('Fortify');
+            expect(politics.availableAction(lord, dest)).toEqual(AvailableAction.FORTIFY);
         });
 
         it('should return "Unreachable" when dest plot is adjacent to lonely zombie domain', () => {
             var dest:Coordinates = new Coordinates(2, 0);
-            expect(politics.availableAction(lord, dest)).toEqual('Unreachable');
+            expect(politics.availableAction(lord, dest)).toEqual(AvailableAction.UNREACHABLE);
         });
 
         it('should return "Unreachable" when dest plot is adjacent to composite zombie domain', () => {
@@ -81,7 +82,7 @@ describe('Politics', () => {
             var plot31:Plot = new Plot(PlotKind.MOUNTAIN, new Coordinates(3, 1));
             lord.domain.push(plot31);
             politics.domainMap[3][1] = lord;
-            expect(politics.availableAction(lord, dest)).toEqual('Unreachable');
+            expect(politics.availableAction(lord, dest)).toEqual(AvailableAction.UNREACHABLE);
         });
 
     });

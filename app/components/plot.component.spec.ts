@@ -7,6 +7,7 @@ import {Coordinates} from '../pieces/world/Coordinates';
 import {GameService} from '../services/game.service';
 import {Politics} from '../pieces/game/Politics';
 import {Lord} from '../pieces/game/Lord';
+import {AvailableAction} from '../pieces/game/actions/AvailableAction';
 
 export class MockGameService {
 
@@ -155,7 +156,7 @@ describe('PlotComponent: component', () => {
                 let plotComponent:any = fixture.componentInstance;
                 spyOn(mockGameService, 'run');
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
-                plotComponent.availableAction = 'Conquer';
+                plotComponent.availableAction = AvailableAction.CONQUER;
                 plotComponent.action();
                 expect(mockGameService.run).toHaveBeenCalled();
                 done();

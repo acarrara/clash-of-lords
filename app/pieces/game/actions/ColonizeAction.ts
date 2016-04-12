@@ -4,11 +4,13 @@ import {Plot} from '../../world/Plot';
 import {Lord} from '../Lord';
 import {SettleAction} from './SettleAction';
 import {Objects} from '../../commons/Objects';
+import {ActionCost} from './ActionCost';
+import {AvailableAction} from './AvailableAction';
 
 export class ColonizeAction extends SettleAction {
 
     constructor(settler:Lord, settling:Plot, politics:Politics) {
-        super(1, settler, settling, politics);
+        super(new ActionCost(AvailableAction.COLONIZE.costCoefficient), settler, settling, politics);
     }
 
     public run(actionPoints:ActionPoints):ActionPoints {
@@ -18,6 +20,10 @@ export class ColonizeAction extends SettleAction {
         this.updateSettlerDomain();
         this.updatePolitics();
         return remnant;
+    }
+
+    public getActionResult():string {
+        return 'Colonized plot';
     }
 
     private checkColonizable():void {

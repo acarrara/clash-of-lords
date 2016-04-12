@@ -1,9 +1,9 @@
-import {Save} from './pieces/game/Save';
 import {PlotKind} from './pieces/world/PlotKind';
 import {Plot} from './pieces/world/Plot';
 import {Coordinates} from './pieces/world/Coordinates';
 import {Lord} from './pieces/game/Lord';
 import {ActionPoints} from './pieces/game/ActionPoints';
+import {Save} from './pieces/game/Save';
 
 var lord0:Lord = new Lord();
 lord0.name = 'Bonnie';
