@@ -35,8 +35,8 @@ describe('GameService', () => {
         expect(gameService.politicsFactory).toEqual(new PoliticsFactory());
     }));
 
-    it('should have politics set', inject([GameService], (gameService:GameService) => {
-        expect(gameService.politics).toEqual(new Politics());
+    it('should have game set', inject([GameService], (gameService:GameService) => {
+        expect(gameService.game).toBeDefined();
     }));
 
     it('should have action cost factory set', inject([GameService], (gameService:GameService) => {
@@ -47,10 +47,6 @@ describe('GameService', () => {
         expect(gameService.actionFactory).toEqual(new ActionFactory());
     }));
 
-    it('should have action set to nothing', inject([GameService], (gameService:GameService) => {
-        expect(gameService.availableAction).toEqual(AvailableAction.NOTHING);
-    }));
-
     describe('isDirections()', () => {
 
         beforeEach(inject([GameService], (gameService:GameService) => {
@@ -58,7 +54,7 @@ describe('GameService', () => {
             mockPolitics.setDimension(2);
             mockPolitics.domainMap[0][0] = new Lord();
 
-            gameService.politics = mockPolitics;
+            gameService.game.politics = mockPolitics;
         }));
 
         it('should return false when is not right', inject([GameService], (gameService:GameService) => {
@@ -70,7 +66,7 @@ describe('GameService', () => {
         }));
 
         it('should return true when is right with another lord', inject([GameService], (gameService:GameService) => {
-            gameService.politics.domainMap[0][1] = new Lord();
+            gameService.game.politics.domainMap[0][1] = new Lord();
             expect(gameService.isRight(new Coordinates(0, 0))).toEqual(true);
         }));
 
@@ -105,7 +101,7 @@ describe('GameService', () => {
             var save:Save = new Save();
             save.lords = [];
             gameService.createLords(save);
-            expect(gameService.lords).toEqual([]);
+            expect(gameService.game.lords).toEqual([]);
         }));
 
     });
@@ -117,18 +113,18 @@ describe('GameService', () => {
         beforeEach(inject([GameService], (gameService:GameService) => {
             lord0 = new Lord();
             lord0.domain = [];
-            gameService.lords = [lord0];
+            gameService.game.lords = [lord0];
             gameService.startGame();
         }));
 
         it('should set as active lord the first in list', inject([GameService], (gameService:GameService) => {
             gameService.nextTurn();
-            expect(gameService.activeLord).toEqual(lord0);
+            expect(gameService.game.lord).toEqual(lord0);
         }));
 
         it('should set action points in active lord', inject([GameService], (gameService:GameService) => {
             gameService.nextTurn();
-            expect(gameService.activeLord.actionPoints).toEqual(new ActionPoints(5));
+            expect(gameService.game.lord.actionPoints).toEqual(new ActionPoints(5));
         }));
 
     });
@@ -138,7 +134,7 @@ describe('GameService', () => {
         it('should set current plot to argument', inject([GameService], (gameService:GameService) => {
             let next:Plot = new Plot(null, null);
             gameService.changePlot(next);
-            expect(gameService.currentPlot).toBe(next);
+            expect(gameService.game.plot).toBe(next);
         }));
 
     });
@@ -149,7 +145,7 @@ describe('GameService', () => {
 
         beforeEach(inject([GameService], (gameService:GameService) => {
             coordinates = new Coordinates(1, 1);
-            spyOn(gameService.politics, 'availableAction').and.returnValue('pippo');
+            spyOn(gameService.game.politics, 'availableAction').and.returnValue('pippo');
         }));
 
         it('should return "pippo"', inject([GameService], (gameService:GameService) => {
@@ -158,12 +154,12 @@ describe('GameService', () => {
 
         it('should use activeLord', inject([GameService], (gameService:GameService) => {
             gameService.changeAvailableAction(coordinates);
-            expect(gameService.politics.availableAction).toHaveBeenCalledWith(gameService.activeLord, coordinates);
+            expect(gameService.game.politics.availableAction).toHaveBeenCalledWith(gameService.game.lord, coordinates);
         }));
 
         it('should set field availableAction', inject([GameService], (gameService:GameService) => {
             gameService.changeAvailableAction(coordinates);
-            expect(gameService.availableAction).toEqual('pippo');
+            expect(gameService.game.availableAction).toEqual('pippo');
         }));
 
     });
@@ -194,14 +190,14 @@ describe('GameService', () => {
             let enemy:Lord = new Lord();
             enemy.domain = [plot01];
 
-            gameService.politics = new Politics();
-            gameService.politics.setDimension(3);
-            gameService.politics.domainMap[1][1] = lord;
-            gameService.politics.domainMap[0][1] = enemy;
-            gameService.politics.domainMap[1][2] = lord;
-            gameService.lords = [lord];
-            gameService.activeLord = lord;
-            gameService.region = region;
+            gameService.game.politics = new Politics();
+            gameService.game.politics.setDimension(3);
+            gameService.game.politics.domainMap[1][1] = lord;
+            gameService.game.politics.domainMap[0][1] = enemy;
+            gameService.game.politics.domainMap[1][2] = lord;
+            gameService.game.lords = [lord];
+            gameService.game.lord = lord;
+            gameService.game.region = region;
 
             spyOn(messageHerald, 'assert');
         }));
@@ -209,8 +205,8 @@ describe('GameService', () => {
         describe('colonize', () => {
 
             beforeEach(inject([GameService], (gameService:GameService) => {
-                gameService.availableAction = AvailableAction.COLONIZE;
-                gameService.currentPlot = plot10;
+                gameService.game.availableAction = AvailableAction.COLONIZE;
+                gameService.game.plot = plot10;
             }));
 
             it('should pay with colonizer money', inject(
@@ -240,8 +236,8 @@ describe('GameService', () => {
         describe(AvailableAction.CONQUER, () => {
 
             beforeEach(inject([GameService], (gameService:GameService) => {
-                gameService.availableAction = AvailableAction.CONQUER;
-                gameService.currentPlot = plot01;
+                gameService.game.availableAction = AvailableAction.CONQUER;
+                gameService.game.plot = plot01;
             }));
 
             it('should pay with conqueror money', inject(
@@ -271,8 +267,8 @@ describe('GameService', () => {
         describe(AvailableAction.FORTIFY, () => {
 
             beforeEach(inject([GameService], (gameService:GameService) => {
-                gameService.availableAction = AvailableAction.FORTIFY;
-                gameService.currentPlot = plot12;
+                gameService.game.availableAction = AvailableAction.FORTIFY;
+                gameService.game.plot = plot12;
             }));
 
             it('should pay with fortifier money', inject(
@@ -302,7 +298,7 @@ describe('GameService', () => {
         describe('build', () => {
 
             beforeEach(inject([GameService], (gameService:GameService) => {
-                gameService.currentPlot = plot12;
+                gameService.game.plot = plot12;
                 lord.actionPoints = new ActionPoints(9);
                 castlePlot.kind = PlotKind.PLAIN;
                 gameService.build();
@@ -311,7 +307,7 @@ describe('GameService', () => {
             it('should pay with builder money', inject(
                 [GameService, MessageHerald],
                 (gameService:GameService) => {
-                    expect(gameService.activeLord.actionPoints).toEqual(new ActionPoints(1));
+                    expect(gameService.game.lord.actionPoints).toEqual(new ActionPoints(1));
                 }));
 
             it('should print message', inject(
@@ -324,7 +320,7 @@ describe('GameService', () => {
                 [GameService, MessageHerald],
                 (gameService:GameService, messageHerald:MessageHerald) => {
                     plot12.kind = PlotKind.CASTLE;
-                    gameService.currentPlot = plot12;
+                    gameService.game.plot = plot12;
                     lord.actionPoints = new ActionPoints(9);
                     gameService.build();
                     expect(messageHerald.assert).toHaveBeenCalledWith(new Message('Plot already has a castle', MessageLevel.WARN));
@@ -348,11 +344,11 @@ describe('GameService', () => {
         }));
 
         it('should set lords from saved', inject([GameService], (gameService:GameService) => {
-            expect(gameService.lords).toEqual(save.lords);
+            expect(gameService.game.lords).toEqual(save.lords);
         }));
 
         it('should populate politics from saved', inject([GameService], (gameService:GameService) => {
-            expect(gameService.politics.domainMap.length).toEqual(2);
+            expect(gameService.game.politics.domainMap.length).toEqual(2);
         }));
 
     });

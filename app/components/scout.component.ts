@@ -1,55 +1,51 @@
 import {Component, DoCheck} from 'angular2/core';
-import {GameService} from '../services/game.service';
-import {Plot} from '../pieces/world/Plot';
 import {Objects} from '../pieces/commons/Objects';
 import {Lord} from '../pieces/game/Lord';
 import {ActionPoints} from '../pieces/game/ActionPoints';
-import {AvailableAction} from '../pieces/game/actions/AvailableAction';
 import {ActionCostFactory} from '../pieces/game/actions/ActionCostFactory';
+import {Game} from '../pieces/game/Game';
 
 @Component({
     selector: 'scout',
     template: `
     <div class="scout">
-        <div class="scout-position">({{currentPlot.coordinates.x}}, {{currentPlot.coordinates.y}})
+        <div class="scout-position">({{game.plot.coordinates.x}}, {{game.plot.coordinates.y}})
             <span class="tooltip tooltip-bottom">Coordinates</span>
         </div>
-        <div class="scout-report">{{currentPlot.kind.fullName}}
+        <div class="scout-report">{{game.plot.kind.fullName}}
             <span class="tooltip tooltip-bottom">Terrain</span>
         </div>
         <div class="scout-spy">{{settler}}
             <span class="tooltip tooltip-bottom">Settler</span>
         </div>
-        <div class="scout-advice">{{availableAction.name}}
+        <div class="scout-advice">{{game.availableAction.name}}
             <span class="tooltip tooltip-bottom">Action</span>
         </div>
         <div class="scout-guess" [ngClass]="{unsufficient: unsufficient}">{{guess.amount}} AP
             <span class="tooltip tooltip-bottom">Predicted cost</span>
         </div>
     </div>
-    `
+    `,
+    inputs: ['game']
 })
 export class ScoutComponent implements DoCheck {
 
-    public currentPlot:Plot;
-    public availableAction:AvailableAction;
+    public game:Game;
     public settler:string;
     public guess:ActionPoints;
     public unsufficient:boolean;
 
     private actionCostFactory:ActionCostFactory;
 
-    constructor(private _gameService:GameService) {
+    constructor() {
         this.actionCostFactory = new ActionCostFactory();
     }
 
     public ngDoCheck():void {
-        this.currentPlot = this._gameService.currentPlot;
-        this.availableAction = this._gameService.availableAction;
-        var settler:Lord = this._gameService.politics.lordAt(this.currentPlot.coordinates);
+        var settler:Lord = this.game.politics.lordAt(this.game.plot.coordinates);
         this.settler = Objects.isDefined(settler) ? settler.name : 'Uncolonized';
-        this.guess = this.actionCostFactory.createActionCost(this.availableAction).evaluate(this.currentPlot);
-        this.unsufficient = this._gameService.activeLord.actionPoints.amount < this.guess.amount;
+        this.guess = this.actionCostFactory.createActionCost(this.game.availableAction).evaluate(this.game.plot);
+        this.unsufficient = this.game.lord.actionPoints.amount < this.guess.amount;
     }
 
 }

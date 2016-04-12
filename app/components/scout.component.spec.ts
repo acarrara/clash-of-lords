@@ -1,31 +1,16 @@
 import {beforeEach, beforeEachProviders, describe, expect, inject, TestComponentBuilder} from 'angular2/testing';
 import {ScoutComponent} from './scout.component';
-import {GameService} from '../services/game.service';
-import {provide} from 'angular2/core';
-import {Plot} from '../pieces/world/Plot';
-import {PlotKind} from '../pieces/world/PlotKind';
-import {Coordinates} from '../pieces/world/Coordinates';
-import {PoliticsFactory} from '../pieces/game/PoliticsFactory';
-import {Lord} from '../pieces/game/Lord';
 import {ActionPoints} from '../pieces/game/ActionPoints';
-import {AvailableAction} from '../pieces/game/actions/AvailableAction';
+import {Game} from '../pieces/game/Game';
+import {createGame} from '../mock-game';
 
 describe('ScoutComponent: component', () => {
     let tcb:TestComponentBuilder;
-
-    let gameService:GameService = new GameService(null, null);
-    gameService.currentPlot = new Plot(PlotKind.PLAIN, new Coordinates(0, 0));
-    gameService.availableAction = AvailableAction.CONQUER;
-    let lord:Lord = new Lord();
-    lord.name = 'Bonnie';
-    lord.domain = [];
-    gameService.politics = new PoliticsFactory().fromLords(4, [lord]);
-    gameService.activeLord = lord;
+    var game:Game = createGame();
 
     beforeEachProviders(() => [
         TestComponentBuilder,
-        ScoutComponent,
-        provide(GameService, {useValue: gameService})
+        ScoutComponent
     ]);
 
     beforeEach(inject([TestComponentBuilder], _tcb => {
@@ -34,8 +19,10 @@ describe('ScoutComponent: component', () => {
 
     it('should fill header with plot info', done => {
         tcb.createAsync(ScoutComponent).then(fixture => {
-                let element:any = fixture.nativeElement;
-                lord.actionPoints = new ActionPoints(9);
+                let scoutComponent:ScoutComponent = fixture.componentInstance,
+                    element:any = fixture.nativeElement;
+                scoutComponent.game = game;
+                game.lord.actionPoints = new ActionPoints(9);
                 fixture.detectChanges();
                 expect(element.querySelector('.scout-position').innerHTML).toContain('(0, 0)');
                 expect(element.querySelector('.scout-report').innerHTML).toContain('Plain');
@@ -50,9 +37,11 @@ describe('ScoutComponent: component', () => {
 
     it('should fill header with plot info and settler name', done => {
         tcb.createAsync(ScoutComponent).then(fixture => {
-                let element:any = fixture.nativeElement;
-                gameService.politics.domainMap[0][0] = lord;
-                lord.actionPoints = new ActionPoints(2);
+                let scoutComponent:ScoutComponent = fixture.componentInstance,
+                    element:any = fixture.nativeElement;
+                scoutComponent.game = game;
+                game.politics.domainMap[0][0] = game.lord;
+                game.lord.actionPoints = new ActionPoints(2);
                 fixture.detectChanges();
                 expect(element.querySelector('.scout-position').innerHTML).toContain('(0, 0)');
                 expect(element.querySelector('.scout-report').innerHTML).toContain('Plain');

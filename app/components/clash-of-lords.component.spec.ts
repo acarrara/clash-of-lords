@@ -10,12 +10,13 @@ import {RegionBoardComponent} from './region-board.component';
 import {MockBackend} from '../services/mock.backend';
 import {Observable} from 'rxjs/Observable';
 import {Observer} from 'rxjs/Observer';
+import {Game} from '../pieces/game/Game';
+import {createGame} from '../mock-game';
 
 class MockGameService {
-    public lords:Lord[] = [new Lord()];
-    public activeLord:Lord = this.lords[0];
+
+    public game:Game = createGame();
     public started:boolean = false;
-    public region:Region = new Region([]);
 
     public startGame():void {
         // do nothing
@@ -47,10 +48,10 @@ class DashboardEmptyComponent {
 @Component({
     selector: 'header',
     template: '',
-    inputs: ['lord']
+    inputs: ['game']
 })
 class HeaderEmptyComponent {
-    public lord:Lord;
+    public game:Game;
 }
 
 @Component({
@@ -79,21 +80,6 @@ describe('ClashOfLordsComponent: component', () => {
         tcb = _tcb;
     }));
 
-    it('should return model active lord', done => {
-        tcb
-            .overrideDirective(ClashOfLordsComponent, DashboardComponent, DashboardEmptyComponent)
-            .overrideDirective(ClashOfLordsComponent, HeaderComponent, HeaderEmptyComponent)
-            .overrideDirective(ClashOfLordsComponent, RegionBoardComponent, RegionEmptyComponent)
-            .createAsync(ClashOfLordsComponent).then(fixture => {
-                let clashOfLordsComponent:ClashOfLordsComponent = fixture.componentInstance;
-
-                fixture.detectChanges();
-                expect(clashOfLordsComponent.activeLord()).toBe(mockGameService.activeLord);
-                done();
-            })
-            .catch(e => done.fail(e));
-    });
-
     it('should load region from backend', done => {
         tcb
             .overrideDirective(ClashOfLordsComponent, DashboardComponent, DashboardEmptyComponent)
@@ -102,7 +88,7 @@ describe('ClashOfLordsComponent: component', () => {
             .createAsync(ClashOfLordsComponent).then(fixture => {
                 let clashOfLordsComponent:ClashOfLordsComponent = fixture.componentInstance;
                 fixture.detectChanges();
-                expect(clashOfLordsComponent.region).toBe(mockMockBackend.region);
+                expect(clashOfLordsComponent.game).toBe(mockGameService.game);
                 done();
             })
             .catch(e => done.fail(e));
@@ -117,7 +103,7 @@ describe('ClashOfLordsComponent: component', () => {
                 let clashOfLordsComponent:ClashOfLordsComponent = fixture.componentInstance;
                 mockGameService.started = true;
                 fixture.detectChanges();
-                expect(clashOfLordsComponent.region).toBe(mockGameService.region);
+                expect(clashOfLordsComponent.game.region).toBe(mockGameService.game.region);
                 done();
             })
             .catch(e => done.fail(e));

@@ -3,14 +3,16 @@ import {NextTurnComponent} from './next-turn.component';
 import {provide} from 'angular2/core';
 import {GameService} from '../services/game.service';
 import {Lord} from '../pieces/game/Lord';
+import {Game} from '../pieces/game/Game';
 
 describe('NextTurnComponent: component', () => {
     let tcb:TestComponentBuilder;
 
     let gameService:GameService = new GameService(null, null);
     let lord:Lord = new Lord();
-    gameService.lords = [lord];
-    gameService.activeLord = lord;
+    gameService.game = new Game();
+    gameService.game.lords = [lord];
+    gameService.game.lord = lord;
 
     beforeEachProviders(() => [
         TestComponentBuilder,

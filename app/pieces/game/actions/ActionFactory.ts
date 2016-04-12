@@ -1,36 +1,33 @@
 import {AvailableAction} from './AvailableAction';
-import {Lord} from '../Lord';
-import {Plot} from '../../world/Plot';
-import {Politics} from '../Politics';
 import {ColonizeAction} from './ColonizeAction';
 import {ConquerAction} from './ConquerAction';
 import {FortifyAction} from './FortifyAction';
 import {ActiveAction} from './ActiveAction';
 import {BuildAction} from './BuildAction';
-import {Region} from '../../world/Region';
+import {Game} from '../Game';
 
 export class ActionFactory {
 
-    public createAction(availableAction:AvailableAction, plot:Plot, lord:Lord, politics:Politics, region:Region):ActiveAction {
-        switch (availableAction) {
+    public createAction(game:Game):ActiveAction {
+        switch (game.availableAction) {
             case AvailableAction.CONQUER:
             {
-                return new ConquerAction(lord, plot, politics);
+                return new ConquerAction(game.lord, game.plot, game.politics);
             }
             case AvailableAction.COLONIZE:
             {
-                return new ColonizeAction(lord, plot, politics);
+                return new ColonizeAction(game.lord, game.plot, game.politics);
             }
             case AvailableAction.FORTIFY:
             {
-                return new FortifyAction(lord, plot);
+                return new FortifyAction(game.lord, game.plot);
             }
             case AvailableAction.BUILD:
             {
-                return new BuildAction(lord, plot, region);
+                return new BuildAction(game.lord, game.plot, game.region);
             }
             default:
-                throw new Error('Unrecognized action: ' + availableAction.name);
+                throw new Error('Unrecognized action: ' + game.availableAction.name);
         }
     }
 }

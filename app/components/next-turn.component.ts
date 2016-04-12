@@ -16,7 +16,7 @@ export class NextTurnComponent {
     }
 
     public activeLordIndex():number {
-        return this._gameService.lords.indexOf(this._gameService.activeLord);
+        return this._gameService.game.lords.indexOf(this._gameService.game.lord);
     }
 
     public nextTurn():void {

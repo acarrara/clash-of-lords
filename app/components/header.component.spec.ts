@@ -4,6 +4,7 @@ import {Lord} from '../pieces/game/Lord';
 import {ActionPoints} from '../pieces/game/ActionPoints';
 import {Component} from 'angular2/core';
 import {ScoutComponent} from './scout.component';
+import {Game} from '../pieces/game/Game';
 
 describe('HeaderComponent: component', () => {
     let tcb:TestComponentBuilder;
@@ -22,12 +23,13 @@ describe('HeaderComponent: component', () => {
             .overrideDirective(HeaderComponent, ScoutComponent, EmptyComponent)
             .createAsync(HeaderComponent).then(fixture => {
                 let headerComponent:HeaderComponent = fixture.componentInstance,
-                    element:any                     = fixture.nativeElement;
+                    element:any = fixture.nativeElement;
                 let lord:Lord = new Lord();
                 lord.name = 'Bonnie';
                 lord.treasure = 100;
                 lord.actionPoints = new ActionPoints(90);
-                headerComponent.lord = lord;
+                headerComponent.game = new Game();
+                headerComponent.game.lord = lord;
                 fixture.detectChanges();
                 expect(element.querySelector('.lord-name').innerHTML).toEqual('Bonnie');
                 expect(element.querySelector('.lord-ap').innerHTML).toEqual('90 AP');
@@ -38,6 +40,10 @@ describe('HeaderComponent: component', () => {
     });
 });
 
-@Component({template: ''})
+@Component({
+    template: '',
+    selector: 'scout',
+    inputs: ['game']
+})
 class EmptyComponent {
 }

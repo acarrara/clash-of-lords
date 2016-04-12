@@ -24,9 +24,9 @@ export class LimesDirective implements DoCheck {
 
         this.el.nativeElement.classList.add('plot');
 
-        var lord:Lord = this._gameService.politics.lordAt(this.plot.coordinates);
+        var lord:Lord = this._gameService.game.politics.lordAt(this.plot.coordinates);
         if (Objects.isDefined(lord)) {
-            this.el.nativeElement.classList.add('lord' + this._gameService.lords.indexOf(lord));
+            this.el.nativeElement.classList.add('lord' + this._gameService.game.lords.indexOf(lord));
         }
 
         this.el.nativeElement.classList.add(this.plot.kind.name);
