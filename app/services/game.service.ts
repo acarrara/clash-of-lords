@@ -2,9 +2,7 @@ import {Injectable} from 'angular2/core';
 import {RegionFactory} from '../pieces/world/RegionFactory';
 import {Politics} from '../pieces/game/Politics';
 import {PoliticsFactory} from '../pieces/game/PoliticsFactory';
-import {Lord} from '../pieces/game/Lord';
 import {Coordinates} from '../pieces/world/Coordinates';
-import {Objects} from '../pieces/commons/Objects';
 import {Plot} from '../pieces/world/Plot';
 import {GameDirector} from './game-director';
 import {MessageLevel} from '../pieces/game/message/MessageLevel';
@@ -46,22 +44,6 @@ export class GameService {
         this.game.region = this.regionFactory.fromJson(save.region);
         this.createLords(save);
         this.game.politics = this.politicsFactory.fromLords(this.game.region.plots.length, this.game.lords);
-    }
-
-    public isRight(current:Coordinates):boolean {
-        return this.isBorder(current, current.right());
-    }
-
-    public isLeft(current:Coordinates):boolean {
-        return this.isBorder(current, current.left());
-    }
-
-    public isTop(current:Coordinates):boolean {
-        return this.isBorder(current, current.top());
-    }
-
-    public isBottom(current:Coordinates):boolean {
-        return this.isBorder(current, current.bottom());
     }
 
     public createLords(savedGame:Save):void {
@@ -113,13 +95,5 @@ export class GameService {
     public build():void {
         this.game.availableAction = AvailableAction.BUILD;
         this.run();
-    }
-
-    private isBorder(coordinates:Coordinates, neighbourCoordinates:Coordinates):boolean {
-        var current:Lord = this.game.politics.lordAt(coordinates);
-        var neighbour:Lord = this.game.politics.lordAt(neighbourCoordinates);
-        return Objects.isDefined(current) &&
-            (!Objects.isDefined(neighbour) ||
-            current !== neighbour);
     }
 }

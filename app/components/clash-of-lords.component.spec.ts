@@ -12,6 +12,7 @@ import {Observable} from 'rxjs/Observable';
 import {Observer} from 'rxjs/Observer';
 import {Game} from '../pieces/game/Game';
 import {createGame} from '../mock-game';
+import {AvailableAction} from '../pieces/game/actions/AvailableAction';
 
 class MockGameService {
 
@@ -19,6 +20,10 @@ class MockGameService {
     public started:boolean = false;
 
     public startGame():void {
+        // do nothing
+    }
+
+    public run():void {
         // do nothing
     }
 }
@@ -57,10 +62,10 @@ class HeaderEmptyComponent {
 @Component({
     selector: 'region-board',
     template: '',
-    inputs: ['region']
+    inputs: ['game']
 })
 class RegionEmptyComponent {
-    public region:Region;
+    public game:Game;
 }
 
 describe('ClashOfLordsComponent: component', () => {
@@ -104,6 +109,26 @@ describe('ClashOfLordsComponent: component', () => {
                 mockGameService.started = true;
                 fixture.detectChanges();
                 expect(clashOfLordsComponent.game.region).toBe(mockGameService.game.region);
+                done();
+            })
+            .catch(e => done.fail(e));
+    });
+
+    it('should call game service run when runaction event is fired', done => {
+        tcb
+            .overrideDirective(ClashOfLordsComponent, DashboardComponent, DashboardEmptyComponent)
+            .overrideDirective(ClashOfLordsComponent, HeaderComponent, HeaderEmptyComponent)
+            .overrideDirective(ClashOfLordsComponent, RegionBoardComponent, RegionEmptyComponent)
+            .createAsync(ClashOfLordsComponent).then(fixture => {
+                let clashOfLordsComponent:ClashOfLordsComponent = fixture.componentInstance,
+                    element:HTMLElement = fixture.nativeElement;
+                mockGameService.started = true;
+                spyOn(mockGameService, 'run');
+                fixture.detectChanges();
+                element.querySelector('.clash-game').dispatchEvent(new CustomEvent('runaction', {detail: AvailableAction.BUILD}));
+                fixture.detectChanges();
+                expect(clashOfLordsComponent.game.availableAction).toEqual(AvailableAction.BUILD);
+                expect(mockGameService.run).toHaveBeenCalled();
                 done();
             })
             .catch(e => done.fail(e));

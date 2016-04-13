@@ -12,7 +12,7 @@ import {Game} from '../pieces/game/Game';
     template: `
     <div class="clash-container">
         <header [game]="game" class="clash-header lord{{game.lordIndex}}"></header>
-        <region-board class="clash-game" [region]="game.region"></region-board>
+        <region-board (runaction)="action($event)" class="clash-game" [game]="game"></region-board>
         <dashboard [lord]="game.lord" [lords]="game.lords" class="clash-console"></dashboard>
     </div>
     `,
@@ -32,6 +32,11 @@ export class ClashOfLordsComponent implements OnInit {
 
     public ngOnInit():void {
         this.loadRegion();
+    }
+
+    public action($event:CustomEvent):void {
+        this.game.availableAction = $event.detail;
+        this._gameService.run();
     }
 
     private loadRegion():void {

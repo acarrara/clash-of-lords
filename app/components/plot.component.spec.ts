@@ -1,64 +1,19 @@
 import {beforeEach, beforeEachProviders, describe, expect, it, inject, TestComponentBuilder} from 'angular2/testing';
-import {provide} from 'angular2/core';
 import {PlotComponent} from './plot.component';
 import {PlotKind} from '../pieces/world/PlotKind';
 import {Plot} from '../pieces/world/Plot';
 import {Coordinates} from '../pieces/world/Coordinates';
-import {GameService} from '../services/game.service';
 import {AvailableAction} from '../pieces/game/actions/AvailableAction';
 import {Game} from '../pieces/game/Game';
 import {createGame} from '../mock-game';
 
-export class MockGameService {
-
-    public game:Game;
-
-    constructor() {
-        this.game = createGame();
-    }
-
-    public changeAvailableAction(dest:Coordinates):string {
-        return 'pippo';
-    }
-
-    public run():void {
-        // do nothing
-    }
-
-    public build():void {
-        // do nothing
-    }
-
-    public changePlot(plot:Plot):void {
-        // do nothing
-    }
-
-    public isRight(current:Coordinates):boolean {
-        return current.x % 2 === 0;
-    }
-
-    public isLeft(current:Coordinates):boolean {
-        return current.x % 2 === 0;
-    }
-
-    public isTop(current:Coordinates):boolean {
-        return current.x % 2 === 0;
-    }
-
-    public isBottom(current:Coordinates):boolean {
-        return current.x % 2 === 0;
-    }
-}
-
 describe('PlotComponent: component', () => {
     let tcb:TestComponentBuilder;
-
-    let mockGameService:MockGameService = new MockGameService();
+    let game:Game = createGame();
 
     beforeEachProviders(() => [
         TestComponentBuilder,
-        PlotComponent,
-        provide(GameService, {useValue: mockGameService})
+        PlotComponent
     ]);
 
     beforeEach(inject([TestComponentBuilder], _tcb => {
@@ -69,6 +24,7 @@ describe('PlotComponent: component', () => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance,
                     element:any = fixture.nativeElement;
+                plotComponent.game = game;
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
                 fixture.detectChanges();
                 expect(element.querySelector('div').id).toBe('1_0');
@@ -84,11 +40,12 @@ describe('PlotComponent: component', () => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance,
                     element:any = fixture.nativeElement;
-                plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(2, 0));
+                plotComponent.game = game;
+                plotComponent.plot = new Plot(PlotKind.PLAIN, new Coordinates(2, 2));
                 fixture.detectChanges();
-                expect(element.querySelector('div').id).toBe('2_0');
+                expect(element.querySelector('div').id).toBe('2_2');
                 expect(element.querySelector('div')).toHaveCssClass('plot');
-                expect(element.querySelector('div')).toHaveCssClass('f');
+                expect(element.querySelector('div')).toHaveCssClass('p');
                 expect(element.querySelector('div')).toHaveCssClass('lord0');
                 expect(element.querySelector('div')).toHaveCssClass('limes-right');
                 expect(element.querySelector('div')).toHaveCssClass('limes-left');
@@ -103,6 +60,7 @@ describe('PlotComponent: component', () => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance,
                     element:any = fixture.nativeElement;
+                plotComponent.game = game;
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(0, 0));
                 plotComponent.plot.fortified = true;
                 fixture.detectChanges();
@@ -119,6 +77,7 @@ describe('PlotComponent: component', () => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance,
                     element:any = fixture.nativeElement;
+                plotComponent.game = game;
                 element.querySelector('div').classList.add('toRemove');
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(0, 0));
                 fixture.detectChanges();
@@ -132,10 +91,11 @@ describe('PlotComponent: component', () => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance,
                     element:any = fixture.nativeElement;
+                plotComponent.game = game;
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
                 element.dispatchEvent(new Event('mouseenter'));
                 fixture.detectChanges();
-                expect(plotComponent.availableAction).toEqual('pippo');
+                expect(plotComponent.availableAction).toEqual(AvailableAction.FORTIFY);
                 done();
             })
             .catch(e => done.fail(e));
@@ -144,11 +104,11 @@ describe('PlotComponent: component', () => {
     it('should call game service conquer when action is "Conquer"', done => {
         tcb.createAsync(PlotComponent).then(fixture => {
                 let plotComponent:any = fixture.componentInstance;
-                spyOn(mockGameService, 'run');
+                spyOn(plotComponent.runaction, 'emit');
+                plotComponent.game = game;
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
-                plotComponent.availableAction = AvailableAction.CONQUER;
-                plotComponent.action();
-                expect(mockGameService.run).toHaveBeenCalled();
+                plotComponent.action(AvailableAction.CONQUER);
+                expect(plotComponent.runaction.emit).toHaveBeenCalledWith(AvailableAction.CONQUER);
                 done();
             })
             .catch(e => done.fail(e));
@@ -159,13 +119,14 @@ describe('PlotComponent: component', () => {
                 let plotComponent:any = fixture.componentInstance,
                     element:HTMLElement = fixture.nativeElement;
                 let contextMenuEvent:Event = new Event('contextmenu');
-                spyOn(mockGameService, 'build');
+                spyOn(plotComponent.runaction, 'emit');
                 spyOn(contextMenuEvent, 'preventDefault');
+                plotComponent.game = game;
                 plotComponent.plot = new Plot(PlotKind.FOREST, new Coordinates(1, 0));
                 fixture.detectChanges();
                 element.querySelector('.plot').dispatchEvent(contextMenuEvent);
                 fixture.detectChanges();
-                expect(mockGameService.build).toHaveBeenCalled();
+                expect(plotComponent.runaction.emit).toHaveBeenCalledWith(AvailableAction.BUILD);
                 expect(contextMenuEvent.preventDefault).toHaveBeenCalled();
                 done();
             })

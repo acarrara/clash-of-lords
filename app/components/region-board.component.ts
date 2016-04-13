@@ -1,7 +1,8 @@
-import {Component} from 'angular2/core';
+import {Component, EventEmitter} from 'angular2/core';
 import {PlotComponent} from './plot.component';
-import {Region} from '../pieces/world/Region';
 import {RouterLink} from 'angular2/router';
+import {Game} from '../pieces/game/Game';
+import {AvailableAction} from '../pieces/game/actions/AvailableAction';
 
 @Component({
     selector: 'region-board',
@@ -9,15 +10,24 @@ import {RouterLink} from 'angular2/router';
     <div class="board-background">
     <div class="nav circle navhelp" [routerLink]="['Help']">?</div>
         <div class="region">
-            <div class="row" *ngFor="#row of region.plots; #i=index" id="{{i}}">
-                <plot *ngFor="#plot of row" [plot]='plot'></plot>
+            <div class="row" *ngFor="#row of game.region.plots; #i=index" id="{{i}}">
+                <plot *ngFor="#plot of row" [game]="game" [plot]='plot'
+                    (runaction)="action($event)"
+                ></plot>
             </div>
         </div>
     </div>
     `,
     directives: [PlotComponent, RouterLink],
-    inputs: ['region']
+    inputs: ['game'],
+    outputs: ['runaction']
 })
 export class RegionBoardComponent {
-    public region:Region;
+    public game:Game;
+
+    public runaction:EventEmitter<AvailableAction> = new EventEmitter();
+
+    public action($event:CustomEvent):void {
+        this.runaction.emit($event.detail);
+    }
 }

@@ -1,7 +1,7 @@
-import {Component} from 'angular2/core';
+import {Component, EventEmitter} from 'angular2/core';
 import {Plot} from '../pieces/world/Plot';
 import {LimesDirective} from '../attribute-directives/limes.directive';
-import {GameService} from '../services/game.service';
+import {Game} from '../pieces/game/Game';
 import {AvailableAction} from '../pieces/game/actions/AvailableAction';
 
 @Component({
@@ -9,38 +9,41 @@ import {AvailableAction} from '../pieces/game/actions/AvailableAction';
     template: `
     <div
     id="{{plot.coordinates.x}}_{{plot.coordinates.y}}"
-    (click)="action()"
+    (click)="action(availableAction)"
     (contextmenu)="build($event)"
-    [limes]="plot"></div>
+    [limes]="plot" [game]="game"></div>
     `,
     host: {
         '(mouseenter)': 'changeAvailableAction(); changePlot()'
     },
-    inputs: ['plot'],
+    inputs: ['plot', 'game'],
+    outputs: ['runaction'],
     directives: [LimesDirective]
 })
 export class PlotComponent {
     public plot:Plot;
-    public availableAction:AvailableAction;
+    public game:Game;
 
-    constructor(private _gameService:GameService) {
-    }
+    public runaction:EventEmitter<AvailableAction> = new EventEmitter();
+
+    private availableAction:AvailableAction;
 
     public changePlot():void {
-        this._gameService.changePlot(this.plot);
+        this.game.plot = this.plot;
     }
 
     public changeAvailableAction():void {
-        this.availableAction = this._gameService.changeAvailableAction(this.plot.coordinates);
+        this.game.availableAction = this.game.politics.availableAction(this.game.lord, this.plot.coordinates);
+        this.availableAction = this.game.availableAction;
     }
 
-    public action():void {
-        this._gameService.run();
+    public action(availableAction:AvailableAction):void {
+        this.runaction.emit(availableAction);
     }
 
     public build($event:Event):void {
         $event.preventDefault();
-        this._gameService.build();
+        this.action(AvailableAction.BUILD);
     }
 
 }

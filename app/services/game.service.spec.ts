@@ -47,54 +47,6 @@ describe('GameService', () => {
         expect(gameService.actionFactory).toEqual(new ActionFactory());
     }));
 
-    describe('isDirections()', () => {
-
-        beforeEach(inject([GameService], (gameService:GameService) => {
-            var mockPolitics:Politics = new Politics();
-            mockPolitics.setDimension(2);
-            mockPolitics.domainMap[0][0] = new Lord();
-
-            gameService.game.politics = mockPolitics;
-        }));
-
-        it('should return false when is not right', inject([GameService], (gameService:GameService) => {
-            expect(gameService.isRight(new Coordinates(1, 0))).toEqual(false);
-        }));
-
-        it('should return true when is right', inject([GameService], (gameService:GameService) => {
-            expect(gameService.isRight(new Coordinates(0, 0))).toEqual(true);
-        }));
-
-        it('should return true when is right with another lord', inject([GameService], (gameService:GameService) => {
-            gameService.game.politics.domainMap[0][1] = new Lord();
-            expect(gameService.isRight(new Coordinates(0, 0))).toEqual(true);
-        }));
-
-        it('should return false when is not left', inject([GameService], (gameService:GameService) => {
-            expect(gameService.isLeft(new Coordinates(1, 0))).toEqual(false);
-        }));
-
-        it('should return true when is left', inject([GameService], (gameService:GameService) => {
-            expect(gameService.isLeft(new Coordinates(0, 0))).toEqual(true);
-        }));
-
-        it('should return false when is not top', inject([GameService], (gameService:GameService) => {
-            expect(gameService.isTop(new Coordinates(1, 0))).toEqual(false);
-        }));
-
-        it('should return true when is top', inject([GameService], (gameService:GameService) => {
-            expect(gameService.isTop(new Coordinates(0, 0))).toEqual(true);
-        }));
-
-        it('should return false when is not bottom', inject([GameService], (gameService:GameService) => {
-            expect(gameService.isBottom(new Coordinates(1, 0))).toEqual(false);
-        }));
-
-        it('should return true when is bottom', inject([GameService], (gameService:GameService) => {
-            expect(gameService.isBottom(new Coordinates(0, 0))).toEqual(true);
-        }));
-    });
-
     describe('createLords', () => {
 
         it('should set lords from source', inject([GameService], (gameService:GameService) => {

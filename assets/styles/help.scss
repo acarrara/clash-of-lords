@@ -37,6 +37,7 @@ $col-button-dimension: 200px;
   text-align: center;
   color: $game-text-color;
   padding: 50px 0;
+  flex-grow: 1;
 }
 
 .help-container {
@@ -44,6 +45,7 @@ $col-button-dimension: 200px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
 .help-example-container {
@@ -55,4 +57,5 @@ $col-button-dimension: 200px;
   padding: $base-padding-normal;
   margin: $base-padding-great * 4 $base-padding-great $base-padding-great $base-padding-great;
   border-bottom: 2px solid $lord1-color;
+  flex-grow: 1;
 }
