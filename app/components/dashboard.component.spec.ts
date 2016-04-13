@@ -1,17 +1,13 @@
 import {TestComponentBuilder, inject, beforeEachProviders, beforeEach} from 'angular2/testing';
 import {DashboardComponent} from './dashboard.component';
 import {Plot} from '../pieces/world/Plot';
-import {GameService} from '../services/game.service';
-import {provide, Component} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {RankingComponent} from './ranking.component';
 import {DomainComponent} from './domain.component';
 import {ConsoleComponent} from './console.component';
 import {NextTurnComponent} from './next-turn.component';
-import {Lord} from '../pieces/game/Lord';
-
-class MockGameService {
-    public displayed:Plot[] = [undefined, undefined];
-}
+import {Game} from '../pieces/game/Game';
+import {createGame} from '../mock-game';
 
 @Component({
     template: ''
@@ -20,16 +16,16 @@ class EmptyComponent {
 }
 
 @Component({
-    selector:'ranking',
+    selector: 'ranking',
     template: '',
-    inputs: ['lords']
+    inputs: ['game']
 })
 class RankingEmptyComponent {
-    public lords:Lord[];
+    public game:Game;
 }
 
 @Component({
-    selector:'domain',
+    selector: 'domain',
     template: '',
     inputs: ['domain']
 })
@@ -39,13 +35,11 @@ class DomainEmptyComponent {
 
 describe('DashboardComponent: component', () => {
     let tcb:TestComponentBuilder;
-
-    let mockGameService:MockGameService = new MockGameService();
+    let game:Game = createGame();
 
     beforeEachProviders(() => [
         TestComponentBuilder,
-        DashboardComponent,
-        provide(GameService, {useValue: mockGameService})
+        DashboardComponent
     ]);
 
     beforeEach(inject([TestComponentBuilder], _tcb => {
@@ -60,34 +54,9 @@ describe('DashboardComponent: component', () => {
             .overrideDirective(DashboardComponent, RankingComponent, RankingEmptyComponent)
             .createAsync(DashboardComponent).then(fixture => {
                 let dashboardComponent:DashboardComponent = fixture.componentInstance;
-
-                let lord:Lord = new Lord();
-                lord.domain = [];
-                dashboardComponent.lord = lord;
-                dashboardComponent.lords = [lord];
+                dashboardComponent.game = game;
                 fixture.detectChanges();
-                expect(dashboardComponent.domain()).toEqual(mockGameService.displayed);
-                done();
-            })
-            .catch(e => done.fail(e));
-    });
-
-    it('should display selected domain', done => {
-        tcb
-            .overrideDirective(DashboardComponent, NextTurnComponent, EmptyComponent)
-            .overrideDirective(DashboardComponent, ConsoleComponent, EmptyComponent)
-            .overrideDirective(DashboardComponent, DomainComponent, DomainEmptyComponent)
-            .overrideDirective(DashboardComponent, RankingComponent, RankingEmptyComponent)
-            .createAsync(DashboardComponent).then(fixture => {
-                let dashboardComponent:DashboardComponent = fixture.componentInstance;
-
-                let lord:Lord = new Lord();
-                lord.domain = [];
-                dashboardComponent.lord = lord;
-                dashboardComponent.lords = [lord];
-                mockGameService.displayed = undefined;
-                fixture.detectChanges();
-                expect(dashboardComponent.domain()).toEqual(lord.domain);
+                expect(dashboardComponent.game).toBeDefined();
                 done();
             })
             .catch(e => done.fail(e));

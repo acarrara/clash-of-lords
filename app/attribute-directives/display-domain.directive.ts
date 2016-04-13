@@ -1,6 +1,6 @@
 import {Directive, ElementRef, Input} from 'angular2/core';
 import {Plot} from '../pieces/world/Plot';
-import {GameService} from '../services/game.service';
+import {Game} from '../pieces/game/Game';
 
 @Directive({
     selector: '[display-domain]',
@@ -14,14 +14,21 @@ export class DisplayDomainDirective {
     @Input('display-domain')
     public domain:Plot[];
 
-    constructor(private el:ElementRef, private _gameService:GameService) {
+    private _game:Game;
+
+    constructor(private el:ElementRef) {
+    }
+
+    @Input()
+    public set game(value:Game) {
+        this._game = value;
     }
 
     public setDomain():void {
-        this._gameService.setDisplayed(this.domain);
+        this._game.displayed = this.domain;
     }
 
     public unsetDomain():void {
-        this._gameService.unsetDisplayed();
+        this._game.resetDisplayed();
     }
 }

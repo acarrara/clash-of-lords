@@ -13,7 +13,7 @@ import {Game} from '../pieces/game/Game';
     <div class="clash-container">
         <header [game]="game" class="clash-header lord{{game.lordIndex}}"></header>
         <region-board (runaction)="action($event)" class="clash-game" [game]="game"></region-board>
-        <dashboard [lord]="game.lord" [lords]="game.lords" class="clash-console"></dashboard>
+        <dashboard [game]="game" class="clash-console"></dashboard>
     </div>
     `,
     directives: [

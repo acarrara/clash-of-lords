@@ -1,45 +1,31 @@
 import {beforeEach, beforeEachProviders, describe, inject, TestComponentBuilder} from 'angular2/testing';
 import {RankingComponent} from './ranking.component';
-import {Lord} from '../pieces/game/Lord';
-import {ActionPoints} from '../pieces/game/ActionPoints';
 import {DisplayDomainDirective} from '../attribute-directives/display-domain.directive';
-import {Directive, Input, provide} from 'angular2/core';
+import {Directive, Input} from 'angular2/core';
 import {Plot} from '../pieces/world/Plot';
-import {GameService} from '../services/game.service';
+import {createGame} from '../mock-game';
+import {Game} from '../pieces/game/Game';
 
 describe('RankingComponent: component', () => {
     let tcb:TestComponentBuilder;
-    let gameService:GameService = new GameService(null, null);
+    let game:Game = createGame();
 
     beforeEachProviders(() => [
         TestComponentBuilder,
-        RankingComponent,
-        provide(GameService, {useValue: gameService})
+        RankingComponent
     ]);
 
     beforeEach(inject([TestComponentBuilder], _tcb => {
         tcb = _tcb;
     }));
 
-    var buildLords:any = ():Array<Lord> => {
-        let lord0:Lord = new Lord();
-        lord0.name = 'Bonnie';
-        lord0.treasure = 0;
-        lord0.potential = new ActionPoints(9);
-        let lord1:Lord = new Lord();
-        lord1.name = 'Clyde';
-        lord1.treasure = 1;
-        lord1.potential = new ActionPoints(8);
-        return [lord0, lord1];
-    };
-
     it('should order Bonnie and Clyde on treasure size', done => {
         tcb
             .overrideDirective(RankingComponent, DisplayDomainDirective, MockDisplayDomainDirective)
             .createAsync(RankingComponent).then(fixture => {
                 let rankingComponent:RankingComponent = fixture.componentInstance,
-                    element:any                       = fixture.nativeElement;
-                rankingComponent.lords = buildLords();
+                    element:any = fixture.nativeElement;
+                rankingComponent.game = game;
                 fixture.detectChanges();
                 var elementNames:NodeListOf<Element> = element.querySelectorAll('.element-name');
                 var elementTreasures:NodeListOf<Element> = element.querySelectorAll('.treasure');
@@ -60,9 +46,9 @@ describe('RankingComponent: component', () => {
             .overrideDirective(RankingComponent, DisplayDomainDirective, MockDisplayDomainDirective)
             .createAsync(RankingComponent).then(fixture => {
                 let rankingComponent:RankingComponent = fixture.componentInstance,
-                    element:any                       = fixture.nativeElement;
+                    element:any = fixture.nativeElement;
                 rankingComponent.rankedLords = [];
-                rankingComponent.lords = buildLords();
+                rankingComponent.game = game;
                 fixture.detectChanges();
                 var elementNames:NodeListOf<Element> = element.querySelectorAll('.element-name');
                 var elementTreasures:NodeListOf<Element> = element.querySelectorAll('.treasure');
@@ -85,4 +71,6 @@ describe('RankingComponent: component', () => {
 class MockDisplayDomainDirective {
     @Input('display-domain')
     public domain:Plot[];
+    @Input()
+    public game:Game;
 }

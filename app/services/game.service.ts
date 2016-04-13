@@ -2,8 +2,6 @@ import {Injectable} from 'angular2/core';
 import {RegionFactory} from '../pieces/world/RegionFactory';
 import {Politics} from '../pieces/game/Politics';
 import {PoliticsFactory} from '../pieces/game/PoliticsFactory';
-import {Coordinates} from '../pieces/world/Coordinates';
-import {Plot} from '../pieces/world/Plot';
 import {GameDirector} from './game-director';
 import {MessageLevel} from '../pieces/game/message/MessageLevel';
 import {Message} from '../pieces/game/message/Message';
@@ -23,11 +21,8 @@ export class GameService {
     public actionFactory:ActionFactory;
     public actionCostFactory:ActionCostFactory;
 
-    public displayed:Plot[];
-
-    public started:boolean;
-
     public game:Game;
+    public started:boolean;
 
     constructor(private _herald:MessageHerald, private _director:GameDirector) {
         this.regionFactory = new RegionFactory();
@@ -56,7 +51,8 @@ export class GameService {
             this._herald.assert(new Message(this.game.lords[i].name + ' enters the game!', MessageLevel.INFO));
         }
         this.nextTurn();
-        this.changePlot(this.game.lord.domain[0]);
+        this.game.plot = this.game.lord.domain[0];
+        this.game.displayed = this.game.lord.domain;
         this.started = true;
     }
 
@@ -64,23 +60,6 @@ export class GameService {
         this.game.lord = this._director.nextTurn();
         this._herald.assert(new Message('It\'s ' + this.game.lord.name + '\'s turn.', MessageLevel.INFO));
     };
-
-    public changePlot(plot:Plot):void {
-        this.game.plot = plot;
-    }
-
-    public changeAvailableAction(coordinates:Coordinates):AvailableAction {
-        this.game.availableAction = this.game.politics.availableAction(this.game.lord, coordinates);
-        return this.game.availableAction;
-    }
-
-    public setDisplayed(domain:Plot[]):void {
-        this.displayed = domain;
-    }
-
-    public unsetDisplayed():void {
-        this.setDisplayed(undefined);
-    }
 
     public run():void {
         let action:ActiveAction = this.actionFactory.createAction(this.game);

@@ -13,6 +13,7 @@ export class Game {
     public availableAction:AvailableAction;
     public plot:Plot;
     public politics:Politics;
+    public displayed:Plot[];
 
     public get lordIndex():number {
         return this.lords.indexOf(this.lord);
@@ -34,6 +35,10 @@ export class Game {
         return this.isBorder(current, current.right());
     }
 
+    public resetDisplayed():void {
+        this.displayed = this.lord.domain;
+    }
+
     private isBorder(coordinates:Coordinates, neighbourCoordinates:Coordinates):boolean {
         var current:Lord = this.politics.lordAt(coordinates);
         var neighbour:Lord = this.politics.lordAt(neighbourCoordinates);
@@ -41,5 +46,4 @@ export class Game {
             (!Objects.isDefined(neighbour) ||
             current !== neighbour);
     }
-
 }

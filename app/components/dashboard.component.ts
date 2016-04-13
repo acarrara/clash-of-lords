@@ -2,35 +2,24 @@ import {Component} from 'angular2/core';
 import {NextTurnComponent} from './next-turn.component';
 import {ConsoleComponent} from './console.component';
 import {DomainComponent} from './domain.component';
-import {Lord} from '../pieces/game/Lord';
 import {RankingComponent} from './ranking.component';
-import {Plot} from '../pieces/world/Plot';
-import {GameService} from '../services/game.service';
-import {Objects} from '../pieces/commons/Objects';
+import {Game} from '../pieces/game/Game';
 
 @Component({
     selector: 'dashboard',
     template: `
         <div class="dashboard" >
-            <domain [domain]="domain()"></domain>
+            <domain [domain]="game.displayed"></domain>
             <div class="console">
                 <next-turn></next-turn>
                 <console class="messages"></console>
              </div>
-            <ranking [lords]="lords"></ranking>
+            <ranking [game]="game"></ranking>
         </div>
     `,
     directives: [NextTurnComponent, ConsoleComponent, DomainComponent, RankingComponent],
-    inputs: ['lord', 'lords']
+    inputs: ['game']
 })
 export class DashboardComponent {
-    public lord:Lord;
-    public lords:Lord[];
-
-    constructor(private _gameService:GameService) {
-    }
-
-    public domain():Plot[] {
-        return Objects.isDefined(this._gameService.displayed) ? this._gameService.displayed : this.lord.domain;
-    }
+    public game:Game;
 }

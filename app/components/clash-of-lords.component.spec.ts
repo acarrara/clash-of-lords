@@ -2,7 +2,6 @@ import {TestComponentBuilder, inject, beforeEachProviders, beforeEach} from 'ang
 import {DashboardComponent} from './dashboard.component';
 import {GameService} from '../services/game.service';
 import {provide, Component} from 'angular2/core';
-import {Lord} from '../pieces/game/Lord';
 import {Region} from '../pieces/world/Region';
 import {ClashOfLordsComponent} from './clash-of-lords.component';
 import {HeaderComponent} from './header.component';
@@ -43,11 +42,10 @@ class MockMockBackend {
 @Component({
     selector: 'dashboard',
     template: '',
-    inputs: ['lord', 'lords']
+    inputs: ['game']
 })
 class DashboardEmptyComponent {
-    public lord:Lord;
-    public lords:Lord[];
+    public game:Game;
 }
 
 @Component({

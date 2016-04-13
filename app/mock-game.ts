@@ -6,6 +6,7 @@ import {AvailableAction} from './pieces/game/actions/AvailableAction';
 import {Lord} from './pieces/game/Lord';
 import {PoliticsFactory} from './pieces/game/PoliticsFactory';
 import {Coordinates} from './pieces/world/Coordinates';
+import {ActionPoints} from './pieces/game/ActionPoints';
 
 export var createGame:any = ():Game => {
     let game:Game = new Game();
@@ -15,11 +16,18 @@ export var createGame:any = ():Game => {
     game.plot = new Plot(PlotKind.PLAIN, new Coordinates(0, 0));
     game.region = new Region([[game.plot]]);
     game.availableAction = AvailableAction.CONQUER;
-    let lord:Lord = new Lord();
-    lord.name = 'Bonnie';
-    lord.domain = [plot1, plot2, plot3];
-    game.lords = [lord];
-    game.lord = lord;
+    let lord1:Lord = new Lord();
+    lord1.name = 'Bonnie';
+    lord1.domain = [plot1, plot2, plot3];
+    lord1.potential = new ActionPoints(9);
+    lord1.treasure = 0;
+    let lord2:Lord = new Lord();
+    lord2.name = 'Clyde';
+    lord2.domain = [];
+    lord2.potential = new ActionPoints(8);
+    lord2.treasure = 1;
+    game.lords = [lord1, lord2];
+    game.lord = lord1;
     game.politics = new PoliticsFactory().fromLords(3, game.lords);
     return game;
 };

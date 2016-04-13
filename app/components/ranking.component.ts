@@ -4,6 +4,7 @@ import {Lord} from '../pieces/game/Lord';
 import {Arrays} from '../pieces/commons/Arrays';
 import {Objects} from '../pieces/commons/Objects';
 import {DisplayDomainDirective} from '../attribute-directives/display-domain.directive';
+import {Game} from '../pieces/game/Game';
 
 @Component({
     selector: 'ranking',
@@ -11,7 +12,7 @@ import {DisplayDomainDirective} from '../attribute-directives/display-domain.dir
     <div class="stats">
         <div class="stats-title reverse">Rankings</div>
             <div *ngFor="#lord of rankedLords; #i=index" 
-            class="stats-element" [display-domain]="lord.domain">
+            class="stats-element" [display-domain]="lord.domain" [game]="game">
             <div class="element-icon treasure{{i}}"></div>
             <div class="element-name reverse">{{lord.name}}</div>
             <div class="element-number reverse">
@@ -21,17 +22,17 @@ import {DisplayDomainDirective} from '../attribute-directives/display-domain.dir
         </div>
     </div>
     `,
-    inputs: ['lords'],
+    inputs: ['game'],
     directives: [NgFor, DisplayDomainDirective]
 })
 export class RankingComponent implements DoCheck {
-    public lords:Lord[];
+    public game:Game;
     public rankedLords:Lord[];
 
     public ngDoCheck():void {
         this.initRankedLords();
         Arrays.clear(this.rankedLords);
-        this.rankedLords = this.rankedLords.concat(this.lords);
+        this.rankedLords = this.rankedLords.concat(this.game.lords);
         this.rankedLords.sort((a:Lord, b:Lord) => {
             return b.treasure - a.treasure;
         });

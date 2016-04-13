@@ -79,39 +79,8 @@ describe('GameService', () => {
             expect(gameService.game.lord.actionPoints).toEqual(new ActionPoints(5));
         }));
 
-    });
-
-    describe('changePlot', () => {
-
-        it('should set current plot to argument', inject([GameService], (gameService:GameService) => {
-            let next:Plot = new Plot(null, null);
-            gameService.changePlot(next);
-            expect(gameService.game.plot).toBe(next);
-        }));
-
-    });
-
-    describe('changeAvailableAction', () => {
-
-        var coordinates:Coordinates;
-
-        beforeEach(inject([GameService], (gameService:GameService) => {
-            coordinates = new Coordinates(1, 1);
-            spyOn(gameService.game.politics, 'availableAction').and.returnValue('pippo');
-        }));
-
-        it('should return "pippo"', inject([GameService], (gameService:GameService) => {
-            expect(gameService.changeAvailableAction(coordinates)).toEqual('pippo');
-        }));
-
-        it('should use activeLord', inject([GameService], (gameService:GameService) => {
-            gameService.changeAvailableAction(coordinates);
-            expect(gameService.game.politics.availableAction).toHaveBeenCalledWith(gameService.game.lord, coordinates);
-        }));
-
-        it('should set field availableAction', inject([GameService], (gameService:GameService) => {
-            gameService.changeAvailableAction(coordinates);
-            expect(gameService.game.availableAction).toEqual('pippo');
+        it('should set first in domain as current plot', inject([GameService], (gameService:GameService) => {
+            expect(gameService.game.plot).toBe(gameService.game.lord.domain[0]);
         }));
 
     });

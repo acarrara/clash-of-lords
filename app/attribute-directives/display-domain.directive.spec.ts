@@ -1,19 +1,18 @@
 import {DisplayDomainDirective} from './display-domain.directive';
 import {TestComponentBuilder, it, beforeEach, beforeEachProviders, inject} from 'angular2/testing';
-import {Component, provide} from 'angular2/core';
+import {Component} from 'angular2/core';
+import {createGame} from '../mock-game';
+import {Game} from '../pieces/game/Game';
 import {Plot} from '../pieces/world/Plot';
-import {GameService} from '../services/game.service';
 
 describe('DisplayDomainDirective: directive', () => {
     let tcb:TestComponentBuilder;
-
-    let gameService:GameService = new GameService(null, null);
+    let game:Game = createGame();
 
     beforeEachProviders(() => [
         TestComponentBuilder,
         DisplayDomainDirective,
-        TestContainer,
-        provide(GameService, {useValue: gameService})
+        TestContainer
     ]);
 
     beforeEach(inject([TestComponentBuilder], _tcb => {
@@ -23,12 +22,13 @@ describe('DisplayDomainDirective: directive', () => {
     it('should change domain on mouse enter', done => {
         tcb.createAsync(TestContainer).then(fixture => {
                 let testContainer:TestContainer = fixture.componentInstance,
-                    element:any                 = fixture.nativeElement;
-                gameService.displayed = undefined;
+                    element:any = fixture.nativeElement;
+                testContainer.game = game;
+                game.displayed = undefined;
                 fixture.detectChanges();
                 element.querySelector('.test-picker').dispatchEvent(new Event('mouseenter'));
                 fixture.detectChanges();
-                expect(gameService.displayed).toBe(testContainer.domain);
+                expect(testContainer.game.displayed).toBe(game.displayed);
                 done();
             })
             .catch(e => done.fail(e));
@@ -36,12 +36,14 @@ describe('DisplayDomainDirective: directive', () => {
 
     it('should reset domain on mouse leave', done => {
         tcb.createAsync(TestContainer).then(fixture => {
-                let element:any = fixture.nativeElement;
-                gameService.displayed = [];
+                let testContainer:TestContainer = fixture.componentInstance,
+                    element:any = fixture.nativeElement;
+                testContainer.game = game;
+                game.displayed = [];
                 fixture.detectChanges();
                 element.querySelector('.test-picker').dispatchEvent(new Event('mouseleave'));
                 fixture.detectChanges();
-                expect(gameService.displayed).toBeUndefined();
+                expect(game.displayed).toBe(game.lord.domain);
                 done();
             })
             .catch(e => done.fail(e));
@@ -51,13 +53,16 @@ describe('DisplayDomainDirective: directive', () => {
 
 @Component({
     selector: 'test',
-    template: `<div class="test-picker" [display-domain]="domain">asd</div>`,
+    template: `<div class="test-picker" [display-domain]="domain" [game]="game">asd</div>`,
     directives: [DisplayDomainDirective]
 })
 class TestContainer {
-    public domain:Plot[] = [];
+    public game:Game;
+    public domain:Plot[];
 
     constructor() {
-        this.domain = [];
+        this.game = new Game();
+        this.game.displayed = [];
+        this.domain = this.game.displayed;
     }
 }
