@@ -1,26 +1,21 @@
-import {Component} from 'angular2/core';
-import {GameService} from '../services/game.service';
+import {Component, EventEmitter} from 'angular2/core';
 
 @Component({
     selector: 'next-turn',
     template: `
-    <div
-    class="nextturn lord{{activeLordIndex()}}"
-    id="nextturn"
-    (click)="nextTurn()">Next Turn</div>
-    `
+    <div class="nextturn lord{{lordIndex}}"
+    id="nextturn" (click)="nextTurn()">Next Turn</div>
+    `,
+    inputs: ['lordIndex'],
+    outputs: ['next']
 })
 export class NextTurnComponent {
 
-    constructor(private _gameService:GameService) {
-    }
-
-    public activeLordIndex():number {
-        return this._gameService.game.lords.indexOf(this._gameService.game.lord);
-    }
+    public lordIndex:number;
+    public next:EventEmitter<any> = new EventEmitter();
 
     public nextTurn():void {
-        this._gameService.nextTurn();
+        this.next.emit(null);
     }
 
 }

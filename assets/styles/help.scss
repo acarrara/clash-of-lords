@@ -3,20 +3,25 @@ $col-button-dimension: 200px;
 
 .nav {
   @include shadow(8, 4);
+  position: absolute;
   cursor: pointer;
-  border: 2px solid $game-text-color;
-  background-color: transparent;
-  color: $game-text-color;
+  border: 2px solid;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: $font-family;
   font-size: $font-size-big;
+
+  @for $i from 1 through length($colors) {
+    $color: nth($colors, $i);
+    &.lord#{$i - 1} {
+      border-color: #{$color};
+    }
+  }
 }
 
 .navhelp {
-  position: absolute;
   top: 60px;
   left: 20px;
 }
@@ -29,15 +34,18 @@ $col-button-dimension: 200px;
 
 .navcol {
   width: $col-button-dimension;
+  padding: $base-padding-normal;
+  top: 20px;
+  left: 20px;
 }
 
 .help-text {
-  font-family: $font-family;
-  font-size: $font-size-base;
   text-align: center;
   color: $game-text-color;
-  padding: 50px 0;
+  padding: 32px 0;
   flex-grow: 1;
+  min-height: 0;
+  width: 50%;
 }
 
 .help-container {
@@ -45,17 +53,25 @@ $col-button-dimension: 200px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-y: scroll;
   height: 100vh;
 }
 
-.help-example-container {
-  @include shadow(16, 8);
+.help-section {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: transparent;
   padding: $base-padding-normal;
-  margin: $base-padding-great * 4 $base-padding-great $base-padding-great $base-padding-great;
-  border-bottom: 2px solid $lord1-color;
-  flex-grow: 1;
+  margin: $base-padding-great 0;
+  &.example > :first-child {
+    @include shadow(16, 8);
+    margin: $base-padding-great 0;
+  }
+}
+
+.help-separator {
+  margin-top: $base-padding-great * 2;
+  border-bottom: 1px solid;
+  @include shadow(8, 1);
 }

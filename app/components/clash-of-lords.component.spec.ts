@@ -25,6 +25,10 @@ class MockGameService {
     public run():void {
         // do nothing
     }
+
+    public nextTurn():void {
+        // do nothing
+    }
 }
 
 class MockMockBackend {
@@ -118,15 +122,31 @@ describe('ClashOfLordsComponent: component', () => {
             .overrideDirective(ClashOfLordsComponent, HeaderComponent, HeaderEmptyComponent)
             .overrideDirective(ClashOfLordsComponent, RegionBoardComponent, RegionEmptyComponent)
             .createAsync(ClashOfLordsComponent).then(fixture => {
-                let clashOfLordsComponent:ClashOfLordsComponent = fixture.componentInstance,
-                    element:HTMLElement = fixture.nativeElement;
+                let element:HTMLElement = fixture.nativeElement;
                 mockGameService.started = true;
                 spyOn(mockGameService, 'run');
                 fixture.detectChanges();
                 element.querySelector('.clash-game').dispatchEvent(new CustomEvent('runaction', {detail: AvailableAction.BUILD}));
                 fixture.detectChanges();
-                expect(clashOfLordsComponent.game.availableAction).toEqual(AvailableAction.BUILD);
                 expect(mockGameService.run).toHaveBeenCalled();
+                done();
+            })
+            .catch(e => done.fail(e));
+    });
+
+    it('should call game service "nextTurn" when "next" event is fired', done => {
+        tcb
+            .overrideDirective(ClashOfLordsComponent, DashboardComponent, DashboardEmptyComponent)
+            .overrideDirective(ClashOfLordsComponent, HeaderComponent, HeaderEmptyComponent)
+            .overrideDirective(ClashOfLordsComponent, RegionBoardComponent, RegionEmptyComponent)
+            .createAsync(ClashOfLordsComponent).then(fixture => {
+                let element:HTMLElement = fixture.nativeElement;
+                mockGameService.started = true;
+                spyOn(mockGameService, 'nextTurn');
+                fixture.detectChanges();
+                element.querySelector('.clash-console').dispatchEvent(new CustomEvent('next'));
+                fixture.detectChanges();
+                expect(mockGameService.nextTurn).toHaveBeenCalled();
                 done();
             })
             .catch(e => done.fail(e));

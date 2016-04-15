@@ -1,11 +1,6 @@
-
 .stats {
   width: $console-lateral-width;
   height: $console-lateral-width;
-  background-color: $game-background-color;
-  opacity: $game-opacity;
-  font-family: $font-family;
-  color: $game-text-color;
   display: flex;
   flex-direction: column;
 }

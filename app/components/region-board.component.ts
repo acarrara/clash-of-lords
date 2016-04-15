@@ -8,12 +8,12 @@ import {AvailableAction} from '../pieces/game/actions/AvailableAction';
     selector: 'region-board',
     template: `
     <div class="board-background">
-    <div class="nav circle navhelp" [routerLink]="['Help']">?</div>
+    <div class="nav circle navhelp lord{{game.lordIndex}}" [routerLink]="['Help']">?</div>
         <div class="region">
             <div class="row" *ngFor="#row of game.region.plots; #i=index" id="{{i}}">
-                <plot *ngFor="#plot of row" [game]="game" [plot]='plot'
-                    (runaction)="action($event)"
-                ></plot>
+                <plot *ngFor="#plot of row" [game]="game" [plot]="plot"
+                    (runaction)="action($event)">
+                </plot>
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@ export class RegionBoardComponent {
 
     public runaction:EventEmitter<AvailableAction> = new EventEmitter();
 
-    public action($event:CustomEvent):void {
-        this.runaction.emit($event.detail);
+    public action(availableAction:AvailableAction):void {
+        this.runaction.emit(availableAction);
     }
 }

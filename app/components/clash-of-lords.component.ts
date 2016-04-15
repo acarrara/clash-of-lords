@@ -6,6 +6,7 @@ import {DashboardComponent} from './dashboard.component';
 import {HeaderComponent} from './header.component';
 import {MockBackend} from '../services/mock.backend';
 import {Game} from '../pieces/game/Game';
+import {AvailableAction} from '../pieces/game/actions/AvailableAction';
 
 @Component({
     selector: 'clash-of-lords',
@@ -13,7 +14,8 @@ import {Game} from '../pieces/game/Game';
     <div class="clash-container">
         <header [game]="game" class="clash-header lord{{game.lordIndex}}"></header>
         <region-board (runaction)="action($event)" class="clash-game" [game]="game"></region-board>
-        <dashboard [game]="game" class="clash-console"></dashboard>
+        <dashboard (next)="nextTurn()"
+        [game]="game" class="clash-console"></dashboard>
     </div>
     `,
     directives: [
@@ -34,8 +36,12 @@ export class ClashOfLordsComponent implements OnInit {
         this.loadRegion();
     }
 
-    public action($event:CustomEvent):void {
-        this.game.availableAction = $event.detail;
+    public nextTurn():void {
+        this._gameService.nextTurn();
+    }
+
+    public action($event:AvailableAction):void {
+        this.game.availableAction = $event;
         this._gameService.run();
     }
 

@@ -19,6 +19,7 @@ import {AppComponent} from './app.component';
 import {Game} from '../pieces/game/Game';
 import {PlotComponent} from './plot.component';
 import {AvailableAction} from '../pieces/game/actions/AvailableAction';
+import {createGame} from '../mock-game';
 
 @Component({
     selector: 'plot',
@@ -32,6 +33,7 @@ class MockPlotComponent {
 
 describe('RegionBoardComponent: component', () => {
     let tcb:TestComponentBuilder;
+    let game:Game = createGame();
 
     beforeEachProviders(() => [
         TestComponentBuilder,
@@ -53,7 +55,7 @@ describe('RegionBoardComponent: component', () => {
             .createAsync(RegionBoardComponent).then(fixture => {
                 let regionBoardComponent:RegionBoardComponent = fixture.componentInstance,
                     element:any = fixture.nativeElement;
-                regionBoardComponent.game = new Game();
+                regionBoardComponent.game = game;
                 regionBoardComponent.game.region = new Region([[new Plot(PlotKind.FOREST, new Coordinates(0, 0))]]);
                 fixture.detectChanges();
                 expect(element.querySelector('.row').id).toEqual('0');
@@ -68,13 +70,12 @@ describe('RegionBoardComponent: component', () => {
             .createAsync(RegionBoardComponent).then(fixture => {
                 let regionBoardComponent:RegionBoardComponent = fixture.componentInstance,
                     element:any = fixture.nativeElement;
-                regionBoardComponent.game = new Game();
-                regionBoardComponent.game.region = new Region([[new Plot(PlotKind.FOREST, new Coordinates(0, 0))]]);
+                regionBoardComponent.game = game;
                 spyOn(regionBoardComponent.runaction, 'emit');
                 fixture.detectChanges();
                 element.querySelector('plot').dispatchEvent(new CustomEvent('runaction', {detail: AvailableAction.BUILD}));
                 fixture.detectChanges();
-                expect(regionBoardComponent.runaction.emit).toHaveBeenCalledWith(AvailableAction.BUILD);
+                expect(regionBoardComponent.runaction.emit).toHaveBeenCalled();
                 done();
             })
             .catch(e => done.fail(e));
