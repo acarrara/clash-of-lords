@@ -39,5 +39,5 @@ describe('NextTurnComponent: component', () => {
             })
             .catch(e => done.fail(e));
     });
-    
+
 });
